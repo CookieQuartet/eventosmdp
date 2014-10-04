@@ -22,7 +22,7 @@ class DataBase {
         return $connection;
     }
 
-    public final static function CloseDataBase($connection) //Cerrar la BD
+    public final static function closeDataBase($connection) //Cerrar la BD
     {
         mysqli_close($connection);
     }
