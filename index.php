@@ -13,7 +13,7 @@
                     <material-button ng-click="methods.openLeftMenu()" hide-md>
                         <material-icon icon="img/svg/menu_wht.svg" style="width: 24px; height: 24px;"></material-icon>
                     </material-button>
-                    <div>EventosMDP</div>
+                    <div>EventosMDP hola</div>
                 </div>
             </material-toolbar>
             <material-content layout="horizontal" flex>
