@@ -35,4 +35,18 @@ class UserQuerys {
 
     }
 
+    public final static function delUser($connection, $id)
+    {
+
+        try {
+
+            $userQuery = "delete into USER where id = '$id'";
+            mysqli_query($connection, $userQuery);
+
+        } catch (Exception $e) {
+            echo ($e);
+        }
+
+    }
+
 }
