@@ -8,5 +8,8 @@
 
 class Comment {
     private $id;
-
+    private $text;
+    private $idCommentStatus;
+    private $idEvent;
+    private $stars;
 } 
