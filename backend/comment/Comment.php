@@ -7,5 +7,6 @@
  */
 
 class Comment {
+    private $id;
 
 } 

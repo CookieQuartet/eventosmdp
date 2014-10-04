@@ -6,6 +6,10 @@
  * Time: 05:26 PM
  */
 
-class User {
+abstract class User {
+    private $id;
+    private $name;
+    private $email;
+    private $password;
 
 } 

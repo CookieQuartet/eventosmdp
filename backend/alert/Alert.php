@@ -7,5 +7,6 @@
  */
 
 class Alert {
+    private $id;
 
 } 

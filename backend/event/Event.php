@@ -7,5 +7,6 @@
  */
 
 class Event {
+    private $id;
 
 } 
