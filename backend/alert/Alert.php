@@ -9,4 +9,4 @@
 class Alert {
     private $id;
 
-} 
+}
