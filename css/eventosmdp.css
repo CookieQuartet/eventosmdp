@@ -1,0 +1,174 @@
+.eventosmdp-sidenav.material-content-padding {
+    padding: 0;
+}
+
+.eventosmdp-logged {
+    margin-top:4px;
+}
+
+.eventosmdp-sidenav {
+
+}
+
+.eventosmdp-sidenav material-divider {
+    margin:4px 0 4px 0;
+}
+
+.eventosmdp-search {
+    color:white;
+}
+
+#eventosmdp-profile {
+    float: left;
+    width: 100%;
+}
+
+.eventosmdp-login-button {
+    /* margin:10px; */
+}
+
+.eventosmdp-login-inputs input {
+    color:black !important;
+}
+
+.eventosmdp-btn-nav {
+    width:100%;
+}
+
+.eventosmdp-btn-nav > button {
+    text-align: left;
+}
+
+.eventosmdp-profile-img {
+    display: inline;
+    float: left;
+    margin: 10px 0 0 10px;
+}
+
+.eventosmdp-profile-name {
+    /* display: inline; */
+    /* float:left; */
+    /* margin-left:10px; */
+    /* margin-top: 10px; */
+    font-size: 0.8em;
+    position: relative;
+    top: 50%;
+    transform: translateX(5%) translateY(100%);
+}
+
+.eventosmdp-sidenav-icon {
+    margin: 0 10px 0 10px;
+}
+
+.eventosmdp-login-inputs material-input-group {
+    margin: 2px;
+}
+
+/**-------------------------------------------------------------------**/
+
+.tabsLogin {
+
+}
+
+.tabsLogin .tab1 {
+    /*background-color: #ea9a9e; */
+    width: 100%;
+    height: 100%;
+}
+.tabsLogin .tab2 {
+    /* background-color: #65a1fc;*/
+    width: 100%;
+    height: 100%;
+}
+
+.tabsLogin .animate-switch-container {
+    position: relative;
+    background: white;
+    border: 0;
+    height: 300px;
+    opacity: 1;
+    overflow: hidden;
+    width:100%;
+}
+
+.tabsLogin .animate-switch {
+    -webkit-transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
+    transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
+    position: absolute;
+}
+
+.tabsLogin .animate-switch.ng-leave.ng-leave-active, .tabsLogin .animate-switch.ng-enter {
+    top: -300px;
+}
+.tabsLogin .animate-switch.ng-leave, .tabsLogin .animate-switch.ng-enter.ng-enter-active {
+    top: 0;
+}
+
+.tabsLogin .animate-switch.ng-leave {
+    z-index: 100;
+}
+
+.tabsLogin div.animate-switch-container div.animate-switch {
+    padding: 0 20px 0 20px;
+}
+
+.tabsLogin .title {
+    color: #999999;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.tabsLogin material-tab.active {
+    color: #3e50b4 !important;
+}
+
+.tabsLogin material-ink-bar {
+    background: #3e50b4 !important;
+}
+
+.tabsLogin .tabs-header {
+    background: #eeeeee;
+}
+
+/**-------------------------------------------------------------------**/
+
+
+.eventosmdp-login {
+    width: 100%;
+}
+
+.eventosmdp-login section {
+    /*background: #f7f7f7;*/
+    border-radius: 3px;
+    text-align: center;
+    /* margin: 1em; */
+    position: relative !important;
+    padding-bottom: 10px;
+}
+
+.eventosmdp-login material-content {
+    margin-right: 7px;
+}
+
+.eventosmdp-login section material-button:not(.material-button-fab) {
+    width: 12em;
+}
+
+.eventosmdp-login section material-button {
+    display: block;
+    margin: 1em;
+    line-height: 25px;
+}
+
+.eventosmdp-login .label {
+    position: absolute;
+    bottom: 5px;
+    left: 7px;
+    color: #ccc;
+    font-size: 14px;
+}
+
+.eventosmdp-content {
+    height:1000px;
+}

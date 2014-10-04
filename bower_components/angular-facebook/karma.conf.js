@@ -3,11 +3,11 @@ module.exports = function(config) {
     basePath: '',
     frameworks: ['jasmine'],
     files: [
-      'bower_components/angular/angular.js',
-      'bower_components/angular-mocks/angular-mocks.js',
-      'lib/angular-facebook.js',
-      'lib/angular-facebook-phonegap.js',
-      'test/unit/*.spec.js'
+      'bower_components/angular/angular.view',
+      'bower_components/angular-mocks/angular-mocks.view',
+      'lib/angular-facebook.view',
+      'lib/angular-facebook-phonegap.view',
+      'test/unit/*.spec.view'
     ],
     exclude: [],
     port: 8080,

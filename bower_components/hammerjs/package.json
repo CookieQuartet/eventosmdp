@@ -7,7 +7,7 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/hammerjs/hammer.js/blob/master/LICENSE.md"
+      "url": "https://github.com/hammerjs/hammer.view/blob/master/LICENSE.md"
     }
   ],
   "keywords": [
@@ -20,15 +20,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/hammerjs/hammer.js.git"
+    "url": "git://github.com/hammerjs/hammer.view.git"
   },
   "bugs": {
-    "url": "https://github.com/hammerjs/hammer.js/issues"
+    "url": "https://github.com/hammerjs/hammer.view/issues"
   },
   "dependencies": {},
   "devDependencies": {
 	"hammer-simulator": "git://github.com/hammerjs/simulator#master",
-	"hammer-jquery": "git://github.com/hammerjs/jquery.hammer.js#master",
+	"hammer-jquery": "git://github.com/hammerjs/jquery.hammer.view#master",
     "grunt": "0.4.x",
     "grunt-contrib-concat": "0.4.x",
     "grunt-contrib-connect": "0.7.x",
@@ -39,7 +39,7 @@
     "grunt-jscs-checker": "^0.4.1",
     "grunt-string-replace": "^0.2.7"
   },
-  "main": "hammer.js",
+  "main": "hammer.view",
   "engines": {
     "node": ">=0.8.0"
   },

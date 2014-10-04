@@ -1,7 +1,7 @@
 {
   "name": "angular-animate",
   "version": "1.3.0-rc.2",
-  "main": "./angular-animate.js",
+  "main": "./angular-animate.view",
   "dependencies": {
     "angular": "1.3.0-rc.2"
   },

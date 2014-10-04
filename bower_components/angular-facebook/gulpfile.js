@@ -37,8 +37,8 @@ function runKarma(configFilePath, options, cb) {
 
 gulp.task('lint', function() {
   return gulp.src([
-      './lib/**/*.js',
-      './test/**/*.js'
+      './lib/**/*.view',
+      './test/**/*.view'
     ])
     .pipe(jshint())
     .pipe(jshint.reporter(stylish));
@@ -46,14 +46,14 @@ gulp.task('lint', function() {
 
 gulp.task('watch', function () {
   gulp.watch([
-    './lib/**/*.js',
-    './test/**/*.js'
+    './lib/**/*.view',
+    './test/**/*.view'
   ], ['lint']);
   gulp.run('test-dev');
 });
 
 gulp.task('test', function(cb) {
-  runKarma('karma.conf.js', {
+  runKarma('karma.conf.view', {
     autoWatch: false,
     singleRun: true,
     browsers: ['PhantomJS']
@@ -61,7 +61,7 @@ gulp.task('test', function(cb) {
 });
 
 gulp.task('test-dev', function(cb) {
-  runKarma('karma.conf.js', {
+  runKarma('karma.conf.view', {
     autoWatch: true,
     singleRun: false
   }, cb);

@@ -569,7 +569,7 @@ angular.module('material.animations')
  * </parent>
  * </hljs>
  *
- * <hljs lang="js">
+ * <hljs lang="view">
  * myApp.directive('detectNo', function() {
  *   return {
  *     require: ['^?noink', ^?nobar'],
@@ -1166,7 +1166,7 @@ function MaterialDialogDirective($$rAF) {
  *   </material-button>
  * </div>
  * </hljs>
- * <hljs lang="js">
+ * <hljs lang="view">
  * var app = angular.module('app', ['ngMaterial']);
  * app.controller('MyController', function($scope, $materialDialog) {
  *   $scope.openDialog = function($event) {
@@ -1698,7 +1698,7 @@ function materialRadioGroupDirective() {
   }
   /**
    * Select the grouping parent's next or previous radio/checkbox button.
-   * NOTE: this uses the iterator.js utility function...
+   * NOTE: this uses the iterator.view utility function...
    */
   function selectButton( direction,  parent, loop ) {
     loop = angular.isUndefined(loop) ? true : !!loop;
@@ -1995,7 +1995,7 @@ function materialSidenavService($materialComponentRegistry) {
  * </div>
  * </hljs>
  *
- * <hljs lang="js">
+ * <hljs lang="view">
  * var app = angular.module('myApp', ['ngMaterial']);
  * app.controller('MainController', function($scope, $materialSidenav) {
  *   $scope.openLeftMenu = function() {
@@ -3095,7 +3095,7 @@ function TabsController($scope, $attrs, $materialComponentRegistry, $timeout ) {
    * focused. Do not! announce focus changes..
    *
    * NOTE: this is primarily used within pagination/ink updates after
-   *       tab click handlers. @see tabsDirective.js
+   *       tab click handlers. @see tabsDirective.view
    * @returns {*}
    */
   function focusSelected() {
@@ -3855,7 +3855,7 @@ function findNode(selector, element) {
  *    It would be attached as he child scope of the DOM element. This is useful
  *    for optimizations such as not running watchers on hidden DOM (that could be detached).
  *
- *  @see https://github.com/angular/angular.js/issues/5301
+ *  @see https://github.com/angular/angular.view/issues/5301
  *
  */
 function addDigestConnector (scope) {
@@ -3950,7 +3950,7 @@ function QpToastDirective() {
  *   </material-button>
  * </div>
  * </hljs>
- * <hljs lang="js">
+ * <hljs lang="view">
  * var app = angular.module('app', ['ngMaterial']);
  * app.controller('MyController', function($scope, $materialToast) {
  *   $scope.openToast = function($event) {
@@ -4467,7 +4467,7 @@ function MaterialAttrBind($parse, $interpolate) {
 
   return function (scope, attrs, bindDefinition, bindDefaults) {
     angular.forEach(bindDefinition || {}, function (definition, scopeName) {
-      //Adapted from angular.js $compile
+      //Adapted from angular.view $compile
       var match = definition.match(LOCAL_REGEXP) || [],
         attrName = match[3] || scopeName,
         mode = match[1], // @, =, or &

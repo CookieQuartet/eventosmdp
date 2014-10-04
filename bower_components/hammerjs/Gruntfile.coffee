@@ -14,17 +14,17 @@ module.exports = (grunt) ->
       build:
         src: [
           'src/hammer.prefix'
-          'src/utils.js'
-          'src/input.js'
-          'src/input/*.js'
-          'src/touchaction.js'
-          'src/recognizer.js'
-          'src/recognizers/*.js'
-          'src/hammer.js'
-          'src/manager.js'
-          'src/expose.js'
+          'src/utils.view'
+          'src/input.view'
+          'src/input/*.view'
+          'src/touchaction.view'
+          'src/recognizer.view'
+          'src/recognizers/*.view'
+          'src/hammer.view'
+          'src/manager.view'
+          'src/expose.view'
           'src/hammer.suffix']
-        dest: 'hammer.js'
+        dest: 'hammer.view'
 
     uglify:
       min:
@@ -33,7 +33,7 @@ module.exports = (grunt) ->
           sourceMap: 'hammer.min.map'
           banner: '<%= meta.banner %>'
         files:
-          'hammer.min.js': ['hammer.js']
+          'hammer.min.js': ['hammer.view']
        # special test build that exposes everything so it's testable
       test:
         options:
@@ -47,20 +47,20 @@ module.exports = (grunt) ->
               exportName: 'Hammer'
         files:
           'tests/build.js': [
-            'src/utils.js'
-            'src/input.js'
-            'src/input/*.js'
-            'src/touchaction.js'
-            'src/recognizer.js'
-            'src/recognizers/*.js'
-            'src/hammer.js'
-            'src/manager.js'
-            'src/expose.js']
+            'src/utils.view'
+            'src/input.view'
+            'src/input/*.view'
+            'src/touchaction.view'
+            'src/recognizer.view'
+            'src/recognizers/*.view'
+            'src/hammer.view'
+            'src/manager.view'
+            'src/expose.view']
 
     'string-replace':
       version:
         files:
-          'hammer.js': 'hammer.js'
+          'hammer.js': 'hammer.view'
         options:
           replacements: [
               pattern: '{{PKG_VERSION}}'
@@ -71,12 +71,12 @@ module.exports = (grunt) ->
       options:
         jshintrc: true
       build:
-        src: ['hammer.js']
+        src: ['hammer.view']
 
     jscs:
       src: [
-        'src/**/*.js'
-        'tests/unit/*.js'
+        'src/**/*.view'
+        'tests/unit/*.view'
       ]
       options:
         config: "./.jscsrc"
@@ -84,7 +84,7 @@ module.exports = (grunt) ->
 
     watch:
       scripts:
-        files: ['src/**/*.js']
+        files: ['src/**/*.view']
         tasks: ['concat','string-replace','uglify','jshint','jscs']
         options:
           interrupt: true

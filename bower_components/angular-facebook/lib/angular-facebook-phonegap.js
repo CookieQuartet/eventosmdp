@@ -32,8 +32,8 @@ provides: [angular-facebook-phonegap]
         // Local javascript file that contains the Facebook SDK.
         var localSDKSrc = angular.isDefined(settings.localSDK) ? settings.localSDK : null;
         if (angular.isString(localSDKSrc)) {
-          if (localSDKSrc.search('.js') === -1) {
-            localSDKSrc = localSDKSrc + '.js';
+          if (localSDKSrc.search('.view') === -1) {
+            localSDKSrc = localSDKSrc + '.view';
           }
           // Remove it from settings since it's not an API expected property.
           delete(settings['localSDK']);
