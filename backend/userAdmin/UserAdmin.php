@@ -6,7 +6,7 @@
  * Time: 05:27 PM
  */
 
-class UserAdmin extends  User {
+class UserAdmin extends User {
 
 
     function __construct($email, $fcbkToken, $id, $name, $password)
@@ -21,3 +21,4 @@ class UserAdmin extends  User {
     }
 
 }
+
