@@ -19,7 +19,7 @@ class CommentQueries {
 
     public final function getCommentList() //Lista de Comentarios
     {
-        return $this->dataBase->query("select * from COMMENT");
+        return $this->dataBase->query("select CO.*,SC.description from COMMENT CO, STATUS_COMMENT SC where CO.id_status_comment = SC.id");
     }
 
     public final function addComment($comment)
@@ -30,7 +30,7 @@ class CommentQueries {
 
     public final function updateComment($comment)
     {
-        $commentQuery = "update COMMENT set 'text'=$comment->getText(), 'id_status_comment'=$comment->getIdCommentStatus(), 'id_event'=$comment->getIdEvent(), 'stars'=$comment->getStars() where 'id'=$comment->getId()";
+        $commentQuery = "update COMMENT set text='$comment->getText()', id_status_comment='$comment->getIdCommentStatus()', id_event='$comment->getIdEvent()', stars='$comment->getStars()' where id='$comment->getId()'";
         return $this->dataBase->query($commentQuery);
     }
 

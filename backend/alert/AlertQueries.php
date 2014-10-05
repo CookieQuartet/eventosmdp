@@ -19,7 +19,7 @@ class AlertQueries {
 
     public final function getAlertList() //Lista de Alerts
     {
-        $alertQuery = "select * from ALERT AL, AREA AR, SUBAREA SA where AL.active = 1 AND AL.id_area = AR.id AND AL.id_subarea = SA.id;";
+        $alertQuery = "select AL.*, AR.description description_area, SA.description_subarea from ALERT AL, AREA AR, SUBAREA SA where AL.active = 1 AND AL.id_area = AR.id AND AL.id_subarea = SA.id;";
         return $this->$dataBase->query($alertQuery);
     }
 
@@ -43,7 +43,13 @@ class AlertQueries {
 
     public final function getAlertById($id)
     {
-        $alertQuery = "select * from ALERT WHERE id = '$id'";
+        $alertQuery = "select AL.*, AR.description description_area, SA.description description_subarea from ALERT AL, AREA AR, SUBAREA SA where AL.id = '$id' AND AL.active = 1 AND AL.id_area = AR.id AND AL.id_subarea = SA.id;";
         return $this->dataBase->query($alertQuery);
+    }
+
+    public final function getAlertByUserId() //Lista de Alerts por id_user
+    {
+        $alertQuery = "select * from ALERT AL, AREA AR, SUBAREA SA where AL.active = 1 AND AL.id_area = AR.id AND AL.id_subarea = SA.id;";
+        return $this->$dataBase->query($alertQuery);
     }
 }

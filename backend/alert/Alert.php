@@ -10,33 +10,21 @@ class Alert {
     private $id;
     private $idUser;
     private $idArea;
+    private $descriptionArea;
     private $idSubarea;
+    private $descriptionSubarea;
     private $keyword;
     private $active;
 
-    function __construct($active, $id, $idArea, $idUser, $idSubarea, $keyword)
+    function __construct($id, $idUser, $idArea, $descriptionArea, $idSubarea, $descriptionSubarea, $keyword,$active)
     {
-        $this->active = $active;
         $this->id = $id;
-        $this->idArea = $idArea;
         $this->idUser = $idUser;
+        $this->idArea = $idArea;
+        $this->descriptionArea = $descriptionArea;
         $this->idSubarea = $idSubarea;
+        $this->descriptionSubarea = $descriptionSubarea;
         $this->keyword = $keyword;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getActive()
-    {
-        return $this->active;
-    }
-
-    /**
-     * @param mixed $active
-     */
-    public function setActive($active)
-    {
         $this->active = $active;
     }
 
@@ -59,22 +47,6 @@ class Alert {
     /**
      * @return mixed
      */
-    public function getIdArea()
-    {
-        return $this->idArea;
-    }
-
-    /**
-     * @param mixed $idArea
-     */
-    public function setIdArea($idArea)
-    {
-        $this->idArea = $idArea;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getIdUser()
     {
         return $this->idUser;
@@ -91,17 +63,65 @@ class Alert {
     /**
      * @return mixed
      */
+    public function getIdArea()
+    {
+        return $this->idArea;
+    }
+
+    /**
+     * @param mixed $idArea
+     */
+    public function setIdArea($idArea)
+    {
+        $this->idArea = $idArea;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescriptionArea()
+    {
+        return $this->descriptionArea;
+    }
+
+    /**
+     * @param mixed $descriptionArea
+     */
+    public function setDescriptionSubarea($descriptionArea)
+    {
+        $this->descriptionArea = $descriptionArea;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getIdSubarea()
     {
         return $this->idSubarea;
     }
 
     /**
-     * @param mixed $isSubarea
+     * @param mixed $idSubarea
      */
     public function setIdSubarea($idSubarea)
     {
-        $this->isSubarea = $idSubarea;
+        $this->idSubarea = $idSubarea;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescriptionSubarea()
+    {
+        return $this->descriptionSubarea;
+    }
+
+    /**
+     * @param mixed $descriptionSubarea
+     */
+    public function setDescriptionSubarea($descriptionSubarea)
+    {
+        $this->descriptionSubarea = $descriptionSubarea;
     }
 
     /**
@@ -120,6 +140,20 @@ class Alert {
         $this->keyword = $keyword;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
 
+    /**
+     * @param mixed $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
 
 }
