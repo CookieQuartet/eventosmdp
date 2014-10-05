@@ -5,6 +5,8 @@
  * Date: 04/10/2014
  * Time: 05:26 PM
  */
+include('UserQueries.php');
+
 
 abstract class User {
     private $id;
@@ -14,7 +16,8 @@ abstract class User {
     protected $userType;
     private $active; //Si esta en True el usuario esta habilitado
     private $fcbkToken;
-    private $userQueries;
+    private $loggedIn;
+    public static $userQueries;
 
     function __construct($email, $fcbkToken, $id,$name, $password, $active)
     {
@@ -24,7 +27,16 @@ abstract class User {
         $this->name = $name;
         $this->password = $password;
         $this->active = $active;
-        $this->userQueries = new UserQueries($this);
+        $this->loggedIn = false;
+    }
+
+    public static function getUserQueries() {
+
+        if (!isset(self::$userQueries)) {
+            self::$userQueries = new UserQueries();
+        }
+
+        return self::$userQueries;
     }
 
     public function getUserType()
@@ -47,7 +59,6 @@ abstract class User {
     public function setEmail($email)
     {
         $this->email = $email;
-        $this->userQueries->updateUser();
     }
 
     /**
@@ -64,7 +75,6 @@ abstract class User {
     public function setFcbkToken($fcbkToken)
     {
         $this->fcbkToken = $fcbkToken;
-        $this->userQueries->updateUser();
     }
 
     /**
@@ -81,7 +91,6 @@ abstract class User {
     public function setId($id)
     {
         $this->id = $id;
-        $this->userQueries->updateUser();
     }
 
     /**
@@ -98,7 +107,6 @@ abstract class User {
     public function setName($name)
     {
         $this->name = $name;
-        $this->userQueries->updateUser();
     }
 
     /**
@@ -107,8 +115,8 @@ abstract class User {
     public function setPassword($password)
     {
         $this->password = UserFactory::encryptPassword($password);
-        $this->userQueries->updateUser();
     }
+
     private function clearUser()
     {
         $this->email = '';
@@ -133,7 +141,6 @@ abstract class User {
     public function setActive($active)
     {
         $this->active = $active;
-        $this->userQueries->updateUser();
     }
 
 } 
