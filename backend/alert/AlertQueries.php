@@ -31,7 +31,7 @@ class AlertQuerys {
 
     public final function updateAlert(Alert $alert)
     {
-        $alertQuery = "update ALERT set 'id_area'=$alert->getIdArea(), 'id_subarea'=$alert->getIdSubarea(), 'keyword'=$alert->getKeyword() where 'id'=$alert->getId()";
+        $alertQuery = "update ALERT set id_area='$alert->getIdArea()', id_subarea='$alert->getIdSubarea()', keyword='$alert->getKeyword()' where id='$alert->getId()'";
         return $this->dataBase->query($alertQuery);
     }
 
