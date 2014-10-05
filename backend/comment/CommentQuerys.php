@@ -31,11 +31,11 @@ class CommentQuerys {
         }
     }
 
-    public final static function updateComment($connection, $id, $comment)
+    public final static function updateComment($connection, $comment)
     {
         try {
 
-            $commentQuery = "update COMMENT set 'text'=$comment->getText(), 'id_comment_status'=$comment->getIdCommentStatus, 'id_event'=$comment->getIdEvent(), 'stars'=$comment->getStars() where 'id'=$id";
+            $commentQuery = "update COMMENT set 'text'=$comment->getText(), 'id_comment_status'=$comment->getIdCommentStatus, 'id_event'=$comment->getIdEvent(), 'stars'=$comment->getStars() where 'id'=$comment->getId()";
             mysqli_query($connection, $commentQuery);
 
         } catch (Exception $e) {
