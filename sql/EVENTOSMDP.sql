@@ -19,9 +19,10 @@ SET time_zone = "+00:00";
 --
 -- Database: `EVENTOSMDP`
 --
-CREATE DATABASE IF NOT EXISTS `EVENTOSMDP` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `EVENTOSMDP`;
+CREATE DATABASE IF NOT EXISTS `u185673925_event` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+-- USE `EVENTOSMDP`;
 
+USE `u185673925_event`;
 -- --------------------------------------------------------
 
 --
