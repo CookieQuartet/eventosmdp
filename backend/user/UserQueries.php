@@ -7,7 +7,6 @@
  */
 
 include('../database/DataBase.php');
-//require('../user/User.php');
 
 class UserQueries {
 

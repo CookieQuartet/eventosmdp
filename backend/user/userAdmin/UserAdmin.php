@@ -12,13 +12,7 @@ class UserAdmin extends User {
     function __construct($email, $fcbkToken, $id, $name, $password, $active)
     {
         parent::__construct($email, $fcbkToken, $id, $name, $password, $active);
-        $this->userType= $this->getUserType();
+        $this->userType= UserTypeEnum::UserAdminType;
     }
-
-    public function getUserType()
-    {
-        return (UserTypeEnum::UserAdminType);
-    }
-
 }
 

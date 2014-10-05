@@ -63,5 +63,94 @@ class DataBase {
         }
     }
 
+    public function hasRows($result)
+    {
+        try
+        {
+            if($this->config->connector == "mysql")
+            {
+                if(mysql_num_rows($result)>0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            elseif($this->config->connector == "mysqli")
+            {
+                if(mysqli_num_rows($result)>0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        catch(exception $e)
+        {
+            return $e;
+        }
+    }
+
+    public function countRows($result)
+    {
+        try
+        {
+            if($this->config->connector == "mysql")
+            {
+                return mysql_num_rows($result);
+            }
+            elseif($this->config->connector == "mysqli")
+            {
+                return mysqli_num_rows($result);
+            }
+        }
+        catch(exception $e)
+        {
+            return $e;
+        }
+    }
+
+    public function fetchAssoc($result)
+    {
+        try
+        {
+            if($this->config->connector == "mysql")
+            {
+                return mysql_fetch_assoc($result);
+            }
+            elseif($this->config->connector == "mysqli")
+            {
+                return mysqli_fetch_assoc($result);
+            }
+        }
+        catch(exception $e)
+        {
+            return $e;
+        }
+    }
+
+    public function fetchArray($result)
+    {
+        try
+        {
+            if($this->config->connector == "mysql")
+            {
+                return mysql_fetch_array($result);
+            }
+            elseif($this->config->connector == "mysqli")
+            {
+                return mysqli_fetch_array($result);
+            }
+        }
+        catch(exception $e)
+        {
+            return $e;
+        }
+    }
 
 } 

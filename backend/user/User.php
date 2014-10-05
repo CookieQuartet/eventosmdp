@@ -15,6 +15,7 @@ abstract class User {
     private $active; //Si esta en True el usuario esta habilitado
     private $fcbkToken;
     private $userQueries;
+    private $loggedIn;
 
     function __construct($email, $fcbkToken, $id,$name, $password, $active)
     {
@@ -24,10 +25,15 @@ abstract class User {
         $this->name = $name;
         $this->password = $password;
         $this->active = $active;
+        $this->loggedIn = false;
         $this->userQueries = new UserQueries($this);
     }
 
-    abstract public function getUserType();
+    public function getUserType()
+    {
+        return $this->userType;
+    }
+
 
     /**
      * @return mixed
@@ -96,28 +102,23 @@ abstract class User {
         $this->name = $name;
         $this->userQueries->updateUser();
     }
-    private function encryptPassword($password)
-    {
-        // acá es donde deberíamos armar una función de encriptado de password
-        // antes de mandarlo a la db
-        return $password;
-    }
 
     /**
      * @param mixed $password
      */
     public function setPassword($password)
     {
-        $this->password = $this->encryptPassword($password);
+        $this->password = UserFactory::encryptPassword($password);
         $this->userQueries->updateUser();
     }
-
-    /**
-     * @return mixed
-     */
-    public static function login($email, $password)
+    private function clearUser()
     {
-
+        $this->email = '';
+        $this->fcbkToken = '';
+        $this->id = '';
+        $this->name = '';
+        $this->password = '';
+        $this->active = 0;
     }
 
     /**
@@ -136,6 +137,5 @@ abstract class User {
         $this->active = $active;
         $this->userQueries->updateUser();
     }
-
 
 } 
