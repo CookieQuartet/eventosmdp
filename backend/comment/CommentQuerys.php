@@ -7,7 +7,7 @@
  */
 
 class CommentQuerys {
-    public final static function getCommentList($connection) //Lista de Usuarios
+    public final static function getCommentList($connection) //Lista de Comentarios
     {
 
         try {
@@ -57,4 +57,15 @@ class CommentQuerys {
 
     }
 
+    public final static function getCommentById($connection, $id)
+    {
+
+        try {
+            $comment = $connection->query("select * from `COMMENT` WHERE id = $id");
+        } catch (Exception $e) {
+            echo($e);
+        }
+
+        return $comment;
+    }
 } 
