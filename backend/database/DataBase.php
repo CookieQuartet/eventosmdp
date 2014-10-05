@@ -8,23 +8,59 @@
 require_once ('DataBaseConstants.php');
 
 class DataBase {
-    public final static function openConnection() //Obtener la BD
+
+    private $connection;
+
+    public function openConnection() //Obtener la BD
     {
 
         try {
 
-            $connection=mysqli_connect(host,user,password,database); //Host, usuario, password, base de datos
+            $this->connection =mysqli_connect(host,user,password,database); //Host, usuario, password, base de datos
 
         } catch (Exception $e) {
-            echo ($e);
+            return ($e);
         }
-
-        return $connection;
     }
 
-    public final static function closeConnection($connection) //Cerrar la BD
+    public function closeConnection()
     {
-        mysqli_close($connection);
+        try {
+
+            mysqli_close($this->connection);
+
+        } catch (Exception $e) {
+            return ($e);
+        }
     }
+
+    public function query($query)
+    {
+        $query = str_replace("}", "", $query);
+
+        try
+        {
+            if(empty($this->connection))
+            {
+                $this->openConnection();
+
+                $queryResult = mysqli_query($this->connection, $query);
+
+                $this->closeConnection();
+
+            }
+            else
+            {
+                $queryResult = mysqli_query($this->connection, $query);
+            }
+
+            return $queryResult;
+        }
+        catch(exception $e)
+        {
+            return $e;
+        }
+    }
+
 
 } 

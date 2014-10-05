@@ -5,21 +5,19 @@
  * Date: 04/10/2014
  * Time: 05:27 PM
  */
+
+include('DataBase.php');
+
+
 class UserQuerys {
 
-    public final static function getUserList($connection) //Lista de Usuarios
+    public final static function getUserList() //Lista de Usuarios
     {
-
-        try {
-            $users = $connection->query ("select * from USER");
-        } catch (Exception $e) {
-            echo ($e);
-        }
-
-        return $users;
+        $dataBase = new DataBase();
+        return $dataBase->query("select * from USER");
     }
 
-    public final static function addUser($connection, User $user)
+    public final static function addUser(User $user)
     {
 
 //        $password=$userValues['user_password'];
