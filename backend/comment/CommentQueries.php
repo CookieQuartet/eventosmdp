@@ -28,9 +28,9 @@ class CommentQuerys {
         return $this->dataBase->query($commentQuery);
     }
 
-    public final function updateComment($comment)
+    public final function updateComment(Comment $comment)
     {
-        $commentQuery = "update COMMENT set 'text'=$comment->getText(), 'id_status_comment'=$comment->getIdCommentStatus, 'id_event'=$comment->getIdEvent(), 'stars'=$comment->getStars() where 'id'=$comment->getId()";
+        $commentQuery = "update COMMENT set 'text'=$comment->getText(), 'id_status_comment'=$comment->getIdCommentStatus(), 'id_event'=$comment->getIdEvent(), 'stars'=$comment->getStars() where 'id'=$comment->getId()";
         return $this->dataBase->query($commentQuery);
     }
 

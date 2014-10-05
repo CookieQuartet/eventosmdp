@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 05, 2014 at 02:32 AM
+-- Generation Time: Oct 05, 2014 at 06:23 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -33,21 +33,21 @@ CREATE TABLE IF NOT EXISTS `ALERT` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_user` int(11) NOT NULL,
   `id_area` int(11) DEFAULT NULL,
-  `is_subarea` int(11) DEFAULT NULL,
+  `id_subarea` int(11) DEFAULT NULL,
   `keyword` varchar(100) DEFAULT NULL,
   `active` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
-  KEY `id_user` (`id_user`,`is_subarea`)
+  KEY `id_user` (`id_user`,`id_subarea`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- RELATIONS FOR TABLE `ALERT`:
 --   `id_area`
 --       `AREA` -> `id`
+--   `id_subarea`
+--       `SUBAREA` -> `id`
 --   `id_user`
 --       `USER` -> `id`
---   `is_subarea`
---       `SUBAREA` -> `id`
 --
 
 -- --------------------------------------------------------
@@ -140,10 +140,10 @@ CREATE TABLE IF NOT EXISTS `STATUS_COMMENT` (
 --
 
 INSERT INTO `STATUS_COMMENT` (`id`, `description`) VALUES
-(1, 'Pendiente Aprobación'),
-(2, 'Aprobado'),
-(3, 'Denunciado'),
-(4, 'Eliminado');
+  (1, 'Pendiente Aprobación'),
+  (2, 'Aprobado'),
+  (3, 'Denunciado'),
+  (4, 'Eliminado');
 
 -- --------------------------------------------------------
 
@@ -207,9 +207,9 @@ CREATE TABLE IF NOT EXISTS `USER_TYPE` (
 --
 
 INSERT INTO `USER_TYPE` (`id`, `description`) VALUES
-(1, 'Administrador'),
-(2, 'Publicador'),
-(3, 'Usuario General');
+  (1, 'Administrador'),
+  (2, 'Publicador'),
+  (3, 'Usuario General');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

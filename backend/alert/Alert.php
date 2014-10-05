@@ -10,17 +10,17 @@ class Alert {
     private $id;
     private $idUser;
     private $idArea;
-    private $isSubarea;
+    private $idSubarea;
     private $keyword;
     private $active;
 
-    function __construct($active, $id, $idArea, $idUser, $isSubarea, $keyword)
+    function __construct($active, $id, $idArea, $idUser, $idSubarea, $keyword)
     {
         $this->active = $active;
         $this->id = $id;
         $this->idArea = $idArea;
         $this->idUser = $idUser;
-        $this->isSubarea = $isSubarea;
+        $this->idSubarea = $idSubarea;
         $this->keyword = $keyword;
     }
 
@@ -91,17 +91,17 @@ class Alert {
     /**
      * @return mixed
      */
-    public function getIsSubarea()
+    public function getIdSubarea()
     {
-        return $this->isSubarea;
+        return $this->idSubarea;
     }
 
     /**
      * @param mixed $isSubarea
      */
-    public function setIsSubarea($isSubarea)
+    public function setIdSubarea($idSubarea)
     {
-        $this->isSubarea = $isSubarea;
+        $this->isSubarea = $idSubarea;
     }
 
     /**
