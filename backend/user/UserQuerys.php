@@ -32,7 +32,18 @@ class UserQuerys {
         } catch (Exception $e) {
             echo ($e);
         }
+    }
 
+    public final static function updateUser($connection, User $user)
+    {
+        try {
+
+            $commentQuery = "update USER set 'name'=$user->getName(), 'email'=$user->getEmail(), 'password'=$user->getPassword(), 'id_user_type'=$user->getUserType(), 'fcbk_token'=$user->getFcbkToken(), 'active'=$user->getActive() where 'id'=$user->getId()";
+            mysqli_query($connection, $commentQuery);
+
+        } catch (Exception $e) {
+            echo ($e);
+        }
     }
 
     public final static function deleteUser($connection, $id)
@@ -47,6 +58,18 @@ class UserQuerys {
             echo ($e);
         }
 
+    }
+
+    public final static function getUserById($connection, $id)
+    {
+
+        try {
+            $user = $connection->query("select * from `USER` WHERE id = $id");
+        } catch (Exception $e) {
+            echo($e);
+        }
+
+        return $user;
     }
 
 }

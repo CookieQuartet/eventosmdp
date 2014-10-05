@@ -8,12 +8,12 @@
 require_once ('DataBaseConstants.php');
 
 class DataBase {
-    public final static function getDataBaseConnection() //Obtener la BD
+    public final static function openConnection() //Obtener la BD
     {
 
         try {
 
-            $connection=mysqli_connect("p:".host,user,password,database); //Host, usuario, password, base de datos
+            $connection=mysqli_connect(host,user,password,database); //Host, usuario, password, base de datos
 
         } catch (Exception $e) {
             echo ($e);
@@ -22,7 +22,7 @@ class DataBase {
         return $connection;
     }
 
-    public final static function closeDataBase($connection) //Cerrar la BD
+    public final static function closeConnection($connection) //Cerrar la BD
     {
         mysqli_close($connection);
     }
