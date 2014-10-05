@@ -48,7 +48,6 @@ class DataBase {
                 $queryResult = mysqli_query($this->connection, $query);
 
                 $this->closeConnection();
-
             }
             else
             {
@@ -67,27 +66,13 @@ class DataBase {
     {
         try
         {
-            if($this->config->connector == "mysql")
+            if(mysqli_num_rows($result)>0)
             {
-                if(mysql_num_rows($result)>0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return true;
             }
-            elseif($this->config->connector == "mysqli")
+            else
             {
-                if(mysqli_num_rows($result)>0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return false;
             }
         }
         catch(exception $e)
@@ -100,14 +85,7 @@ class DataBase {
     {
         try
         {
-            if($this->config->connector == "mysql")
-            {
-                return mysql_num_rows($result);
-            }
-            elseif($this->config->connector == "mysqli")
-            {
-                return mysqli_num_rows($result);
-            }
+            return mysqli_num_rows($result);
         }
         catch(exception $e)
         {
@@ -119,14 +97,7 @@ class DataBase {
     {
         try
         {
-            if($this->config->connector == "mysql")
-            {
-                return mysql_fetch_assoc($result);
-            }
-            elseif($this->config->connector == "mysqli")
-            {
-                return mysqli_fetch_assoc($result);
-            }
+            return mysqli_fetch_assoc($result);
         }
         catch(exception $e)
         {
@@ -138,14 +109,7 @@ class DataBase {
     {
         try
         {
-            if($this->config->connector == "mysql")
-            {
-                return mysql_fetch_array($result);
-            }
-            elseif($this->config->connector == "mysqli")
-            {
-                return mysqli_fetch_array($result);
-            }
+            return mysqli_fetch_array($result);
         }
         catch(exception $e)
         {
