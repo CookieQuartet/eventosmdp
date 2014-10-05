@@ -6,6 +6,6 @@
  * Time: 05:30 PM
  */
 
-class EventQuerys {
+class EventQueries {
 
 } 

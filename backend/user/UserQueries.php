@@ -25,7 +25,7 @@ class UserQueries {
         return $this->dataBase->query("select * from USER");
     }
 
-    public final function addUser(User $user)
+    public final function addUser()
     {
         return $this->dataBase->query("insert into USER (name, email, password, id_user_type, fcbk_token) values ('$this->user->getName()' , '$this->user->getEmail()' , '$this->user->getPassword()', '$this->user->getUserType()', '$this->user->getFcbkToken()' )");
     }
@@ -36,14 +36,14 @@ class UserQueries {
         return $this->dataBase->query($query);
     }
 
-    public final function deleteUser($id)
+    public final function deleteUser()
     {
-        return $this->dataBase->query("update USER set active = '0' where id = '$id'");
+        return $this->dataBase->query("update USER set active = '0' where id = '$this->user->id'");
     }
 
-    public final function getUserById($id)
+    public final function getUserById()
     {
-        return $this->dataBase->query("select * from `USER` WHERE id = $id");
+        return $this->dataBase->query("select * from `USER` WHERE id = $this->user->id");
     }
 
 }

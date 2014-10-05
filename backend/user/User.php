@@ -96,13 +96,11 @@ abstract class User {
         $this->name = $name;
         $this->userQueries->updateUser();
     }
-
-    /**
-     * @return mixed
-     */
-    public function getPassword()
+    private function encryptPassword($password)
     {
-        return $this->password;
+        // acá es donde deberíamos armar una función de encriptado de password
+        // antes de mandarlo a la db
+        return $password;
     }
 
     /**
@@ -110,8 +108,16 @@ abstract class User {
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->password = $this->encryptPassword($password);
         $this->userQueries->updateUser();
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function login($email, $password)
+    {
+
     }
 
     /**

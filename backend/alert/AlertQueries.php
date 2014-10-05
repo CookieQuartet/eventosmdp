@@ -8,7 +8,7 @@
 
 include('../database/DataBase.php');
 
-class AlertQuerys {
+class AlertQueries {
 
     private $dataBase;
 
