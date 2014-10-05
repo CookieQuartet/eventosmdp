@@ -11,23 +11,24 @@ class DataBase {
 
     private $connection;
 
-    public function openConnection() //Obtener la BD
+    private function openConnection() //Obtener la BD
     {
 
         try {
-
-            $this->connection =mysqli_connect(host,user,password,database); //Host, usuario, password, base de datos
+            $this->$connection =mysqli_connect(host,user,password,database); //Host, usuario, password, base de datos
+            return true;
 
         } catch (Exception $e) {
             return ($e);
         }
     }
 
-    public function closeConnection()
+    private function closeConnection()
     {
         try {
 
-            mysqli_close($this->connection);
+            mysqli_close($this->$connection);
+            return true;
 
         } catch (Exception $e) {
             return ($e);
