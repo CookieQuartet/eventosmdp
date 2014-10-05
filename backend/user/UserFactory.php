@@ -77,7 +77,7 @@ class UserFactory {
         }
     }
 
-    public function logout()
+    public static function logout()
     {
         UserFactory::$loggedIn = false;
         UserFactory::$user = null;
