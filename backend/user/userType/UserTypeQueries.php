@@ -6,6 +6,6 @@
  * Time: 06:45 PM
  */
 
-class UserTypeQuerys {
+class UserTypeQueries {
 
 } 

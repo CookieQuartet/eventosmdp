@@ -35,6 +35,12 @@ class UserFactory {
         return false;
     }
 
+    private function addUser($email, $fcbkToken, $id, $name, $password, $active, $id_user_type)
+    {
+        $sql = $this->dataBase->query("insert into USER (email, fcbk_token, id, name, password, active, id_user_type) values ('$email', '$fcbkToken', $id, '$name', '$password', $active, $id_user_type)");
+        return $this->getUserByEmail($email);
+    }
+
     public static function encryptPassword($password)
     {
         // acá es donde deberíamos armar una función de encriptado de password
@@ -46,7 +52,7 @@ class UserFactory {
     {
         $userData = $this->getUserByEmail($email);
         if($userData) {
-            $encryptedPassword = $this->encryptPassword($password);
+            $encryptedPassword = UserFactory::encryptPassword($password);
             if($encryptedPassword == $userData['password']) {
                 $email = $userData['email'];
                 $fcbkToken = $userData['fcbkToken'];
@@ -54,7 +60,7 @@ class UserFactory {
                 $name = $userData['name'];
                 $password = $userData['password'];
                 $active = $userData['active'];
-                switch($userData['password']) {
+                switch($userData['id_user_type']) {
                     case UserTypeEnum::UserAdminType:
                         UserFactory::$user = new UserAdmin($email, $fcbkToken, $id, $name, $password, $active);
                         break;
@@ -77,18 +83,30 @@ class UserFactory {
         }
     }
 
-    public static function logout()
+    public function register($email, $fcbkToken, $id, $name, $password, $active, $id_user_type)
+    {
+        $userData = $this->getUserByEmail($email);
+        if(!$userData) {
+            $encryptedPassword = UserFactory::encryptPassword($password);
+            return $this->addUser($email, $fcbkToken, $id, $name, $encryptedPassword, $active, $id_user_type);
+        } else {
+            // ya se encuentra un usuario con el mail ingresado
+            return false;
+        }
+    }
+
+    public function logout()
     {
         UserFactory::$loggedIn = false;
         UserFactory::$user = null;
     }
 
-    public static function loggedIn()
+    public function loggedIn()
     {
         return UserFactory::$loggedIn;
     }
 
-    public static function user()
+    public function user()
     {
         if(UserFactory::$loggedIn) {
             return UserFactory::$user;

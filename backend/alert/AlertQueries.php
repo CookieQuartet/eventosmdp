@@ -23,13 +23,13 @@ class AlertQueries {
         return $this->$dataBase->query($alertQuery);
     }
 
-    public final function addAlert(Alert $alert)
+    public final function addAlert($alert)
     {
         $alertQuery = "insert into ALERT (id_user, id_area, id_subarea, keyword) values ('$alert->getIdUser()' , '$alert->getIdArea()', '$alert->getIdSubarea()', '$alert->getKeyword()' )";
         return $this->$dataBase->query($alertQuery);
     }
 
-    public final function updateAlert(Alert $alert)
+    public final function updateAlert($alert)
     {
         $alertQuery = "update ALERT set id_area='$alert->getIdArea()', id_subarea='$alert->getIdSubarea()', keyword='$alert->getKeyword()' where id='$alert->getId()'";
         return $this->dataBase->query($alertQuery);

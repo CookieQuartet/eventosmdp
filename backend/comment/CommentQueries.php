@@ -8,7 +8,7 @@
 include('../database/DataBase.php');
 
 
-class CommentQuerys {
+class CommentQueries {
 
     private $dataBase;
 
@@ -22,13 +22,13 @@ class CommentQuerys {
         return $this->dataBase->query("select * from COMMENT");
     }
 
-    public final function addComment(Comment $comment)
+    public final function addComment($comment)
     {
         $commentQuery = "insert into COMMENT (text, id_status_comment, id_event, stars) values ('$comment->getText()' , '$comment->getIdCommentStatus()', '$comment->getIdEvent()', '$comment->getStars()' )";
         return $this->dataBase->query($commentQuery);
     }
 
-    public final function updateComment(Comment $comment)
+    public final function updateComment($comment)
     {
         $commentQuery = "update COMMENT set 'text'=$comment->getText(), 'id_status_comment'=$comment->getIdCommentStatus(), 'id_event'=$comment->getIdEvent(), 'stars'=$comment->getStars() where 'id'=$comment->getId()";
         return $this->dataBase->query($commentQuery);
