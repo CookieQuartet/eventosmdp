@@ -23,7 +23,7 @@ class CommentQuerys {
     {
         try {
 
-            $commentQuery = "insert into COMMENT (id, text, id_comment_status, id_event, stars) values ('$comment->getId()' , '$comment->getText()' , '$comment->getIdCommentStatus()', '$comment->getIdEvent()', '$comment->getStars()' )";
+            $commentQuery = "insert into COMMENT (text, id_comment_status, id_event, stars) values ('$comment->getText()' , '$comment->getIdCommentStatus()', '$comment->getIdEvent()', '$comment->getStars()' )";
             mysqli_query($connection, $commentQuery);
 
         } catch (Exception $e) {
@@ -31,16 +31,30 @@ class CommentQuerys {
         }
     }
 
-    public final static function updateComment($connection, Comment $comment)
+    public final static function updateComment($connection, $id, $comment)
     {
         try {
 
-            $commentQuery = "update COMMENT set 'id'=$comment->getId(), 'text'=$comment->getText(), 'id_comment_status'=$comment->getIdCommentStatus, 'id_event'=$comment->getIdEvent(), 'stars'=$comment->getStars() where 1";
+            $commentQuery = "update COMMENT set 'text'=$comment->getText(), 'id_comment_status'=$comment->getIdCommentStatus, 'id_event'=$comment->getIdEvent(), 'stars'=$comment->getStars() where 'id'=$id";
             mysqli_query($connection, $commentQuery);
 
         } catch (Exception $e) {
             echo ($e);
         }
+    }
+
+    public final static function deleteComment($connection, $id)
+    {
+
+        try {
+
+            $commentQuery = "update COMMENT set active = '0' where id = '$id'";
+            mysqli_query($connection, $commentQuery);
+
+        } catch (Exception $e) {
+            echo ($e);
+        }
+
     }
 
 } 
