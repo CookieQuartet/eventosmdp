@@ -35,12 +35,12 @@ class UserQuerys {
 
     }
 
-    public final static function delUser($connection, $id)
+    public final static function deleteUser($connection, $id)
     {
 
         try {
 
-            $userQuery = "delete into USER where id = '$id'";
+            $userQuery = "update USER set active = '0' where id = '$id'";
             mysqli_query($connection, $userQuery);
 
         } catch (Exception $e) {

@@ -12,15 +12,17 @@ abstract class User {
     private $email;
     private $password;
     protected $userType;
+    private $active; //Si esta en True el usuario esta habilitado
     private $fcbkToken;
 
-    function __construct($email, $fcbkToken, $id,$name, $password)
+    function __construct($email, $fcbkToken, $id,$name, $password, $active)
     {
         $this->email = $email;
         $this->fcbkToken = $fcbkToken;
         $this->id = $id;
         $this->name = $name;
         $this->password = $password;
+        $this->active = $active;
     }
 
     abstract public function getUserType();
@@ -104,5 +106,22 @@ abstract class User {
     {
         $this->password = $password;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param mixed $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+
 
 } 
