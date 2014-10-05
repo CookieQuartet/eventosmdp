@@ -11,11 +11,7 @@ class UserGeneral  extends  User {
     function __construct($email, $fcbkToken, $id, $name, $password, $active)
     {
         parent::__construct($email, $fcbkToken, $id, $name, $password, $active);
-        $this->userType= $this->getUserType();
+        $this->userType= UserTypeEnum::UserGeneralType;
     }
 
-    public function getUserType()
-    {
-        return (UserTypeEnum::UserGeneralType);
-    }
 } 

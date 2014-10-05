@@ -11,11 +11,7 @@ class UserPublisher  extends  User {
     function __construct($email, $fcbkToken, $id, $name, $password, $active)
     {
         parent::__construct($email, $fcbkToken, $id, $name, $password, $active);
-        $this->userType= $this->getUserType();
+        $this->userType= UserTypeEnum::UserPublisherType;
     }
 
-    public function getUserType()
-    {
-        return (UserTypeEnum::UserPublisherType);
-    }
 } 
