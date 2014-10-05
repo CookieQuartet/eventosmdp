@@ -4,6 +4,8 @@
  * User: martin
  * Date: 05/10/14
  * Time: 03:04
+ * El crédito es para Pablo, que medio dormido me dijo: "podríamos hacer una clase Login
+ * que devuelva un usuario..."
  */
 
 class UserFactory {
