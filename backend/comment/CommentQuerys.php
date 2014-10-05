@@ -5,67 +5,43 @@
  * Date: 04/10/2014
  * Time: 05:30 PM
  */
+include('../database/DataBase.php');
+
 
 class CommentQuerys {
-    public final static function getCommentList($connection) //Lista de Comentarios
+
+    private $dataBase;
+
+    function __construct()
     {
-
-        try {
-            $comment = $connection->query ("select * from COMMENT");
-        } catch (Exception $e) {
-            echo ($e);
-        }
-
-        return $comment;
+        $this->$dataBase = new DataBase();
     }
 
-    public final static function addComment($connection, Comment $comment)
+    public final function getCommentList() //Lista de Comentarios
     {
-        try {
-
-            $commentQuery = "insert into COMMENT (text, id_comment_status, id_event, stars) values ('$comment->getText()' , '$comment->getIdCommentStatus()', '$comment->getIdEvent()', '$comment->getStars()' )";
-            mysqli_query($connection, $commentQuery);
-
-        } catch (Exception $e) {
-            echo ($e);
-        }
+        return $this->$dataBase->query("select * from COMMENT");
     }
 
-    public final static function updateComment($connection, $comment)
+    public final function addComment(Comment $comment)
     {
-        try {
-
-            $commentQuery = "update COMMENT set 'text'=$comment->getText(), 'id_comment_status'=$comment->getIdCommentStatus, 'id_event'=$comment->getIdEvent(), 'stars'=$comment->getStars() where 'id'=$comment->getId()";
-            mysqli_query($connection, $commentQuery);
-
-        } catch (Exception $e) {
-            echo ($e);
-        }
+        $commentQuery = "insert into COMMENT (text, id_status_comment, id_event, stars) values ('$comment->getText()' , '$comment->getIdCommentStatus()', '$comment->getIdEvent()', '$comment->getStars()' )";
+        return $this->$dataBase->query($commentQuery);
     }
 
-    public final static function deleteComment($connection, $id)
+    public final function updateComment($comment)
     {
-
-        try {
-
-            $commentQuery = "update COMMENT set active = '0' where id = '$id'";
-            mysqli_query($connection, $commentQuery);
-
-        } catch (Exception $e) {
-            echo ($e);
-        }
-
+        $commentQuery = "update COMMENT set 'text'=$comment->getText(), 'id_status_comment'=$comment->getIdCommentStatus, 'id_event'=$comment->getIdEvent(), 'stars'=$comment->getStars() where 'id'=$comment->getId()";
+        return $this->$dataBase->query($commentQuery);
     }
 
-    public final static function getCommentById($connection, $id)
+    public final function deleteComment($id)
     {
+        $commentQuery = "update COMMENT set active = '0' where id = '$id'";
+        return $this->$dataBase->query($commentQuery);
+    }
 
-        try {
-            $comment = $connection->query("select * from `COMMENT` WHERE id = $id");
-        } catch (Exception $e) {
-            echo($e);
-        }
-
-        return $comment;
+    public final function getCommentById($id)
+    {
+        return $this->$dataBase->query("select * from `COMMENT` WHERE id = $id");
     }
 } 
