@@ -17,7 +17,7 @@ abstract class User {
     private $active; //Si esta en True el usuario esta habilitado
     private $fcbkToken;
     private $loggedIn;
-    public static $userQueries;
+    private static $userQueries;
 
     function __construct($email, $fcbkToken, $id,$name, $password, $active)
     {
