@@ -87,7 +87,7 @@ class Alert {
     /**
      * @param mixed $descriptionArea
      */
-    public function setDescriptionSubarea($descriptionArea)
+    public function setDescriptionArea($descriptionArea)
     {
         $this->descriptionArea = $descriptionArea;
     }
