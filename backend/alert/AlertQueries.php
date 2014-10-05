@@ -47,9 +47,9 @@ class AlertQueries {
         return $this->dataBase->query($alertQuery);
     }
 
-    public final function getAlertByUserId() //Lista de Alerts por id_user
+    public final function getAlertByUserId($id) //Lista de Alerts por id_user
     {
-        $alertQuery = "select * from ALERT AL, AREA AR, SUBAREA SA where AL.active = 1 AND AL.id_area = AR.id AND AL.id_subarea = SA.id;";
+        $alertQuery = "select * from ALERT AL, AREA AR, SUBAREA SA where AL.id_user = '$id' AND AL.active = 1 AND AL.id_area = AR.id AND AL.id_subarea = SA.id;";
         return $this->$dataBase->query($alertQuery);
     }
 }
