@@ -43,7 +43,7 @@ class AlertQueries {
 
     public final function getAlertById($id)
     {
-        $alertQuery = "select * from ALERT WHERE id = $id";
+        $alertQuery = "select * from ALERT WHERE id = '$id'";
         return $this->dataBase->query($alertQuery);
     }
 }

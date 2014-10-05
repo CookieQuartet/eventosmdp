@@ -42,6 +42,7 @@ class CommentQuerys {
 
     public final function getCommentById($id)
     {
-        return $this->dataBase->query("select * from `COMMENT` WHERE id = $id");
+        $commentQuery = "select * from COMMENT WHERE id = '$id'";
+        return $this->dataBase->query($commentQuery);
     }
 } 
