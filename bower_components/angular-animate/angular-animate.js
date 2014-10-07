@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.3.0-rc.2
+ * @license AngularJS v1.3.0-rc.4
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -262,7 +262,7 @@
  *
  * The following code will issue the **ng-leave-stagger** event on the element provided:
  *
- * ```view
+ * ```js
  * var kids = parent.children();
  *
  * $animate.leave(kids[0]); //stagger index=0
@@ -284,7 +284,7 @@
  * In the event that you do not want to use CSS3 transitions or CSS3 animations or if you wish to offer animations on browsers that do not
  * yet support CSS transitions/animations, then you can make use of JavaScript animations defined inside of your AngularJS module.
  *
- * ```view
+ * ```js
  * //!annotate="YourApp" Your AngularJS Module|Replace this or ngModule with the module that you used to define your application.
  * var ngModule = angular.module('YourApp', ['ngAnimate']);
  * ngModule.animation('.my-crazy-animation', function() {
@@ -731,7 +731,7 @@ angular.module('ngAnimate', ['ng'])
        * skipped due to animations being disabled. (Note that even if the animation is cancelled it will still
        * call the resolve function of the animation.)
        *
-       * ```view
+       * ```js
        * $animate.enter(element, container).then(function() {
        *   //...this is called once the animation is complete...
        * });
@@ -741,7 +741,7 @@ angular.module('ngAnimate', ['ng'])
        * location of the page, etc...) is executed within the callback promise then be sure to wrap the code using
        * `$scope.$apply(...)`;
        *
-       * ```view
+       * ```js
        * $animate.leave(element).then(function() {
        *   $scope.$apply(function() {
        *     $location.path('/new-page');
@@ -752,7 +752,7 @@ angular.module('ngAnimate', ['ng'])
        * An animation can also be cancelled by calling the `$animate.cancel(promise)` method with the provided
        * promise that was returned when the animation was started.
        *
-       * ```view
+       * ```js
        * var promise = $animate.addClass(element, 'super-long-animation').then(function() {
        *   //this will still be called even if cancelled
        * });
