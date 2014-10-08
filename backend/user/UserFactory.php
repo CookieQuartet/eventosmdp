@@ -22,10 +22,10 @@ class UserFactory {
     }
 
     public static function getInstance() {
-        if(!UserFactory::$instance) {
-            UserFactory::$instance = new UserFactory();
+        if(!self::$instance) {
+            self::$instance = new UserFactory();
         }
-        return UserFactory::$instance;
+        return self::$instance;
     }
 
     private function getUserByEmail($user)
@@ -97,21 +97,21 @@ class UserFactory {
         }
     }
 
-    public function logout()
+    public static function logout()
     {
-        UserFactory::$loggedIn = false;
-        UserFactory::$user = null;
+        self::$loggedIn = false;
+        self::$user = null;
     }
 
-    public function loggedIn()
+    public static function loggedIn()
     {
-        return UserFactory::$loggedIn;
+        return self::$loggedIn;
     }
 
-    public function user()
+    public static function user()
     {
-        if(UserFactory::$loggedIn) {
-            return UserFactory::$user;
+        if(self::$loggedIn) {
+            return self::$user;
         } else {
             return null;
         }

@@ -1,6 +1,6 @@
 
   angular.module('view')
-    .directive('ig', function() {
+    .directive('emdpMaterialInput', function() {
       return {
         restrict: 'E',
         replace: true,
@@ -9,19 +9,16 @@
           fid: '@',
           type: '@'
         },
-        template:
-        '<material-input-group>' +
-        '<label for="{{fid}}">{{ label }}</label>' +
-        '<material-input id="{{fid}}" type="{{ type }}" ng-model="data.description">' +
-        '</material-input-group>'
+        templateUrl: 'frontend/view/partials/emdpMaterialInput.html'
       };
     })
     .directive('emdpAction', function() {
         return {
           restrict: 'E',
           replace: false,
-          controller: function($scope, user, fbUser) {
+          controller: function($scope, user, fbUser, $state) {
             $scope.fbUser = fbUser;
+            $scope.state = $state;
             $scope.call = function() {
               $scope.$eval($scope.action);
             }
@@ -33,4 +30,11 @@
           },
           templateUrl: 'frontend/view/partials/emdpAction.html'
         };
+    })
+    .directive('emdpLoginForm', function() {
+      return {
+        restrict: 'E',
+        replace: true,
+        templateUrl: 'frontend/view/partials/emdpLoginForm.html'
+      };
     });

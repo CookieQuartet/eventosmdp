@@ -31,8 +31,10 @@
     color:black !important;
 }
 
+
 .eventosmdp-btn-nav {
-    width:100%;
+    width: 296px;
+    margin-left: 4px;
 }
 
 .eventosmdp-btn-nav > button {
@@ -59,6 +61,19 @@
 .eventosmdp-sidenav-icon {
     margin: 0 10px 0 10px;
 }
+
+.eventosmdp-login-inputs {
+    width: 200px;
+}
+
+.eventosmdp-login-inputs #email {
+    width: 180px;
+}
+
+.eventosmdp-login-inputs #password {
+    width: 180px;
+}
+
 
 .eventosmdp-login-inputs material-input-group {
     margin: 2px;
