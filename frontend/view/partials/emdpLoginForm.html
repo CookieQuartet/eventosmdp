@@ -10,11 +10,30 @@
     <div class="animate-switch-container" data-ng-switch on="data.selectedIndex">
         <div class="animate-switch tab1" data-ng-switch-when="0" layout="vertical" layout-align="center center">
             <section class="eventosmdp-login-inputs" data-ng-show="!(persona.logged || persona.fbLogged)">
-                <emdp-material-input layout-align="center" fid="email" label="Email" type="email" class="material-input-group-theme-light-blue material-input-group-inverted"></emdp-material-input>
-                <emdp-material-input layout-align="center" fid="password" label="Contraseña" type="password" class="material-input-group-theme-light-blue material-input-group-inverted"></emdp-material-input>
+                <emdp-material-input
+                    layout-align="center"
+                    fid="email"
+                    label="Email"
+                    type="email"
+                    model="{{ persona.email }}"
+                    class="material-input-group-theme-light-blue material-input-group-inverted">
+                </emdp-material-input>
+                <emdp-material-input
+                    layout-align="center"
+                    fid="password"
+                    label="Contraseña"
+                    type="password"
+                    model="{{ persona.password }}"
+                    class="material-input-group-theme-light-blue material-input-group-inverted">
+                </emdp-material-input>
             </section>
             <section class="eventosmdp-login">
-                <section class="eventosmdp-login-button" layout="vertical" layout-sm="horizontal" layout-align="center center" data-ng-show="!(persona.logged || persona.fbLogged)">
+                <section
+                    class="eventosmdp-login-button"
+                    layout="vertical"
+                    layout-sm="horizontal"
+                    layout-align="center center"
+                    data-ng-show="!(persona.logged || persona.fbLogged)">
                     <material-button class="material-button-raised material-button-colored">Entrar</material-button>
                     <material-button class="material-button-raised material-button-colored material-theme-green">Nuevo</material-button>
                 </section>
@@ -22,8 +41,16 @@
         </div>
         <div class="animate-switch tab2" data-ng-switch-when="1">
             <section class="eventosmdp-login">
-                <section class="eventosmdp-login-button" layout="vertical" layout-sm="horizontal" layout-align="center center" data-ng-show="!(persona.logged || persona.fbLogged)">
-                    <material-button class="material-button-raised material-button-colored" data-ng-show="!persona.fbLogged" data-ng-click="persona.fbUser.login()">
+                <section
+                    class="eventosmdp-login-button"
+                    layout="vertical"
+                    layout-sm="horizontal"
+                    layout-align="center center"
+                    data-ng-show="!(persona.logged || persona.fbLogged)">
+                    <material-button
+                        class="material-button-raised material-button-colored"
+                        data-ng-show="!persona.fbLogged"
+                        data-ng-click="persona.fbUser.login()">
                         Entrá con Facebook
                     </material-button>
                 </section>

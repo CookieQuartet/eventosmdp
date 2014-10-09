@@ -7,7 +7,8 @@
         scope: {
           label: '@',
           fid: '@',
-          type: '@'
+          type: '@',
+          model: '@'
         },
         templateUrl: 'frontend/view/partials/emdpMaterialInput.html'
       };

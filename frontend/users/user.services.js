@@ -141,21 +141,27 @@ angular.module('users', ['facebook'])
           };
       return f;
   })
-  .factory('user', function(emptyUser) {
+  .factory('user', function(emptyUser, fbUser) {
       var logged = false,
-          _user = angular.extend({}, emptyUser);
+          _user = angular.extend({}, emptyUser),
+          _fbUser = fbUser;
       return {
-        init: function() {
-
+        init: function(scope) {
+          _fbUser.init(scope);
         },
         login: function(loginData) {
-
+          _fbUser.login()
         },
         logout: function() {
-
+          if(_fbUser.logged()) {
+            _fbUser.logout();
+          }
         },
-        getUserData: function() {
-          return _user;
+        getProfileData: function() {
+          return _fbUser.logged() ? _fbUser.getProfileData() : _user;
+        },
+        getProfilePicture: function() {
+          return _fbUser.logged() ? _fbUser.getProfilePicture() : _user.pic;
         },
         logged: function() {
           return logged;

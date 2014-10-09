@@ -23,6 +23,8 @@ angular.module('view', ['ngMaterial', 'users'])
       fbUser: fbUser,
       fbData: null,
       fbLogged: false,
+      email: '',
+      password: '',
       pic: 'img/svg/account-circle_wht.svg',
       name: 'Usuario Anónimo',
       logged: false
