@@ -5,7 +5,7 @@
  * Date: 04/10/2014
  * Time: 05:26 PM
  */
-include('UserQueries.php');
+include_once('UserQueries.php');
 
 
 abstract class User {

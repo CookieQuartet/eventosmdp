@@ -17,5 +17,7 @@ $result = curl_exec($ch);
 $aresult = json_decode($result);
 
 //var_dump($aresult->Areas);
+if ($aresult->Estado=="Ok") {
+    echo json_encode($aresult->Areas);
 
-echo json_encode($aresult->Areas);
+}

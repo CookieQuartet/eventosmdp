@@ -5,7 +5,7 @@
  * Date: 04/10/2014
  * Time: 07:49 PM
  */
-require_once ('DataBaseConstants.php');
+include_once('DataBaseConstants.php');
 
 class DataBase {
 

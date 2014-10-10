@@ -5,6 +5,7 @@
  * Date: 04/10/2014
  * Time: 05:27 PM
  */
+include_once('../User.php');
 
 class UserPublisher  extends  User {
 

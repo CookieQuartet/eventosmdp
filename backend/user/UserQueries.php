@@ -6,7 +6,7 @@
  * Time: 05:27 PM
  */
 
-include('../database/DataBase.php');
+include_once('../database/DataBase.php');
 
 class UserQueries {
 

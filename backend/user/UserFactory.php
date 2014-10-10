@@ -7,6 +7,10 @@
  * El crédito es para Pablo, que medio dormido me dijo: "podríamos hacer una clase Login
  * que devuelva un usuario..."
  */
+include_once('../database/DataBase.php');
+include_once('userAdmin/UserAdmin.php');
+include_once('userGeneral/UserGeneral.php');
+include_once('userPublisher/UserPublisher.php');
 
 class UserFactory {
     private static $instance;
