@@ -29,6 +29,7 @@ class ApiRequest {
 
         if ($aresult->Estado=="Ok")
         {
+            echo json_encode($aresult->Areas);
             return json_encode($aresult->Areas);
         }
         else
