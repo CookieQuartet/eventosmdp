@@ -1,13 +1,27 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Julián
- * Date: 09/10/2014
- * Time: 08:56 PM
+ * User: PADomine
+ * Date: 10/5/14
+ * Time: 16:88
  */
-include_once('../Area.php');
+include('SubreaQueries.php');
 
-class Subarea extends Area {
+class Subarea extends Area{
 
+    private $idArea;
 
-} 
+    function __construct($id, $idApi, $descriptionSubArea, $idArea)
+    {
+        parent::__construct($id,$idApi, $descriptionSubArea);
+    }
+
+    public static function getSubareaQueries() {
+
+        if (!isset(self::$SubareaQueries)) {
+            self::$SubareaQueries = new SubreaQueries();
+        }
+
+        return self::$SubareaQueries;
+    }
+}
