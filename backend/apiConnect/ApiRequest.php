@@ -6,13 +6,14 @@
  * Time: 09:42 PM
  */
 include_once('ApiConnectConstants.php');
+//include_once('../lib/underscore.php');
 
 class ApiRequest {
 
-    public function getAreasJSON()
+    public function getSubareas()
     {
         $url = consultaAreasUrl;
-        $data = array( "Token" => defaultToken);
+        $data = array( "Token" => defaultToken, "IdArea" => idAreaCultura);
         $data_string = json_encode($data);
 
         $request = curl_init($url);
@@ -27,21 +28,21 @@ class ApiRequest {
         $result = curl_exec($request);
         $aresult = json_decode($result);
 
-        if ($aresult->Estado=="Ok" || $aresult->Estado=="Advertencia")
+        if ($aresult->Estado==sucessfull || $aresult->Estado==warning)
         {
-            echo json_encode($aresult);
-            return json_encode($aresult->Areas);
+            return $aresult->Areas[0]->Subareas;
         }
         else
         {
             return null;
         }
+
     }
 
-    public function getEventsByAreaJSON($idArea, $idSubArea)
+    public function getEventsBySubarea($idSubArea, $fechaDesde)
     {
         $url = consultaEventosUrl;
-        $data = array( "Token" => defaultToken, "IdArea" => $idArea, "IdSubarea" => $idSubArea, "Palabra" => null, "FechaDesde" => null, "FechaHasta" => null);
+        $data = array( "Token" => defaultToken, "IdArea" => idAreaCultura, "IdSubarea" => $idSubArea, "Palabra" => null, "FechaDesde" => $fechaDesde, "FechaHasta" => null);
         $data_string = json_encode($data);
 
         $request = curl_init($url);
@@ -56,14 +57,17 @@ class ApiRequest {
         $result = curl_exec($request);
         $aresult = json_decode($result);
 
-        if ($aresult->Estado=="Ok" || $aresult->Estado=="Advertencia")
+        if ($aresult->Estado==warning)
         {
-            echo json_encode($aresult);
-            return json_encode($aresult->Eventos);
+            return array_map("unserialize", array_unique(array_map("serialize",array_merge ($aresult->Eventos,$this->getEventsBySubarea($idSubArea, end($aresult->Eventos)->FechaHoraInicio)))));
         }
-        else
+        elseif ($aresult->Estado==sucessfull)
         {
-            return null;
+            return $aresult->Eventos;
+        }
+        else //Error
+        {
+            return array();
         }
     }
 

@@ -7,7 +7,7 @@
  */
 include_once('ApiConnectConstants.php');
 include_once('ApiRequest.php');
-include_once('../area/SubareaQueries.php');
+include_once('../subarea/SubareaQueries.php');
 include_once('../event/EventQueries.php');
 
 class UpdateModel {
@@ -22,25 +22,37 @@ class UpdateModel {
 
     public function updateModel()
     {
-        $this->updateAreas();
-        echo("----------------------");
+        $this->updateSubareas();
+
         $this->updateEvents();
 
     }
 
     public function updateEvents()
     {
-        $jsonEventos= $this->apiRequest->getEventsByAreaJSON(2,2);
+        $eventos= $this->apiRequest->getEventsBySubarea(2,null);
+        echo("Cantidad Total de Eventos: ".count ($eventos));
+        echo ("</br>");
+
+        foreach ($eventos as $evento)
+        {
+            echo($evento->DescripcionEvento);
+            echo ("</br>");
+
+        }
 
     }
 
 
-    public function updateAreas()
+    public function updateSubareas()
     {
 
-        $jsonAreas= $this->apiRequest->getAreasJSON();
+        $subAreas= $this->apiRequest->getSubareas();
 
-
+        foreach ($subAreas as $subarea)
+        {
+//            echo($subarea->Nombre);
+        }
 
         /*Obtener las areas de la base nuestra e ir recorriendo uno a uno de los resultados obtenidos de la API, si no esta lo agrego,
         y si esta (con el id que devuelve la API), implemento un compareTo y si son
