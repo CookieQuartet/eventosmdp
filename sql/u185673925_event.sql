@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 11-10-2014 a las 16:04:11
+-- Tiempo de generación: 11-10-2014 a las 22:18:32
 -- Versión del servidor: 5.6.16
 -- Versión de PHP: 5.5.11
 
@@ -180,13 +180,11 @@ CREATE TABLE IF NOT EXISTS `USER` (
   `email` varchar(30) NOT NULL,
   `password` varchar(30) NOT NULL,
   `id_user_type` int(11) NOT NULL,
-  `fcbk_token` varchar(100) NOT NULL,
   `active` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `EMAIL` (`email`),
-  UNIQUE KEY `FCBK_TOKEN` (`fcbk_token`),
   KEY `id_user_type` (`id_user_type`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=41 ;
 
 --
 -- Truncar tablas antes de insertar `USER`
@@ -197,8 +195,11 @@ TRUNCATE TABLE `USER`;
 -- Volcado de datos para la tabla `USER`
 --
 
-INSERT INTO `USER` (`id`, `name`, `email`, `password`, `id_user_type`, `fcbk_token`, `active`) VALUES
-(1, 'Martin', 'mmaestri@gmail.com', '123456', 1, '0', 1);
+INSERT INTO `USER` (`id`, `name`, `email`, `password`, `id_user_type`, `active`) VALUES
+(1, 'Martin', 'mmaestri@gmail.com', '123456', 2, 1),
+(19, 'usuario@mail.com', 'usuario@mail.com', '123456', 2, 1),
+(39, 'user@mail.com', 'user@mail.com', '123456', 2, 1),
+(40, 'otro@mail.com', 'otro@mail.com', '123456', 2, 1);
 
 -- --------------------------------------------------------
 

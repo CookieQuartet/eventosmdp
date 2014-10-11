@@ -26,14 +26,14 @@ class UserController {
                     break;
                 case 'login':
                     $_SESSION["user"] = UserFactory::getInstance()->login($_GET['email'], $_GET['password']);
-                    if($_SESSION["user"]) {
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
                         $return = json_encode($_SESSION["user"]->getUserData());
                     } else {
                         $return = '{ "logged": false, "error": "Error de email / password" }';
                     }
                     break;
                 case 'check':
-                    if(isset($_SESSION["user"])) {
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
                         $return = json_encode($_SESSION["user"]->getUserData());
                     } else {
                         $return = '{ "logged": false, "error": "No se ha iniciado sesión" }';
