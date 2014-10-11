@@ -64,6 +64,7 @@ angular.module('users', ['facebook'])
               logged = true;
               iface.getProfileData().then(function(data) {
                 _scope.$emit('user:fbData', data);
+                _scope.$emit('user:welcome', data);
               });
               iface.getProfilePicture().then(function(pic) {
                 _scope.$emit('user:fbPic', pic);
@@ -266,6 +267,7 @@ angular.module('users', ['facebook'])
                 logged: true
               });
               _scope.$emit('user:logged', user.logged);
+              _scope.$emit('user:welcome', user);
             }
           });
         },
@@ -289,6 +291,7 @@ angular.module('users', ['facebook'])
                   logged: true
                 });
                 _scope.$emit('user:logged', user.logged);
+                _scope.$emit('user:welcome', user);
               }
             }, function(error) {
               _scope.$emit('user:loginError', error);

@@ -58,7 +58,6 @@
           /* event handlers para eventos del login */
           var onLoggedHandler = function(event, logged) {
                 $rootScope.persona.logged = logged;
-                $scope.toastMessage("Bienvenido, " + $rootScope.persona.name);
                 if(logged && $rootScope.lastState.length > 0 ) {
                   $state.go($rootScope.lastState);
                 }
@@ -67,7 +66,19 @@
                 $scope.toastMessage(data.error);
               },
               onLoginLogoutHandler = function(event, data) {
+                switch(event.name) {
+                  case 'user:login':
+                    break;
+                  case 'user:logout':
+                  case 'user:fbLogout':
+                    $scope.toastMessage("Hasta luego!");
+                    break;
+                  default:
+                }
                 angular.extend($rootScope.persona, data);
+              },
+              onWelcome = function(event, data) {
+                $scope.toastMessage("Bienvenido, " + data.name);
               },
               onDataHandler = function(event, data) {
                 $rootScope.persona.fbData = data;
@@ -107,6 +118,7 @@
           $scope.$on('user:fbData', onDataHandler);
           $scope.$on('user:fbPic', onPictureHandler);
           $scope.$on('user:login', onLoginLogoutHandler);
+          $scope.$on('user:welcome', onWelcome);
           $scope.$on('user:loginError', onLoginError);
           $scope.$on('user:logout', onLoginLogoutHandler);
           $scope.$on('user:fbLogout', onLoginLogoutHandler);
