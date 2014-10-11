@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 11-10-2014 a las 22:18:32
+-- Tiempo de generación: 11-10-2014 a las 22:39:52
 -- Versión del servidor: 5.6.16
 -- Versión de PHP: 5.5.11
 
@@ -28,7 +28,6 @@ USE `u185673925_event`;
 -- Estructura de tabla para la tabla `ALERT`
 --
 
-DROP TABLE IF EXISTS `ALERT`;
 CREATE TABLE IF NOT EXISTS `ALERT` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_user` int(11) NOT NULL,
@@ -40,36 +39,24 @@ CREATE TABLE IF NOT EXISTS `ALERT` (
   KEY `id_user` (`id_user`,`id_subarea`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Truncar tablas antes de insertar `ALERT`
---
-
-TRUNCATE TABLE `ALERT`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `AREA`
 --
 
-DROP TABLE IF EXISTS `AREA`;
 CREATE TABLE IF NOT EXISTS `AREA` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(300) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
 
---
--- Truncar tablas antes de insertar `AREA`
---
-
-TRUNCATE TABLE `AREA`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `COMMENT`
 --
 
-DROP TABLE IF EXISTS `COMMENT`;
 CREATE TABLE IF NOT EXISTS `COMMENT` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `text` varchar(300) NOT NULL,
@@ -79,18 +66,12 @@ CREATE TABLE IF NOT EXISTS `COMMENT` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Truncar tablas antes de insertar `COMMENT`
---
-
-TRUNCATE TABLE `COMMENT`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `EVENT`
 --
 
-DROP TABLE IF EXISTS `EVENT`;
 CREATE TABLE IF NOT EXISTS `EVENT` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_event` int(11) NOT NULL,
@@ -109,24 +90,20 @@ CREATE TABLE IF NOT EXISTS `EVENT` (
   `image_url_small` varchar(500) DEFAULT NULL,
   `id_area` int(11) NOT NULL,
   `id_subarea` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
   `active` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_event` (`id_event`),
-  KEY `id_area` (`id_area`,`id_subarea`)
+  KEY `id_area` (`id_area`,`id_subarea`),
+  KEY `id_user` (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Truncar tablas antes de insertar `EVENT`
---
-
-TRUNCATE TABLE `EVENT`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `STATUS_COMMENT`
 --
 
-DROP TABLE IF EXISTS `STATUS_COMMENT`;
 CREATE TABLE IF NOT EXISTS `STATUS_COMMENT` (
   `id` int(11) NOT NULL,
   `description` varchar(30) NOT NULL,
@@ -134,19 +111,14 @@ CREATE TABLE IF NOT EXISTS `STATUS_COMMENT` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Truncar tablas antes de insertar `STATUS_COMMENT`
---
-
-TRUNCATE TABLE `STATUS_COMMENT`;
---
 -- Volcado de datos para la tabla `STATUS_COMMENT`
 --
 
 INSERT INTO `STATUS_COMMENT` (`id`, `description`) VALUES
-(1, 'Pendiente Aprobación'),
-(2, 'Aprobado'),
-(3, 'Denunciado'),
-(4, 'Eliminado');
+  (1, 'Pendiente Aprobación'),
+  (2, 'Aprobado'),
+  (3, 'Denunciado'),
+  (4, 'Eliminado');
 
 -- --------------------------------------------------------
 
@@ -154,7 +126,6 @@ INSERT INTO `STATUS_COMMENT` (`id`, `description`) VALUES
 -- Estructura de tabla para la tabla `SUBAREA`
 --
 
-DROP TABLE IF EXISTS `SUBAREA`;
 CREATE TABLE IF NOT EXISTS `SUBAREA` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(100) CHARACTER SET utf8 NOT NULL,
@@ -162,18 +133,12 @@ CREATE TABLE IF NOT EXISTS `SUBAREA` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
 
---
--- Truncar tablas antes de insertar `SUBAREA`
---
-
-TRUNCATE TABLE `SUBAREA`;
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `USER`
 --
 
-DROP TABLE IF EXISTS `USER`;
 CREATE TABLE IF NOT EXISTS `USER` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(60) NOT NULL,
@@ -187,19 +152,14 @@ CREATE TABLE IF NOT EXISTS `USER` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=41 ;
 
 --
--- Truncar tablas antes de insertar `USER`
---
-
-TRUNCATE TABLE `USER`;
---
 -- Volcado de datos para la tabla `USER`
 --
 
 INSERT INTO `USER` (`id`, `name`, `email`, `password`, `id_user_type`, `active`) VALUES
-(1, 'Martin', 'mmaestri@gmail.com', '123456', 2, 1),
-(19, 'usuario@mail.com', 'usuario@mail.com', '123456', 2, 1),
-(39, 'user@mail.com', 'user@mail.com', '123456', 2, 1),
-(40, 'otro@mail.com', 'otro@mail.com', '123456', 2, 1);
+  (1, 'Martin', 'mmaestri@gmail.com', '123456', 2, 1),
+  (19, 'usuario@mail.com', 'usuario@mail.com', '123456', 2, 1),
+  (39, 'user@mail.com', 'user@mail.com', '123456', 2, 1),
+  (40, 'otro@mail.com', 'otro@mail.com', '123456', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -207,7 +167,6 @@ INSERT INTO `USER` (`id`, `name`, `email`, `password`, `id_user_type`, `active`)
 -- Estructura de tabla para la tabla `USER_TYPE`
 --
 
-DROP TABLE IF EXISTS `USER_TYPE`;
 CREATE TABLE IF NOT EXISTS `USER_TYPE` (
   `id` int(11) NOT NULL,
   `description` varchar(50) NOT NULL,
@@ -215,18 +174,13 @@ CREATE TABLE IF NOT EXISTS `USER_TYPE` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Truncar tablas antes de insertar `USER_TYPE`
---
-
-TRUNCATE TABLE `USER_TYPE`;
---
 -- Volcado de datos para la tabla `USER_TYPE`
 --
 
 INSERT INTO `USER_TYPE` (`id`, `description`) VALUES
-(1, 'Administrador'),
-(2, 'Publicador'),
-(3, 'Usuario General');
+  (1, 'Administrador'),
+  (2, 'Publicador'),
+  (3, 'Usuario General');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
