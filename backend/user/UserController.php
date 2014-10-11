@@ -18,7 +18,7 @@ class UserController {
             switch($_GET['method']) {
                 case 'register':
                     $_SESSION["user"] = UserFactory::getInstance()->register($_GET['email'], $_GET['password'], 2);
-                    if(isset($_SESSION["user"])) {
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
                         $return = json_encode($_SESSION["user"]->getUserData());
                     } else {
                         $return = '{ "logged": false, "error": "Ya existe un usuario registrado con ese email" }';
