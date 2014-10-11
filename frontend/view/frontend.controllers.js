@@ -17,10 +17,13 @@ angular.module('view', ['ngMaterial', 'users'])
     // este es el estado base
 
   })
-  .controller('emdpEventsController', function($rootScope, $scope, $state, user) {
+  .controller('emdpEventsController', function($rootScope, $scope, $state, user, eventsAPI) {
     $rootScope.lastState = 'events';
     user.checkLogged(function() {
-
+      $scope.events = [];
+      eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
+        $scope.events = response.data;
+      });
     });
   })
   .controller('emdpFavoritesController', function($rootScope, $scope, $state, user) {

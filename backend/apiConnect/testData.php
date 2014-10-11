@@ -5,8 +5,12 @@
         "IdArea" => 2,
         "IdSubarea" => 2,
         "Palabra" => null,
-        "FechaDesde" => null,
-        "FechaHasta" => null
+        //"FechaDesde" => "20141028T000000",
+        //"FechaHasta" => "20141030T000000"
+
+
+        "FechaDesde" => $_GET['from'],
+        "FechaHasta" => $_GET['to']
     );
     $data_string = json_encode($data);
 
@@ -22,7 +26,7 @@
 
     $result = curl_exec($ch);
 
-    //$aresult = json_decode($result);
+    $aresult = json_decode($result)->Eventos;
 
-    echo($result);
+    echo(json_encode($aresult));
 

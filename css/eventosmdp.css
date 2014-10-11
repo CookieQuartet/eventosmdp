@@ -1,3 +1,13 @@
+material-whiteframe {
+    background: #fff;
+    margin: 20px;
+    padding: 20px;
+}
+
+.emdp-material-whiteframe-content {
+    margin-left: 20px;
+}
+
 .eventosmdp-sidenav.material-content-padding {
     padding: 0;
 }

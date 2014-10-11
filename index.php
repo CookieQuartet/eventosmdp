@@ -48,11 +48,13 @@
                 </material-content>
             </material-content>
         </div>
+        <script src="bower_components/datejs/build/date-es-AR.js"></script>
         <script src="bower_components/angular/angular.js"></script>
         <script src="bower_components/angular-animate/angular-animate.js"></script>
         <script src="bower_components/hammerjs/hammer.js"></script>
         <script src="bower_components/angular-material/angular-material.js"></script>
         <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="bower_components/angular-facebook/lib/angular-facebook.js"></script>
         <script src="bower_components/angular-facebook/lib/angular-facebook.js"></script>
         <!--<script src="bower_components/angular-directive.g-signin/google-plus-signin.js"></script>-->
         <script src="frontend/app/app.js"></script>
@@ -60,6 +62,7 @@
         <script src="frontend/view/frontend.directives.js"></script>
         <script src="frontend/view/frontend.services.js"></script>
         <script src="frontend/users/user.services.js"></script>
+        <script src="frontend/events/events.services.js"></script>
 
     </body>
 </html>

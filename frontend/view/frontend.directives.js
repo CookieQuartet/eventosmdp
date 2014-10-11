@@ -54,7 +54,7 @@
       return {
         restrict: 'E',
         replace: true,
-        controller: function($scope, $materialSidenav, $materialToast, $rootScope, user, emdpActions) {
+        controller: function($scope, $materialSidenav, $materialToast, $rootScope, user, $state,  emdpActions) {
           /* event handlers para eventos del login */
           var onLoggedHandler = function(event, logged) {
                 $rootScope.persona.logged = logged;
@@ -124,5 +124,16 @@
           $scope.$on('user:fbLogout', onLoginLogoutHandler);
         },
         templateUrl: 'frontend/view/partials/emdpLoginForm.html'
+      };
+    })
+
+    .directive('emdpEvent', function() {
+      return {
+        restrict: 'E',
+        replace: true,
+        controller: function($scope) {
+
+        },
+        templateUrl: 'frontend/view/partials/emdpEvent.html'
       };
     });
