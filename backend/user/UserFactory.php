@@ -8,19 +8,21 @@
  * que devuelva un usuario..."
  */
 include_once('../database/DataBase.php');
-include_once('userAdmin/UserAdmin.php');
-include_once('userGeneral/UserGeneral.php');
-include_once('userPublisher/UserPublisher.php');
+include_once('./User.php');
+include_once('./userAdmin/UserAdmin.php');
+include_once('./userGeneral/UserGeneral.php');
+include_once('./userPublisher/UserPublisher.php');
+include_once('./userType/UserTypeEnum.php');
 
 class UserFactory {
     private static $instance;
     private static $user;
     private static $loggedIn;
-    private $dataBase;
+    private static $dataBase;
 
     private function __construct()
     {
-        $this->dataBase = new DataBase();
+        UserFactory::$dataBase = new DataBase();
         UserFactory::$loggedIn = false;
         UserFactory::$instance = $this;
     }
@@ -32,11 +34,14 @@ class UserFactory {
         return self::$instance;
     }
 
-    private function getUserByEmail($user)
+    private function getUserByEmail($email)
     {
-        $sql = $this->dataBase->query("select * from `USER` WHERE email = $user->email");
-        if($this->dataBase->hasRows($sql)) {
-            return $this->dataBase->fetchAssoc($sql);
+        $query = "select * from `USER` WHERE email = '$email'";
+        //var_dump($query);
+        $sql = self::$dataBase->query($query);
+
+        if(self::$dataBase->hasRows($sql)) {
+            return self::$dataBase->fetchAssoc($sql);
         }
         return false;
     }
@@ -61,7 +66,7 @@ class UserFactory {
             $encryptedPassword = UserFactory::encryptPassword($password);
             if($encryptedPassword == $userData['password']) {
                 $email = $userData['email'];
-                $fcbkToken = $userData['fcbkToken'];
+                $fcbkToken = $userData['fcbk_token'];
                 $id = $userData['id'];
                 $name = $userData['name'];
                 $password = $userData['password'];

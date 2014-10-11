@@ -18,7 +18,7 @@
             </material-toolbar>
             <material-content layout="horizontal" flex data-ng-cloak>
                 <material-sidenav class="material-sidenav-left material-whiteframe-z2" component-id="left">
-                    <material-toolbar class="material-theme-indigo" ng-show="persona.logged || persona.fbLogged">
+                    <material-toolbar class="material-theme-indigo" ng-show="persona.logged">
                         <section id="eventosmdp-profile">
                             <div flex="33" class="eventosmdp-profile-img">
                                 <img data-ng-src="{{ persona.pic }}" alt="Perfil" width="48" height="48"/>
@@ -27,18 +27,24 @@
                         </section>
                     </material-toolbar>
                     <material-content class="eventosmdp-sidenav material-content" layout="vertical">
-                        <section id="eventosmdp-profile" ng-show="!(persona.logged || persona.fbLogged)">
+                        <section id="eventosmdp-profile" ng-show="!persona.logged">
                             <emdp-login-form></emdp-login-form>
                         </section>
-                        <section class="eventosmdp-logged" ng-show="persona.logged || persona.fbLogged">
-                            <emdp-action ng-repeat="action in actions.list" name="{{ action.name }}" action="{{ action.action }}" icon="{{ action.icon }}"></emdp-action>
+                        <section class="eventosmdp-logged" ng-show="persona.logged">
+                            <emdp-action
+                                ng-repeat="action in actions.list"
+                                name="{{ action.name }}"
+                                action="{{ action.action }}"
+                                icon="{{ action.icon }}"></emdp-action>
                         </section>
                     </material-content>
                 </material-sidenav>
                 <material-content flex class="material-content-padding">
-                    <div class="eventosmdp-content" layout="horizontal" layout-fill layout-align="center" ui-view="content">
-
-                    </div>
+                    <div class="eventosmdp-content"
+                         layout="horizontal"
+                         layout-fill
+                         layout-align="center"
+                         ui-view="content"></div>
                 </material-content>
             </material-content>
         </div>

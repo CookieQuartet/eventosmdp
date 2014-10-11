@@ -7,64 +7,45 @@ angular.module('users', ['facebook'])
       }
     ])
     .value('emptyUser', {
+      id: 0,
       name: 'Usuario Anónimo',
-      pic: 'img/svg/account-circle_wht.svg'
+      type: 2,
+      email: 'user@mail.com',
+      pic: 'img/svg/account-circle_wht.svg',
+      logged: false
     })
-    .factory('gUser', function($rootScope, $http) {
-      var logged = false,
-          _authResult = null;
-      return {
-        init: function() {
-          $rootScope.$on('event:google-plus-signin-success', function (event, authResult) {
-            if(authResult && authResult.status.signed_in) {
-              console.log(event, authResult);
-              logged = true;
-              _authResult = authResult;
-            }
-          });
-          $rootScope.$on('event:google-plus-signin-failure', function (event, authResult) {
-            // Auth failure or signout detected
-            console.log(event, authResult);
-          });
-        },
-        login: function() {
-
-        },
-        logout: function() {
-
-        },
-        disconnect: function() {
-          if(logged) {
-            $timeout(function() {
-              var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' +
-                  $scope.authResult.access_token,
-                  call = $http({
-                    method: 'jsonp',
-                    url: revokeUrl
-                  });
-              call.success(function(response) {
-                logged = false;
-              }).error(function(error) {
-                console.log(error);
-              });
-            });
+    .value('profiles', {
+      "admin": {
+        id: 1,
+        name: "admin"
+      },
+      "general": {
+        id: 2,
+        name: "general"
+      },
+      "publisher": {
+        id: 3,
+        name: "publisher"
+      }
+    })
+    .service('checkLogged', function($rootScope, $state) {
+      // TODO: cambiar a chequeo en el server / solucion hibrida
+      return function(callback) {
+        if(!$rootScope.persona.logged) {
+          $state.go('home');
+        } else {
+          if(angular.isFunction(callback)) {
+            callback.call();
           }
-        },
-        getProfileData: function() {
-
-        },
-        getProfilePicture: function() {
-
-        },
-        logged: function() {
-          return logged;
         }
       };
     })
     .factory('fbUser', function($q, $rootScope, Facebook, $timeout, emptyUser) {
       var logged = false,
+          fbLoginResponse = null,
           fbData = null,
           fbPicture = null,
+          fbPermissions = null,
           _scope = null,
           loadFBData = function(iface) {
             $timeout(function() {
@@ -75,6 +56,9 @@ angular.module('users', ['facebook'])
               iface.getProfilePicture().then(function(pic) {
                 _scope.$emit('user:fbPic', pic);
               });
+              iface.getProfilePermissions().then(function(permissions) {
+                _scope.$emit('user:fbPermissions', permissions);
+              });
               _scope.$emit('user:fbLogged', true);
             });
           },
@@ -82,7 +66,6 @@ angular.module('users', ['facebook'])
             init: function(scope) {
               _scope = scope;
               $rootScope.$on('Facebook:statusChange', function(ev, data) {
-                //console.log('Status: ', data);
                 if (data.status == 'connected') {
                   loadFBData(f);
                 } else {
@@ -94,14 +77,24 @@ angular.module('users', ['facebook'])
               });
             },
             login: function() {
+              var defer = $q.defer();
               if(!logged) {
-                Facebook.login(function(response) {
-                  if (response.status == 'connected') {
-                    logged = true;
-                    loadFBData(f);
-                  }
-                });
+                try {
+                  Facebook.login(function(response) {
+                    if (response.status == 'connected') {
+                      logged = true;
+                      loadFBData(f);
+                      fbLoginResponse = response;
+                      defer.resolve(true);
+                    }
+                  });
+                } catch(e) {
+                  defer.reject(e);
+                }
+              } else {
+                defer.resolve(true);
               }
+              return defer.promise;
             },
             logout: function() {
               if(logged) {
@@ -110,7 +103,6 @@ angular.module('users', ['facebook'])
                     logged = false;
                     _scope.$emit('user:fbLogout', {
                       fbData: null,
-                      fbLogged: false,
                       pic: 'img/svg/account-circle_wht.svg',
                       name: 'Usuario Anónimo',
                       logged: false
@@ -135,36 +127,166 @@ angular.module('users', ['facebook'])
               });
               return defer.promise;
             },
+            getProfilePermissions: function() {
+              var defer = $q.defer();
+              Facebook.api('/me/permissions', function(response) {
+                fbPermissions = response;
+                defer.resolve(fbPermissions);
+              });
+              return defer.promise;
+            },
             logged: function() {
               return logged;
             }
           };
       return f;
   })
-  .factory('user', function(emptyUser, fbUser) {
-      var logged = false,
-          _user = angular.extend({}, emptyUser),
-          _fbUser = fbUser;
+    .factory('userAPI', function($q, $http) {
+      var encryptPassword = function(password) {
+            // codificacion previa del lado del cliente
+            return password;
+          };
+      return {
+        login: function(loginData) {
+          var defer = $q.defer();
+          $http({
+            url: 'backend/user/UserAPI.php',
+            method: 'get',
+            params: {
+              method: 'login',
+              email: loginData.email,
+              password: encryptPassword(loginData.password)
+            }
+          })
+          .success(function(response) {
+            if(response.logged) {
+              defer.resolve(response);
+            } else {
+              defer.resolve(false);
+            }
+          })
+          .error(function(error) {
+            defer.resolve(false);
+          });
+          return defer.promise;
+        },
+        logout: function(loginData) {
+          var defer = $q.defer();
+          $http({
+            url: 'backend/user/UserAPI.php',
+            method: 'get',
+            params: {
+              method: 'logout'
+            }
+          })
+          .success(function(response) {
+            if(response.status === 'logout') {
+              defer.resolve(response);
+            } else {
+              defer.resolve(false);
+            }
+          })
+          .error(function(error) {
+            defer.resolve(false);
+          });
+          return defer.promise;
+        },
+        checkServerLogged: function() {
+          var defer = $q.defer();
+          $http({
+            url: 'backend/user/UserAPI.php',
+            method: 'get',
+            params: {
+              method: 'check'
+            }
+          })
+          .success(function(response) {
+            if(response.logged) {
+              defer.resolve(response);
+            } else {
+              defer.resolve(false);
+            }
+          })
+          .error(function(error) {
+            defer.resolve(false);
+          });
+          return defer.promise;
+        }
+      }
+    })
+    .factory('user', function(emptyUser, fbUser, profiles, userAPI, checkLogged) {
+      var _scope = null,
+          _profile = {
+            user: angular.extend({}, emptyUser),
+            fbUser: fbUser,
+            email: "",
+            password: "",
+            type: profiles.simple
+          };
+
       return {
         init: function(scope) {
-          _fbUser.init(scope);
+          _scope = scope;
+          _profile.fbUser.init(_scope);
+          userAPI.checkServerLogged().then(function(user) {
+            if(user) {
+              _profile.user = angular.extend(_profile.user, user);
+              _scope.$emit('user:login', {
+                fbData: null,
+                pic: 'img/svg/account-circle_wht.svg',
+                name: _profile.user.name,
+                email: _profile.user.email,
+                logged: true
+              });
+              _scope.$emit('user:logged', user.logged);
+            }
+          });
         },
         login: function(loginData) {
-          _fbUser.login()
+          if(loginData.withFacebook){
+            _profile.fbUser.login().then(function(status) {
+
+            });
+          } else {
+            userAPI.login(loginData).then(function(user) {
+              _profile.user = angular.extend(_profile.user, user);
+              _scope.$emit('user:login', {
+                fbData: null,
+                pic: 'img/svg/account-circle_wht.svg',
+                name: _profile.user.name,
+                email: _profile.user.email,
+                logged: true
+              });
+              _scope.$emit('user:logged', user.logged);
+            });
+          }
         },
         logout: function() {
-          if(_fbUser.logged()) {
-            _fbUser.logout();
+          if(_profile.fbUser.logged()) {
+            _profile.fbUser.logout();
+          } else {
+            userAPI.logout().then(function(status) {
+              if(!status.logged) {
+                _logged = false;
+                _profile.user = angular.extend({}, emptyUser);
+                _scope.$emit('user:logout', {
+                  fbData: null,
+                  pic: 'img/svg/account-circle_wht.svg',
+                  name: 'Usuario Anónimo',
+                  email: '',
+                  password: '',
+                  logged: false
+                });
+              }
+            });
           }
         },
         getProfileData: function() {
-          return _fbUser.logged() ? _fbUser.getProfileData() : _user;
+          return _profile.fbUser.logged() ? _profile.fbUser.getProfileData() : _profile.user;
         },
         getProfilePicture: function() {
-          return _fbUser.logged() ? _fbUser.getProfilePicture() : _user.pic;
+          return _profile.fbUser.logged() ? _profile.fbUser.getProfilePicture() : _profile.user.pic;
         },
-        logged: function() {
-          return logged;
-        }
+        checkLogged: checkLogged
       };
-  });
+    });

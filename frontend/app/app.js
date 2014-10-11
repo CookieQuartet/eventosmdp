@@ -6,7 +6,7 @@ angular.module('app', ['users', 'view', 'ui.router'])
         { name: 'Favoritos', icon: "img/svg/heart.svg", action: 'state.go("favorites")' },
         { name: 'Mi perfil', icon: "img/svg/account.svg", action: 'state.go("profile")' },
         { name: 'Mis Alertas', icon: "img/svg/bell.svg", action: 'state.go("alerts")' },
-        { name: 'Cerrar sesión', icon: "img/svg/exit-to-app.svg", action: 'fbUser.logout(); state.go("home")' }
+        { name: 'Cerrar sesión', icon: "img/svg/exit-to-app.svg", action: 'user.logout(); state.go("home")' }
       ]
     })
     .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {

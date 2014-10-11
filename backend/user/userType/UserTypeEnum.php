@@ -6,7 +6,7 @@
  * Time: 07:13 PM
  */
 
-class UserTypeEnum extends SplEnum {
+class UserTypeEnum {
 
     // TODO: Poner los ID correspondientes de la base.
     const UserAdminType = 1;

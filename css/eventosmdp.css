@@ -63,17 +63,14 @@
 }
 
 .eventosmdp-login-inputs {
-    width: 200px;
+    width: 100%;
+    padding: 0 10% 0 10%;
 }
 
-.eventosmdp-login-inputs #email {
-    width: 180px;
-}
-
+.eventosmdp-login-inputs #email,
 .eventosmdp-login-inputs #password {
-    width: 180px;
+    width: 100%;
 }
-
 
 .eventosmdp-login-inputs material-input-group {
     margin: 2px;
@@ -148,6 +145,9 @@
 
 /**-------------------------------------------------------------------**/
 
+.eventosmdp-login-email {
+    width:100%;
+}
 
 .eventosmdp-login {
     width: 100%;

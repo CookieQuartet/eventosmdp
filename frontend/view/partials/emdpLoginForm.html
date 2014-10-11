@@ -9,48 +9,52 @@
     </material-tabs>
     <div class="animate-switch-container" data-ng-switch on="data.selectedIndex">
         <div class="animate-switch tab1" data-ng-switch-when="0" layout="vertical" layout-align="center center">
-            <section class="eventosmdp-login-inputs" data-ng-show="!(persona.logged || persona.fbLogged)">
-                <emdp-material-input
-                    layout-align="center"
-                    fid="email"
-                    label="Email"
-                    type="email"
-                    model="{{ persona.email }}"
-                    class="material-input-group-theme-light-blue material-input-group-inverted">
-                </emdp-material-input>
-                <emdp-material-input
-                    layout-align="center"
-                    fid="password"
-                    label="Contraseña"
-                    type="password"
-                    model="{{ persona.password }}"
-                    class="material-input-group-theme-light-blue material-input-group-inverted">
-                </emdp-material-input>
-            </section>
-            <section class="eventosmdp-login">
-                <section
-                    class="eventosmdp-login-button"
-                    layout="vertical"
-                    layout-sm="horizontal"
-                    layout-align="center center"
-                    data-ng-show="!(persona.logged || persona.fbLogged)">
-                    <material-button class="material-button-raised material-button-colored">Entrar</material-button>
-                    <material-button class="material-button-raised material-button-colored material-theme-green">Nuevo</material-button>
+            <section class="eventosmdp-login-email"
+                     data-ng-show="!persona.logged">
+                <section class="eventosmdp-login-inputs">
+                    <emdp-material-input
+                        layout-align="center"
+                        fid="email"
+                        label="Email"
+                        type="email"
+                        value="persona.email"
+                        class="material-input-group-theme-light-blue material-input-group-inverted">
+                    </emdp-material-input>
+                    <emdp-material-input
+                        layout-align="center"
+                        fid="password"
+                        label="Contraseña"
+                        type="password"
+                        value="persona.password"
+                        class="material-input-group-theme-light-blue material-input-group-inverted">
+                    </emdp-material-input>
+                </section>
+                <section class="eventosmdp-login">
+                    <section
+                        class="eventosmdp-login-button"
+                        layout="vertical"
+                        layout-sm="horizontal"
+                        layout-align="center center">
+                        <material-button
+                            class="material-button-raised material-button-colored"
+                            data-ng-click="persona.user.login({ withFacebook: false, email: persona.email, password: persona.password })">Entrar</material-button>
+                        <material-button
+                            class="material-button-raised material-button-colored material-theme-green"
+                            data-ng-click="persona.user.register()">Nuevo</material-button>
+                    </section>
                 </section>
             </section>
         </div>
         <div class="animate-switch tab2" data-ng-switch-when="1">
-            <section class="eventosmdp-login">
+            <section class="eventosmdp-login" data-ng-show="!persona.logged">
                 <section
                     class="eventosmdp-login-button"
                     layout="vertical"
                     layout-sm="horizontal"
-                    layout-align="center center"
-                    data-ng-show="!(persona.logged || persona.fbLogged)">
+                    layout-align="center center">
                     <material-button
                         class="material-button-raised material-button-colored"
-                        data-ng-show="!persona.fbLogged"
-                        data-ng-click="persona.fbUser.login()">
+                        data-ng-click="persona.user.login({ withFacebook: true})">
                         Entrá con Facebook
                     </material-button>
                 </section>

@@ -1,4 +1,5 @@
-<material-input-group>
+<material-input-group ng-disabled="isDisabled">
     <label for="{{ fid }}">{{ label }}</label>
-    <material-input id="{{fid}}" type="{{ type }}" ng-model="model"></material-input>
+    <material-input id="{{fid}}" type="{{ type }}" ng-model="value">
+    </material-input>
 </material-input-group>

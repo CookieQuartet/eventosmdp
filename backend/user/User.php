@@ -5,7 +5,7 @@
  * Date: 04/10/2014
  * Time: 05:26 PM
  */
-include_once('UserQueries.php');
+include_once('./UserQueries.php');
 
 
 abstract class User {
@@ -16,7 +16,6 @@ abstract class User {
     protected $userType;
     private $active; //Si esta en True el usuario esta habilitado
     private $fcbkToken;
-    private $loggedIn;
     private static $userQueries;
 
     function __construct($email, $fcbkToken, $id,$name, $password, $active)
@@ -27,15 +26,12 @@ abstract class User {
         $this->name = $name;
         $this->password = $password;
         $this->active = $active;
-        $this->loggedIn = false;
     }
 
     public static function getUserQueries() {
-
         if (!isset(self::$userQueries)) {
             self::$userQueries = new UserQueries();
         }
-
         return self::$userQueries;
     }
 
@@ -44,6 +40,16 @@ abstract class User {
         return $this->userType;
     }
 
+    public function getUserData()
+    {
+        return array(
+            "id" => $this->id,
+            "name" => $this->name,
+            "type" => $this->userType,
+            "email" => $this->email,
+            "logged" => true
+        );
+    }
 
     /**
      * @return mixed

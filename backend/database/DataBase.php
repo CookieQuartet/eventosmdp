@@ -13,11 +13,13 @@ class DataBase {
 
     private function openConnection() //Obtener la BD
     {
-
         try {
-            $this->$connection =mysqli_connect(host,user,password,database); //Host, usuario, password, base de datos
+            $this->connection = new mysqli(host, user, password, database);
+            if ($this->connection->connect_errno) {
+                printf("Falló la conexión: %s\n", $this->connection->connect_error);
+                exit();
+            }
             return true;
-
         } catch (Exception $e) {
             return ($e);
         }
@@ -26,10 +28,8 @@ class DataBase {
     private function closeConnection()
     {
         try {
-
-            mysqli_close($this->$connection);
+            $this->connection->close();
             return true;
-
         } catch (Exception $e) {
             return ($e);
         }
@@ -38,83 +38,57 @@ class DataBase {
     public function query($query)
     {
         $query = str_replace("}", "", $query);
-
-        try
-        {
-            if(empty($this->connection))
-            {
+        try {
+            if(empty($this->connection)) {
                 $this->openConnection();
-
-                $queryResult = mysqli_query($this->connection, $query);
-
+                $queryResult = $this->connection->query($query);
                 $this->closeConnection();
+            } else {
+                $queryResult = $this->connection->query($query);
             }
-            else
-            {
-                $queryResult = mysqli_query($this->connection, $query);
-            }
-
             return $queryResult;
-        }
-        catch(exception $e)
-        {
+        } catch(exception $e) {
             return $e;
         }
     }
 
     public function hasRows($result)
     {
-        try
-        {
-            if(mysqli_num_rows($result)>0)
-            {
+        try {
+            if($result->num_rows > 0) {
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
-        }
-        catch(exception $e)
-        {
+        } catch(exception $e) {
             return $e;
         }
     }
 
     public function countRows($result)
     {
-        try
-        {
-            return mysqli_num_rows($result);
-        }
-        catch(exception $e)
-        {
+        try {
+            return $result->num_rows;
+        } catch(exception $e) {
             return $e;
         }
     }
 
     public function fetchAssoc($result)
     {
-        try
-        {
+        try {
             return mysqli_fetch_assoc($result);
-        }
-        catch(exception $e)
-        {
+        } catch(exception $e) {
             return $e;
         }
     }
 
     public function fetchArray($result)
     {
-        try
-        {
+        try {
             return mysqli_fetch_array($result);
-        }
-        catch(exception $e)
-        {
+        } catch(exception $e) {
             return $e;
         }
     }
-
-} 
+}
