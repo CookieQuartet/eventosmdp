@@ -65,6 +65,9 @@ angular.module('users', ['facebook'])
               iface.getProfileData().then(function(data) {
                 _scope.$emit('user:fbData', data);
                 _scope.$emit('user:welcome', data);
+                _scope.$emit('user:login', {
+                  type: 2
+                });
               });
               iface.getProfilePicture().then(function(pic) {
                 _scope.$emit('user:fbPic', pic);
@@ -98,14 +101,14 @@ angular.module('users', ['facebook'])
                       logged = true;
                       loadFBData(f);
                       fbLoginResponse = response;
-                      defer.resolve(true);
+                      defer.resolve(fbLoginResponse);
                     }
                   });
                 } catch(e) {
                   defer.reject(e);
                 }
               } else {
-                defer.resolve(true);
+                defer.resolve(fbLoginResponse);
               }
               return defer.promise;
             },
@@ -264,6 +267,7 @@ angular.module('users', ['facebook'])
                 pic: 'img/svg/account-circle_wht.svg',
                 name: _profile.user.name.length > 0 ? _profile.user.name : _profile.user.email,
                 email: _profile.user.email,
+                type: _profile.user.type,
                 logged: true
               });
               _scope.$emit('user:logged', user.logged);

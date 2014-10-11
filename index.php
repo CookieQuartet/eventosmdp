@@ -32,7 +32,7 @@
                         </section>
                         <section class="eventosmdp-logged" ng-show="persona.logged">
                             <emdp-action
-                                ng-repeat="action in actions.list"
+                                ng-repeat="action in actions.list | filter:persona.user.type"
                                 name="{{ action.name }}"
                                 action="{{ action.action }}"
                                 icon="{{ action.icon }}"></emdp-action>

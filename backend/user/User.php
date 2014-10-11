@@ -15,13 +15,11 @@ abstract class User {
     private $password;
     protected $userType;
     private $active; //Si esta en True el usuario esta habilitado
-    private $fcbkToken;
     private static $userQueries;
 
-    function __construct($email, $fcbkToken, $id,$name, $password, $active)
+    function __construct($email, $id,$name, $password, $active)
     {
         $this->email = $email;
-        $this->fcbkToken = $fcbkToken;
         $this->id = $id;
         $this->name = $name;
         $this->password = $password;
@@ -76,14 +74,6 @@ abstract class User {
     }
 
     /**
-     * @param mixed $fcbkToken
-     */
-    public function setFcbkToken($fcbkToken)
-    {
-        $this->fcbkToken = $fcbkToken;
-    }
-
-    /**
      * @return mixed
      */
     public function getId()
@@ -126,7 +116,6 @@ abstract class User {
     private function clearUser()
     {
         $this->email = '';
-        $this->fcbkToken = '';
         $this->id = '';
         $this->name = '';
         $this->password = '';

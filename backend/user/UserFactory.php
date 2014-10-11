@@ -56,8 +56,14 @@ class UserFactory {
     {
         $query_insert = "insert into `USER` (email, name, password, active, id_user_type) values ('$email', '$email', '$password', $active, $id_user_type)";
         $query = "select * from `USER` WHERE email = '$email'";
-        self::getDatabase()->query($query_insert);
-        return self::getDatabase()->query($query);
+
+        $insert = self::getDatabase()->query($query_insert);
+        if($insert) {
+            $select = self::getDatabase()->query($query);
+            return $select;
+        } else {
+            return false;
+        }
     }
 
     public static function encryptPassword($password)
@@ -74,20 +80,19 @@ class UserFactory {
             $encryptedPassword = UserFactory::encryptPassword($password);
             if($encryptedPassword == $userData['password']) {
                 $email = $userData['email'];
-                $fcbkToken = $userData['fcbk_token'];
                 $id = $userData['id'];
                 $name = $userData['name'];
                 $password = $userData['password'];
                 $active = $userData['active'];
                 switch($userData['id_user_type']) {
                     case UserTypeEnum::UserAdminType:
-                        UserFactory::$user = new UserAdmin($email, $fcbkToken, $id, $name, $password, $active);
+                        UserFactory::$user = new UserAdmin($email, $id, $name, $password, $active);
                         break;
                     case UserTypeEnum::UserPublisherType:
-                        UserFactory::$user = new UserPublisher($email, $fcbkToken, $id, $name, $password, $active);
+                        UserFactory::$user = new UserPublisher($email, $id, $name, $password, $active);
                         break;
                     case UserTypeEnum::UserGeneralType:
-                        UserFactory::$user = new UserGeneral($email, $fcbkToken, $id, $name, $password, $active);
+                        UserFactory::$user = new UserGeneral($email, $id, $name, $password, $active);
                         break;
                 }
                 UserFactory::$loggedIn = true;
@@ -108,7 +113,6 @@ class UserFactory {
         if(!$userData) {
             $encryptedPassword = UserFactory::encryptPassword($password);
             $sql = $this->addUser($email, $encryptedPassword, 1, $id_user_type);
-
             if(self::getDatabase()->hasRows($sql)) {
                 return $this->login($email, $password);
             }
