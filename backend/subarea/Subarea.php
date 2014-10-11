@@ -5,14 +5,13 @@
  * Date: 10/5/14
  * Time: 16:14
  */
-include('AreaQueries.php');
+include('SubareaQueries.php');
 
-class Area {
+class Subarea {
     private $id;
     private $idApi;
     private $description;
-    //Subarea extiende de Area? Area contiene un ArrayList de Subareas?
-    private static $areaQueries;
+    private static $subareaQueries;
 
     function __construct($id, $description, $idApi)
     {
@@ -21,12 +20,12 @@ class Area {
         $this->idApi = $idApi;
     }
 
-    public static function getAreaQueries() {
+    public static function getSubareaQueries() {
 
-        if (!isset(self::$areaQueries)) {
-            self::$areaQueries = new AreaQueries();
+        if (!isset(self::$subareaQueries)) {
+            self::$subareaQueries = new AreaQueries();
         }
 
-        return self::$areaQueries;
+        return self::$subareaQueries;
     }
 } 

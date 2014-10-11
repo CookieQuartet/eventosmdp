@@ -7,7 +7,7 @@
  */
 include_once('ApiConnectConstants.php');
 include_once('ApiRequest.php');
-include_once('../area/AreaQueries.php');
+include_once('../area/SubareaQueries.php');
 include_once('../event/EventQueries.php');
 
 class UpdateModel {
