@@ -23,12 +23,14 @@ class UpdateModel {
     public function updateModel()
     {
         $this->updateAreas();
-        // this.updateEvents();
+        echo("----------------------");
+        $this->updateEvents();
 
     }
 
     public function updateEvents()
     {
+        $jsonEventos= $this->apiRequest->getEventsByAreaJSON(2,2);
 
     }
 
@@ -36,7 +38,9 @@ class UpdateModel {
     public function updateAreas()
     {
 
-        $jsonAreas= $this->apiRequest->getAreas();
+        $jsonAreas= $this->apiRequest->getAreasJSON();
+
+
 
         /*Obtener las areas de la base nuestra e ir recorriendo uno a uno de los resultados obtenidos de la API, si no esta lo agrego,
         y si esta (con el id que devuelve la API), implemento un compareTo y si son

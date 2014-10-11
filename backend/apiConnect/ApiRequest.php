@@ -9,7 +9,7 @@ include_once('ApiConnectConstants.php');
 
 class ApiRequest {
 
-    public function getAreas()
+    public function getAreasJSON()
     {
         $url = consultaAreasUrl;
         $data = array( "Token" => defaultToken);
@@ -27,9 +27,9 @@ class ApiRequest {
         $result = curl_exec($request);
         $aresult = json_decode($result);
 
-        if ($aresult->Estado=="Ok")
+        if ($aresult->Estado=="Ok" || $aresult->Estado=="Advertencia")
         {
-            echo json_encode($aresult->Areas);
+            echo json_encode($aresult);
             return json_encode($aresult->Areas);
         }
         else
@@ -38,10 +38,10 @@ class ApiRequest {
         }
     }
 
-    public function getEventsByArea($idArea)
+    public function getEventsByAreaJSON($idArea, $idSubArea)
     {
         $url = consultaEventosUrl;
-        $data = array( "Token" => defaultToken, "IdArea" => $idArea);
+        $data = array( "Token" => defaultToken, "IdArea" => $idArea, "IdSubarea" => $idSubArea, "Palabra" => null, "FechaDesde" => null, "FechaHasta" => null);
         $data_string = json_encode($data);
 
         $request = curl_init($url);
@@ -56,8 +56,9 @@ class ApiRequest {
         $result = curl_exec($request);
         $aresult = json_decode($result);
 
-        if ($aresult->Estado=="Ok")
+        if ($aresult->Estado=="Ok" || $aresult->Estado=="Advertencia")
         {
+            echo json_encode($aresult);
             return json_encode($aresult->Eventos);
         }
         else
