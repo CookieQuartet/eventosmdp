@@ -34,22 +34,30 @@ class UserFactory {
         return self::$instance;
     }
 
+    public static function getDatabase() {
+        if(!self::$dataBase) {
+            self::$dataBase = new DataBase();
+        }
+        return self::$dataBase;
+    }
+
     private function getUserByEmail($email)
     {
         $query = "select * from `USER` WHERE email = '$email'";
-        //var_dump($query);
-        $sql = self::$dataBase->query($query);
+        $sql = self::getDatabase()->query($query);
 
-        if(self::$dataBase->hasRows($sql)) {
-            return self::$dataBase->fetchAssoc($sql);
+        if(self::getDatabase()->hasRows($sql)) {
+            return self::getDatabase()->fetchAssoc($sql);
         }
         return false;
     }
 
-    private function addUser($email, $fcbkToken, $id, $name, $password, $active, $id_user_type)
+    private function addUser($email, $password, $active, $id_user_type)
     {
-        $sql = $this->dataBase->query("insert into USER (email, fcbk_token, id, name, password, active, id_user_type) values ('$email', '$fcbkToken', $id, '$name', '$password', $active, $id_user_type)");
-        return $this->getUserByEmail($email);
+        $query_insert = "insert into `USER` (email, name, password, active, id_user_type) values ('$email', '$email', '$password', $active, $id_user_type)";
+        $query = "select * from `USER` WHERE email = '$email'";
+        self::getDatabase()->query($query_insert);
+        return self::getDatabase()->query($query);
     }
 
     public static function encryptPassword($password)
@@ -94,35 +102,21 @@ class UserFactory {
         }
     }
 
-    public function register($email, $fcbkToken, $id, $name, $password, $active, $id_user_type)
+    public function register($email, $password, $id_user_type)
     {
         $userData = $this->getUserByEmail($email);
         if(!$userData) {
             $encryptedPassword = UserFactory::encryptPassword($password);
-            return $this->addUser($email, $fcbkToken, $id, $name, $encryptedPassword, $active, $id_user_type);
+            $sql = $this->addUser($email, $encryptedPassword, 1, $id_user_type);
+
+            if(self::getDatabase()->hasRows($sql)) {
+                return $this->login($email, $password);
+            }
+            return false;
+
         } else {
             // ya se encuentra un usuario con el mail ingresado
             return false;
-        }
-    }
-
-    public static function logout()
-    {
-        self::$loggedIn = false;
-        self::$user = null;
-    }
-
-    public static function loggedIn()
-    {
-        return self::$loggedIn;
-    }
-
-    public static function user()
-    {
-        if(self::$loggedIn) {
-            return self::$user;
-        } else {
-            return null;
         }
     }
 } 

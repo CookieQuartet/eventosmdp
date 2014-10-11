@@ -28,8 +28,8 @@ angular.module('users', ['facebook'])
         name: "publisher"
       }
     })
-    .service('checkLogged', function($rootScope, $state) {
-      // TODO: cambiar a chequeo en el server / solucion hibrida
+    .service('checkLogged', function($rootScope, $state, userAPI) {
+      /*
       return function(callback) {
         if(!$rootScope.persona.logged) {
           $state.go('home');
@@ -38,6 +38,18 @@ angular.module('users', ['facebook'])
             callback.call();
           }
         }
+      };
+      */
+      return function(callback) {
+        userAPI.checkServerLogged().then(function(response) {
+          if(!(response.logged || $rootScope.persona.logged)) {
+            $state.go('home');
+          } else {
+            if(angular.isFunction(callback)) {
+              callback.call();
+            }
+          }
+        });
       };
     })
     .factory('fbUser', function($q, $rootScope, Facebook, $timeout, emptyUser) {
@@ -147,6 +159,25 @@ angular.module('users', ['facebook'])
             return password;
           };
       return {
+        register: function(registerData) {
+          var defer = $q.defer();
+          $http({
+            url: 'backend/user/UserAPI.php',
+            method: 'get',
+            params: {
+              method: 'register',
+              email: registerData.email,
+              password: encryptPassword(registerData.password)
+            }
+          })
+          .success(function(response) {
+            defer.resolve(response);
+          })
+          .error(function(error) {
+            defer.resolve(error);
+          });
+          return defer.promise;
+        },
         login: function(loginData) {
           var defer = $q.defer();
           $http({
@@ -159,14 +190,10 @@ angular.module('users', ['facebook'])
             }
           })
           .success(function(response) {
-            if(response.logged) {
-              defer.resolve(response);
-            } else {
-              defer.resolve(false);
-            }
+            defer.resolve(response);
           })
           .error(function(error) {
-            defer.resolve(false);
+            defer.resolve(error);
           });
           return defer.promise;
         },
@@ -221,7 +248,7 @@ angular.module('users', ['facebook'])
             fbUser: fbUser,
             email: "",
             password: "",
-            type: profiles.simple
+            type: profiles.general.id
           };
 
       return {
@@ -234,7 +261,7 @@ angular.module('users', ['facebook'])
               _scope.$emit('user:login', {
                 fbData: null,
                 pic: 'img/svg/account-circle_wht.svg',
-                name: _profile.user.name,
+                name: _profile.user.name.length > 0 ? _profile.user.name : _profile.user.email,
                 email: _profile.user.email,
                 logged: true
               });
@@ -249,15 +276,22 @@ angular.module('users', ['facebook'])
             });
           } else {
             userAPI.login(loginData).then(function(user) {
-              _profile.user = angular.extend(_profile.user, user);
-              _scope.$emit('user:login', {
-                fbData: null,
-                pic: 'img/svg/account-circle_wht.svg',
-                name: _profile.user.name,
-                email: _profile.user.email,
-                logged: true
-              });
-              _scope.$emit('user:logged', user.logged);
+              if(typeof user.error !== 'undefined') {
+                _scope.$emit('user:loginError', user);
+              } else {
+                _profile.user = angular.extend(_profile.user, user);
+                _scope.$emit('user:login', {
+                  fbData: null,
+                  pic: 'img/svg/account-circle_wht.svg',
+                  name: _profile.user.name,
+                  email: _profile.user.email,
+                  type: _profile.user.type,
+                  logged: true
+                });
+                _scope.$emit('user:logged', user.logged);
+              }
+            }, function(error) {
+              _scope.$emit('user:loginError', error);
             });
           }
         },
@@ -279,6 +313,30 @@ angular.module('users', ['facebook'])
                 });
               }
             });
+          }
+        },
+        register: function(registerData) {
+          if(registerData.email.length > 0 && registerData.password.length > 0) {
+            userAPI.register(registerData).then(function(user) {
+              if(typeof user.error !== 'undefined') {
+                _scope.$emit('user:loginError', user);
+              } else {
+                _profile.user = angular.extend(_profile.user, user);
+                _scope.$emit('user:login', {
+                  fbData: null,
+                  pic: 'img/svg/account-circle_wht.svg',
+                  name: _profile.user.name,
+                  email: _profile.user.email,
+                  type: _profile.user.type,
+                  logged: true
+                });
+                _scope.$emit('user:logged', user.logged);
+              }
+            }, function(error) {
+              _scope.$emit('user:loginError', error);
+            });
+          } else {
+            _scope.$emit('user:loginError', { error: "Ingresá un email y password!" });
           }
         },
         getProfileData: function() {

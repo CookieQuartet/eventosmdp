@@ -40,7 +40,7 @@
                             data-ng-click="persona.user.login({ withFacebook: false, email: persona.email, password: persona.password })">Entrar</material-button>
                         <material-button
                             class="material-button-raised material-button-colored material-theme-green"
-                            data-ng-click="persona.user.register()">Nuevo</material-button>
+                            data-ng-click="persona.user.register({ email: persona.email, password: persona.password })">Nuevo</material-button>
                     </section>
                 </section>
             </section>

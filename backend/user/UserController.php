@@ -16,25 +16,32 @@ class UserController {
             $return = '{ "error": "No se envió un método" }';
         } else {
             switch($_GET['method']) {
+                case 'register':
+                    $_SESSION["user"] = UserFactory::getInstance()->register($_GET['email'], $_GET['password'], 2);
+                    if($_SESSION["user"]) {
+                        $return = json_encode($_SESSION["user"]->getUserData());
+                    } else {
+                        $return = '{ "logged": false, "error": "Ya existe un usuario registrado con ese email" }';
+                    }
+                    break;
                 case 'login':
                     $_SESSION["user"] = UserFactory::getInstance()->login($_GET['email'], $_GET['password']);
                     if($_SESSION["user"]) {
                         $return = json_encode($_SESSION["user"]->getUserData());
                     } else {
-                        $return = '{ "error": "Error de usuario" }';
+                        $return = '{ "logged": false, "error": "Error de email / password" }';
                     }
                     break;
                 case 'check':
                     if(isset($_SESSION["user"])) {
-                        //var_dump($_SESSION["user"]);
                         $return = json_encode($_SESSION["user"]->getUserData());
                     } else {
-                        $return = '{ "id": 0 }';
+                        $return = '{ "logged": false, "error": "No se ha iniciado sesión" }';
                     }
                     break;
                 case 'logout':
                     session_destroy();
-                    $return = '{ "logged": false }';
+                    $return = '{ "logged": false, "message": "Sesión cerrada" }';
                     break;
             }
         }

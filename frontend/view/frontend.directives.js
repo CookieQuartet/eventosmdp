@@ -35,7 +35,7 @@
       return {
         restrict: 'E',
         replace: false,
-        controller: function($scope, user, fbUser, $state) {
+        controller: function($scope, user, $state) {
           $scope.user = user;
           $scope.state = $state;
           $scope.call = function() {
@@ -54,12 +54,17 @@
       return {
         restrict: 'E',
         replace: true,
-        controller: function($scope, $timeout, $materialSidenav, $rootScope, user, fbUser, emdpActions, $state) {
+        controller: function($scope, $materialSidenav, $materialToast, $rootScope, user, emdpActions) {
+          /* event handlers para eventos del login */
           var onLoggedHandler = function(event, logged) {
                 $rootScope.persona.logged = logged;
+                $scope.toastMessage("Bienvenido, " + $rootScope.persona.name);
                 if(logged && $rootScope.lastState.length > 0 ) {
                   $state.go($rootScope.lastState);
                 }
+              },
+              onLoginError = function(event, data) {
+                $scope.toastMessage(data.error);
               },
               onLoginLogoutHandler = function(event, data) {
                 angular.extend($rootScope.persona, data);
@@ -72,6 +77,7 @@
                 $rootScope.persona.pic = data;
               };
 
+          /* definicion básica de una persona en el sistema */
           $rootScope.persona = {
             user: user,
             fbData: null,
@@ -82,14 +88,26 @@
             logged: false
           };
           $scope.persona = $rootScope.persona;
-          $scope.actions = emdpActions;
           $rootScope.persona.user.init($scope);
+
+          /* lista de acciones disponibles */
+          $scope.actions = emdpActions;
+
+
+          $scope.toastMessage = function(message) {
+            $materialToast({
+              template: '<material-toast>' + message + '</material-toast>',
+              duration: 1000,
+              position: 'bottom top left right'
+            });
+          };
 
           $scope.$on('user:fbLogged', onLoggedHandler);
           $scope.$on('user:logged', onLoggedHandler);
           $scope.$on('user:fbData', onDataHandler);
           $scope.$on('user:fbPic', onPictureHandler);
           $scope.$on('user:login', onLoginLogoutHandler);
+          $scope.$on('user:loginError', onLoginError);
           $scope.$on('user:logout', onLoginLogoutHandler);
           $scope.$on('user:fbLogout', onLoginLogoutHandler);
         },

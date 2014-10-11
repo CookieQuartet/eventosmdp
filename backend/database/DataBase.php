@@ -39,13 +39,10 @@ class DataBase {
     {
         $query = str_replace("}", "", $query);
         try {
-            if(empty($this->connection)) {
-                $this->openConnection();
-                $queryResult = $this->connection->query($query);
-                $this->closeConnection();
-            } else {
-                $queryResult = $this->connection->query($query);
-            }
+            $this->openConnection();
+            $queryResult = $this->connection->query($query);
+            $this->closeConnection();
+
             return $queryResult;
         } catch(exception $e) {
             return $e;
