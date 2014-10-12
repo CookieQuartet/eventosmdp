@@ -1,8 +1,13 @@
-<div class="emdp-event">
-    <material-card>
-        <img ng-src="{{ event.RutaImagenMiniatura }}" class="material-card-image">
+<material-whiteframe class="material-whiteframe-z1" layout layout-align="top center">
+    <div class="material-tile-left">
+        <img ng-src="{{ event.RutaImagenMiniatura }}" class="face">
+    </div>
+    <div class="material-tile-content emdp-material-whiteframe-content">
+        <h1>{{ event.NombreEvento }}</h1>
         <h2>{{ event.DescripcionEvento }}</h2>
-        <p>{{ event.DetalleTexto }}
-        </p>
-    </material-card>
-</div>
+        <br/>
+        <h3>{{ event.DetalleTexto }}</h3>
+        <p>{{ event.Lugar }}</p>
+        <p>{{ event.DireccionEvento }}</p>
+    </div>
+</material-whiteframe>

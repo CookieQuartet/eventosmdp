@@ -8,6 +8,14 @@ material-whiteframe {
     margin-left: 20px;
 }
 
+.material-tile-content.emdp-material-whiteframe-content > h1 {
+    margin-top: 0px !important;
+}
+
+.material-tile-content.emdp-material-whiteframe-content {
+    padding-top: 0px;
+}
+
 .eventosmdp-sidenav.material-content-padding {
     padding: 0;
 }

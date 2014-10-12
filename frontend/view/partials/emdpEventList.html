@@ -1,7 +1,7 @@
 
 <material-content>
     <material-list>
-        <material-whiteframe ng-repeat="event in events" class="material-whiteframe-z1" layout layout-align="top center">
+        <!--<material-whiteframe ng-repeat="event in events" class="material-whiteframe-z1" layout layout-align="top center">
             <div class="material-tile-left">
                 <img ng-src="{{ event.RutaImagenMiniatura }}" class="face">
             </div>
@@ -12,6 +12,7 @@
                 <p>{{ event.Lugar }}</p>
                 <p>{{ event.DireccionEvento }}</p>
             </div>
-        </material-whiteframe>
+        </material-whiteframe>-->
+        <emdp-event ng-repeat="event in events"></emdp-event>
     </material-list>
 </material-content>

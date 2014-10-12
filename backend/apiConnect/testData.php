@@ -7,7 +7,8 @@
         "Palabra" => null,
         //"FechaDesde" => "20141028T000000",
         //"FechaHasta" => "20141030T000000"
-
+        //"FechaDesde" => null,
+        //"FechaHasta" => null
 
         "FechaDesde" => $_GET['from'],
         "FechaHasta" => $_GET['to']
