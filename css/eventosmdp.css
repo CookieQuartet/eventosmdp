@@ -4,16 +4,20 @@ material-whiteframe {
     padding: 20px;
 }
 
+.emdp-material-tile {
+    margin:8px;
+}
+
 .emdp-material-whiteframe-content {
-    margin-left: 20px;
+    /*margin-left: 20px;*/
 }
 
 .material-tile-content.emdp-material-whiteframe-content > h1 {
-    margin-top: 0px !important;
+    /*margin-top: 0px !important;*/
 }
 
 .material-tile-content.emdp-material-whiteframe-content {
-    padding-top: 0px;
+    /*padding-top: 0px;*/
 }
 
 .eventosmdp-sidenav.material-content-padding {
@@ -203,5 +207,5 @@ material-whiteframe {
 }
 
 .eventosmdp-content {
-    height:1000px;
+   /* height:1000px;*/
 }

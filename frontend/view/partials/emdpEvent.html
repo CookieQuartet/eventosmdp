@@ -1,9 +1,10 @@
-<material-whiteframe class="material-whiteframe-z1" layout layout-align="top center">
-    <div class="material-tile-left">
+<material-whiteframe class="material-whiteframe-z1" layout="vertical" layout-sm="horizontal">
+    <div class="material-tile-left emdp-material-tile" layout-align="center center">
         <img ng-src="{{ event.RutaImagenMiniatura }}" class="face">
     </div>
     <div class="material-tile-content emdp-material-whiteframe-content">
-        <h1>{{ event.NombreEvento }}</h1>
+        <h1 block-sm hide>{{ event.NombreEvento }}</h1>
+        <h2 hide-sm>{{ event.NombreEvento }}</h2>
         <h2>{{ event.DescripcionEvento }}</h2>
         <br/>
         <h3>{{ event.DetalleTexto }}</h3>
