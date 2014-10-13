@@ -2487,7 +2487,7 @@ material-slider {
   line-height: 1em;
   padding: 16px 0px 16px 16px;
   margin: 0 0 0 0;
-  margin-right: 16px;
+  /*margin-right: 16px;*/
   background-color: white;
   position: relative; }
   .material-subheader.material-subheader-colored {
@@ -2500,7 +2500,8 @@ material-slider {
       left: 0;
       bottom: 0;
       top: 0;
-      right: -16px;
+      /*right: -16px;*/
+      right: 0;
       content: ''; }
     .material-subheader:not(.sticky-no-effect)[sticky-state="active"] {
       margin-top: -2px; }
