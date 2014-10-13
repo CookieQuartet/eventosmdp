@@ -107,7 +107,7 @@
 
 
           $scope.toastMessage = function(message) {
-            $materialToast({
+            $materialToast.show({
               template: '<material-toast>' + message + '</material-toast>',
               duration: 1000,
               position: 'bottom top left right'

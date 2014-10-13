@@ -22,7 +22,8 @@ angular.module('view', ['ngMaterial', 'users'])
     user.checkLogged(function() {
       $scope.events = [];
       eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
-        $scope.events = response.data;
+        //$scope.events = response.data;
+        $scope.days = response;
       });
     });
   })

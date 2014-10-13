@@ -16,7 +16,7 @@
                     <div>EventosMDP</div>
                 </div>
             </material-toolbar>
-            <material-content layout="horizontal" flex data-ng-cloak>
+            <material-content class="emdp-body" layout="horizontal" flex data-ng-cloak>
                 <material-sidenav class="material-sidenav-left material-whiteframe-z2" component-id="left">
                     <material-toolbar class="material-theme-light" ng-show="persona.logged">
                         <section id="eventosmdp-profile">
@@ -39,7 +39,7 @@
                         </section>
                     </material-content>
                 </material-sidenav>
-                <material-content flex class="material-content-padding emdp-cardlist-background">
+                <material-content flex class="emdp-cardlist-background">
                     <div class="eventosmdp-content"
                          layout="horizontal"
                          layout-fill
@@ -48,8 +48,10 @@
                 </material-content>
             </material-content>
         </div>
+        <script src="bower_components/lodash/dist/lodash.js"></script>
         <script src="bower_components/datejs/build/date-es-AR.js"></script>
         <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-aria/angular-aria.js"></script>
         <script src="bower_components/angular-animate/angular-animate.js"></script>
         <script src="bower_components/hammerjs/hammer.js"></script>
         <script src="bower_components/angular-material/angular-material.js"></script>

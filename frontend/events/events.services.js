@@ -5,7 +5,9 @@ angular.module('events', [])
           },
           eventsAPI = {
             getEvents: function(from, to) {
-              return $http({
+              var defer = $q.defer();
+
+              $http({
                 method:'get',
                 url: 'backend/apiConnect/testData.php',
                 params: {
@@ -13,8 +15,15 @@ angular.module('events', [])
                   to: toAPIDate(to)
                 }
               }).success(function(response) {
-                return response;
-              })
+                var days = _.chain(response).map(function(event) {
+                  event.fecha = Date.parse(event.FechaHoraInicio.split('T')[0]).toString('yyyy/MM/dd');
+                  //event.fecha = Date.parse(event.FechaHoraInicio.split('T')[0]);
+
+                  return event;
+                }).groupBy('fecha').value();
+                defer.resolve(days);
+              });
+              return defer.promise;
             }
           };
       return eventsAPI;

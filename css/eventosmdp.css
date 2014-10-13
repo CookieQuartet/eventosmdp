@@ -1,7 +1,16 @@
+html, body {
+    overflow: hidden;
+}
+
 material-whiteframe {
     background: #fff;
     margin: 20px;
     padding: 20px;
+}
+
+.emdp-body {
+    overflow: hidden;
+    height:100%;
 }
 
 .emdp-material-tile {
@@ -10,6 +19,14 @@ material-whiteframe {
 
 .emdp-cardlist-background {
     background: url(../img/patterns/6F6eAzr.png);
+    overflow: hidden;
+    height: 100%;
+}
+
+.emdp-cardlist {
+    height: 100%;
+    float: left;
+    margin-bottom: 50px;
 }
 
 .emdp-profile-background {
