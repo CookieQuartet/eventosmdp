@@ -35,11 +35,12 @@
       return {
         restrict: 'E',
         replace: false,
-        controller: function($scope, user, $state) {
+        controller: function($scope, user, $state, $materialSidenav) {
           $scope.user = user;
           $scope.state = $state;
           $scope.call = function() {
             $scope.$eval($scope.action);
+            $materialSidenav('left').toggle();
           }
         },
         scope: {

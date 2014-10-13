@@ -2,7 +2,7 @@ angular.module('view', ['ngMaterial', 'users'])
   .controller('AppController', function($scope, $timeout, $materialSidenav, $rootScope) {
     $rootScope.lastState = '';
     $scope.methods = {
-      openLeftMenu: function() {
+      toggleMenu: function() {
         $materialSidenav('left').toggle();
       }
     };

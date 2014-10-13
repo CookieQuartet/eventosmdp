@@ -8,9 +8,9 @@
     </head>
     <body data-ng-controller="AppController">
         <div layout="vertical" layout-fill>
-            <material-toolbar scroll-shrink class="material-theme-light">
+            <material-toolbar scroll-shrink class="material-theme-indigo">
                 <div class="material-toolbar-tools" layout="horizontal">
-                    <material-button ng-click="methods.openLeftMenu()" hide-md>
+                    <material-button ng-click="methods.toggleMenu()" hide-md>
                         <material-icon icon="img/svg/menu_wht.svg" style="width: 24px; height: 24px;"></material-icon>
                     </material-button>
                     <div>EventosMDP</div>
@@ -18,7 +18,7 @@
             </material-toolbar>
             <material-content layout="horizontal" flex data-ng-cloak>
                 <material-sidenav class="material-sidenav-left material-whiteframe-z2" component-id="left">
-                    <material-toolbar class="material-theme-indigo" ng-show="persona.logged">
+                    <material-toolbar class="material-theme-light" ng-show="persona.logged">
                         <section id="eventosmdp-profile">
                             <div flex="33" class="eventosmdp-profile-img">
                                 <img data-ng-src="{{ persona.pic }}" alt="Perfil" width="48" height="48"/>
@@ -39,7 +39,7 @@
                         </section>
                     </material-content>
                 </material-sidenav>
-                <material-content flex class="material-content-padding">
+                <material-content flex class="material-content-padding emdp-cardlist-background">
                     <div class="eventosmdp-content"
                          layout="horizontal"
                          layout-fill
