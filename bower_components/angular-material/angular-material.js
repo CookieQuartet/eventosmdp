@@ -944,7 +944,7 @@ function MaterialSticky($document, $materialEffects, $compile, $$rAF) {
       // be the same as their order of display.
       self.items.forEach(refreshPosition);
       self.items = self.items.sort(function(a, b) {
-        return a.top > b.top;
+        return a.top - b.top;
       });
 
       // Find which item in the list should be active, 

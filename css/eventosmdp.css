@@ -2,6 +2,19 @@ html, body {
     /*overflow: hidden;*/
 }
 
+.emdp-subheader-calendar {
+    padding:10px 0 10px 20px;
+    /*font-size: 1.1em;*/
+    text-transform: uppercase;
+}
+
+.emdp-subheader-calendar-icon {
+    width: 20px;
+    height: 20px;
+    margin-right:10px;
+    display: -webkit-inline-box;
+}
+
 material-whiteframe {
     background: #fff;
     margin: 20px;

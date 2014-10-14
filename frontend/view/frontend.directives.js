@@ -127,14 +127,36 @@
         templateUrl: 'frontend/view/partials/emdpLoginForm.html'
       };
     })
-
     .directive('emdpEvent', function() {
       return {
         restrict: 'E',
         replace: true,
+       // priority: 1020,
         controller: function($scope) {
 
         },
         templateUrl: 'frontend/view/partials/emdpEvent.html'
+      };
+    })
+    .directive('emdpEventsDay', function() {
+      return {
+        restrict: 'E',
+        replace: true,
+       // priority: 1500,
+        controller: function($scope) {
+
+        },
+        templateUrl: 'frontend/view/partials/emdpEventsInDay.html'
+      };
+    })
+    .directive('emdpEvents', function() {
+      return {
+        restrict: 'E',
+        replace: true,
+       // priority: 1000,
+        controller: function($scope) {
+
+        },
+        templateUrl: 'frontend/view/partials/emdpEvents.html'
       };
     });

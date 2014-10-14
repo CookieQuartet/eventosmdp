@@ -1,10 +1,1 @@
-<div layout="vertical" flex layout-fill>
-    <material-content style="height:1000px;">
-        <section ng-repeat="day in days">
-            <material-subheader>{{ ::day[0].fecha }}</material-subheader>
-            <material-list ng-class="{'emdp-cardlist':$last}">
-                <emdp-event ng-repeat="event in day"></emdp-event>
-            </material-list>
-        </section>
-    </material-content>
-</div>
+<emdp-events></emdp-events>

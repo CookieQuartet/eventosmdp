@@ -20,9 +20,8 @@ angular.module('view', ['ngMaterial', 'users'])
   .controller('emdpEventsController', function($rootScope, $scope, $state, user, eventsAPI) {
     $rootScope.lastState = 'events';
     user.checkLogged(function() {
-      $scope.events = [];
+      $scope.days = [];
       eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
-        //$scope.events = response.data;
         $scope.days = response;
       });
     });
