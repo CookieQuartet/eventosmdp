@@ -2,6 +2,23 @@ html, body {
     /*overflow: hidden;*/
 }
 
+.emdp-card-icon {
+    /* margin: 0 4px 0 4px; */
+    /* float: left; */
+    transform: translateX(-50%);
+    position: relative;
+    left: 50%;
+}
+
+.emdp-card-text {
+    text-align: center;
+}
+
+.emdp-card-place {
+    text-transform: uppercase;
+    color: #03a9f4;
+}
+
 .emdp-subheader-calendar {
     padding:10px 0 10px 20px;
     /*font-size: 1.1em;*/
@@ -56,11 +73,16 @@ material-whiteframe {
 
 .emdp-font-title-content {
     font-size: 1.4em;
+    text-transform: uppercase;
+    color: #03a9f4;
 }
 
 .emdp-material-title-content {
     font-weight: bold !important;
     font-size: 1.2em !important;
+    text-transform: uppercase;
+    color: #03a9f4;
+
 }
 
 .material-tile-content.emdp-material-whiteframe-content {
@@ -106,6 +128,11 @@ material-whiteframe {
     margin-left: 4px;
 }
 
+material-button:not([disabled]).eventosmdp-btn-nav:hover, material-button:not([disabled]).focus.eventosmdp-btn-nav  {
+    background-color: #4285f4;
+    color: white;
+}
+
 .eventosmdp-btn-nav > button {
     text-align: left;
 }
@@ -148,7 +175,9 @@ material-whiteframe {
 /**-------------------------------------------------------------------**/
 
 .tabsLogin {
-
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 10%;
 }
 
 .tabsLogin .tab1 {

@@ -11,7 +11,21 @@
         <br/>
         <material-divider></material-divider>
         <br/>
-        <p>{{ event.Lugar }}</p>
-        <p>{{ event.DireccionEvento }}</p>
+        <h3 class="emdp-card-place">{{ event.Lugar }}</h3>
+        <br/>
+        <div layout="horizontal" layout-sm="horizontal" layout-padding>
+            <div flex="33">
+                <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_place_48dp.png" height=28 width=28 alt=""/>
+                <p class="emdp-card-text">{{ event.DireccionEvento }}</p>
+            </div>
+            <div flex="33">
+                <img class="emdp-card-icon" src="img/system_icons/device/res/2x_web/ic_access_time_48dp.png" height=28 width=28 alt=""/>
+                <p class="emdp-card-text">{{ event.FechaHoraInicio | date:'HH:mm' }}hs</p>
+            </div>
+            <div flex="33">
+                <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_local_offer_48dp.png" height=28 width=28 alt=""/>
+                <p class="emdp-card-text">{{ event.Precio && ('$' + event.Precio) || 'Gratis' }}</p>
+            </div>
+        </div>
     </div>
 </material-whiteframe>

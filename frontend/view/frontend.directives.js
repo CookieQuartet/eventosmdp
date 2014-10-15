@@ -124,7 +124,7 @@
           $scope.$on('user:logout', onLoginLogoutHandler);
           $scope.$on('user:fbLogout', onLoginLogoutHandler);
         },
-        templateUrl: 'frontend/view/partials/emdpLoginForm.html'
+        templateUrl: 'frontend/view/partials/emdpLoginForm2.html'
       };
     })
     .directive('emdpEvent', function() {
