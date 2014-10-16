@@ -1,0 +1,6 @@
+<div class="emdp-rating">
+    <i ng-repeat="star in stars track by $index"
+       class="emdp-icon emdp-icon-medium emdp-icon-rating"
+       ng-click="select(this)"
+       ng-class="{ 'emdp-icon-rating-on': star.on }"></i>
+</div>

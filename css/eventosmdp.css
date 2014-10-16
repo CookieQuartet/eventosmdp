@@ -2,6 +2,68 @@ html, body {
     /*overflow: hidden;*/
 }
 
+.emdp-event-controls {
+    margin:10px 0 10px 0;
+}
+
+.emdp-rating {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.emdp-divider {
+    margin: 10px 0 10px 0;
+}
+
+.emdp-icon {
+    background-repeat: no-repeat;
+    background-size: 100%;
+    border-collapse: collapse;
+    color: rgb(255, 255, 255);
+    display: inline-block;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    font-style: italic;
+    line-height: 14px;
+    text-align: left;
+    vertical-align: text-top;
+}
+
+.emdp-icon-medium {
+    height: 30px;
+    width: 30px;
+}
+
+.emdp-icon-big {
+    height: 40px;
+    width: 40px;
+}
+
+.emdp-icon-favorite {
+    background-image: url(../img/system_icons/action/res/2x_web/ic_favorite_outline_48dp.png);
+}
+
+.emdp-icon-favorite:hover {
+    background-image: url(../img/system_icons/action/res/drawable-xhdpi/ic_favorite_48dp.png);
+}
+
+.emdp-icon-comment {
+    background-image: url(../img/system_icons/editor/res/2x_web/ic_mode_comment_48dp.png);
+}
+
+.emdp-icon-comment:hover {
+    background-image: url(../img/system_icons/editor/res/2x_web/ic_insert_comment_48dp.png);
+}
+
+.emdp-icon-rating {
+    background-image: url(../img/system_icons/toggle/res/drawable-xhdpi/ic_star_outline_48dp.png);
+}
+
+.emdp-icon-rating-on,
+.emdp-icon-rating:hover {
+    background-image: url(../img/system_icons/toggle/res/drawable-xhdpi/ic_star_48dp.png);
+}
+
 .emdp-card-icon {
     /* margin: 0 4px 0 4px; */
     /* float: left; */
@@ -11,6 +73,11 @@ html, body {
 }
 
 .emdp-card-text {
+    text-align: center;
+}
+
+.emdp-card-text-small {
+    font-size: smaller;
     text-align: center;
 }
 
@@ -82,7 +149,6 @@ material-whiteframe {
     font-size: 1.2em !important;
     text-transform: uppercase;
     color: #03a9f4;
-
 }
 
 .material-tile-content.emdp-material-whiteframe-content {

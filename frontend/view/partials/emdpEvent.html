@@ -1,31 +1,47 @@
-<material-whiteframe class="material-whiteframe-z1" layout="vertical" layout-sm="horizontal">
-    <div class="material-tile-left emdp-material-tile" layout-align="center center">
-        <img ng-src="{{ event.RutaImagenMiniatura }}" class="face">
-    </div>
-    <div class="material-tile-content emdp-material-whiteframe-content">
-        <h1 block-sm hide class="emdp-font-title-content">{{ event.NombreEvento }}</h1>
-        <h2 hide-sm class="emdp-material-title-content">{{ event.NombreEvento }}</h2>
-        <h3>{{ event.DescripcionEvento }}</h3>
-        <br/>
-        <p>{{ event.DetalleTexto }}</p>
-        <br/>
-        <material-divider></material-divider>
-        <br/>
-        <h3 class="emdp-card-place">{{ event.Lugar }}</h3>
-        <br/>
-        <div layout="horizontal" layout-sm="horizontal" layout-padding>
-            <div flex="33">
-                <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_place_48dp.png" height=28 width=28 alt=""/>
-                <p class="emdp-card-text">{{ event.DireccionEvento }}</p>
+<material-whiteframe class="material-whiteframe-z1" layout="vertical" layout-sm="vertical">
+
+    <div layout="vertical" layout-sm="horizontal" layout-align="start center">
+        <div class="material-tile-left emdp-material-tile" layout="horizontal" layout-align="center start">
+            <img ng-src="{{ ::event.RutaImagenMiniatura }}" class="face">
+        </div>
+        <div class="material-tile-content emdp-material-whiteframe-content">
+            <h1 block-sm hide class="emdp-font-title-content">{{ ::event.NombreEvento }}</h1>
+            <h2 hide-sm class="emdp-material-title-content">{{ ::event.NombreEvento }}</h2>
+            <div class="emdp-event-controls" layout="horizontal" layout-align="start center">
+                <div>
+                    <i class="emdp-icon emdp-icon-medium emdp-icon-favorite"></i>
+                    <i class="emdp-icon emdp-icon-medium emdp-icon-comment"></i>
+                </div>
+                <emdp-rating max="5"></emdp-rating>
             </div>
-            <div flex="33">
-                <img class="emdp-card-icon" src="img/system_icons/device/res/2x_web/ic_access_time_48dp.png" height=28 width=28 alt=""/>
-                <p class="emdp-card-text">{{ event.FechaHoraInicio | date:'HH:mm' }}hs</p>
-            </div>
-            <div flex="33">
-                <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_local_offer_48dp.png" height=28 width=28 alt=""/>
-                <p class="emdp-card-text">{{ event.Precio && ('$' + event.Precio) || 'Gratis' }}</p>
-            </div>
+            <h3>{{ ::event.DescripcionEvento }}</h3>
+            <br/>
+            <p style="text-align: justify;">{{ ::event.DetalleTexto }}</p>
+            <br/>
+            <h3 class="emdp-card-place">{{ ::event.Lugar }}</h3>
+            <br/>
         </div>
     </div>
+
+    <material-divider class="emdp-divider"></material-divider>
+
+
+    <div layout="horizontal" layout-sm="horizontal" layout-padding>
+        <div flex="33">
+            <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_place_48dp.png" height=28 width=28 alt=""/>
+            <p block-sm hide class="emdp-card-text">{{ ::event.DireccionEvento }}</p>
+            <p hide-sm class="emdp-card-text-small">{{ ::event.DireccionEvento }}</p>
+        </div>
+        <div flex="33">
+            <img class="emdp-card-icon" src="img/system_icons/device/res/2x_web/ic_access_time_48dp.png" height=28 width=28 alt=""/>
+            <p block-sm hide class="emdp-card-text">{{ ::event.FechaHoraInicio | date:'HH:mm' }}hs</p>
+            <p hide-sm class="emdp-card-text-small">{{ ::event.FechaHoraInicio | date:'HH:mm' }}hs</p>
+        </div>
+        <div flex="33">
+            <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_local_offer_48dp.png" height=28 width=28 alt=""/>
+            <p block-sm hide class="emdp-card-text">{{ ::event.Precio && ('$' + event.Precio) || 'Gratis' }}</p>
+            <p hide-sm class="emdp-card-text-small">{{ ::event.Precio && ('$' + event.Precio) || 'Gratis' }}</p>
+        </div>
+    </div>
+
 </material-whiteframe>

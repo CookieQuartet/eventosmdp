@@ -131,7 +131,6 @@
       return {
         restrict: 'E',
         replace: true,
-       // priority: 1020,
         controller: function($scope) {
 
         },
@@ -158,5 +157,37 @@
 
         },
         templateUrl: 'frontend/view/partials/emdpEvents.html'
+      };
+    })
+    .directive('emdpRating', function() {
+      return {
+        restrict: 'E',
+        replace: true,
+        scope: {
+          max: '@'
+        },
+        controller: function($scope) {
+          $scope.stars = [];
+
+          $scope.select = function(node) {
+            console.log(node);
+            var max = parseInt($scope.max) || 5;
+            for(var i=0; i < max; i++) {
+              $scope.stars[i].on = false;
+            }
+            for(var i=0; i < node.star.index; i++) {
+              $scope.stars[i].on = true;
+            }
+            node.star.on = true;
+          }
+        },
+        link: function(scope, element, attrs) {
+          var q = parseInt(attrs.max) || 5;
+          for(var i = 0; i < q; i++){
+            scope.stars.push({ index: i, on: false });
+          }
+
+        },
+        templateUrl: 'frontend/view/partials/emdpRating.html'
       };
     });
