@@ -7,6 +7,7 @@
         <div class="material-tile-content emdp-material-whiteframe-content">
             <h1 block-sm hide class="emdp-font-title-content">{{ ::event.NombreEvento }}</h1>
             <h2 hide-sm class="emdp-material-title-content">{{ ::event.NombreEvento }}</h2>
+            <material-divider class="emdp-divider"></material-divider>
             <div class="emdp-event-controls" layout="horizontal" layout-align="start center">
                 <div>
                     <i class="emdp-icon emdp-icon-medium emdp-icon-favorite"></i>
@@ -14,12 +15,12 @@
                 </div>
                 <emdp-rating max="5"></emdp-rating>
             </div>
+            <material-divider class="emdp-divider"></material-divider>
             <h3>{{ ::event.DescripcionEvento }}</h3>
             <br/>
             <p style="text-align: justify;">{{ ::event.DetalleTexto }}</p>
             <br/>
             <h3 class="emdp-card-place">{{ ::event.Lugar }}</h3>
-            <br/>
         </div>
     </div>
 
@@ -28,17 +29,17 @@
 
     <div layout="horizontal" layout-sm="horizontal" layout-padding>
         <div flex="33">
-            <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_place_48dp.png" height=28 width=28 alt=""/>
+            <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_place_48dp.png" height=40 width=40 alt=""/>
             <p block-sm hide class="emdp-card-text">{{ ::event.DireccionEvento }}</p>
             <p hide-sm class="emdp-card-text-small">{{ ::event.DireccionEvento }}</p>
         </div>
         <div flex="33">
-            <img class="emdp-card-icon" src="img/system_icons/device/res/2x_web/ic_access_time_48dp.png" height=28 width=28 alt=""/>
+            <img class="emdp-card-icon" src="img/system_icons/device/res/2x_web/ic_access_time_48dp.png" height=40 width=40 alt=""/>
             <p block-sm hide class="emdp-card-text">{{ ::event.FechaHoraInicio | date:'HH:mm' }}hs</p>
             <p hide-sm class="emdp-card-text-small">{{ ::event.FechaHoraInicio | date:'HH:mm' }}hs</p>
         </div>
         <div flex="33">
-            <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_local_offer_48dp.png" height=28 width=28 alt=""/>
+            <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_local_offer_48dp.png" height=40 width=40 alt=""/>
             <p block-sm hide class="emdp-card-text">{{ ::event.Precio && ('$' + event.Precio) || 'Gratis' }}</p>
             <p hide-sm class="emdp-card-text-small">{{ ::event.Precio && ('$' + event.Precio) || 'Gratis' }}</p>
         </div>

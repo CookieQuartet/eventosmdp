@@ -170,15 +170,16 @@
           $scope.stars = [];
 
           $scope.select = function(node) {
-            console.log(node);
             var max = parseInt($scope.max) || 5;
             for(var i=0; i < max; i++) {
               $scope.stars[i].on = false;
             }
-            for(var i=0; i < node.star.index; i++) {
-              $scope.stars[i].on = true;
+            if(node) {
+              for(var i=0; i < node.star.index; i++) {
+                $scope.stars[i].on = true;
+              }
+              node.star.on = !node.star.on;
             }
-            node.star.on = true;
           }
         },
         link: function(scope, element, attrs) {
@@ -186,7 +187,14 @@
           for(var i = 0; i < q; i++){
             scope.stars.push({ index: i, on: false });
           }
-
+          /*element
+              .on('mouseover', function(event) {
+                var node = angular.element(event.toElement).scope();
+                scope.select(node);
+              })
+              .on('mouseout', function(event) {
+                scope.select(null);
+              });*/
         },
         templateUrl: 'frontend/view/partials/emdpRating.html'
       };

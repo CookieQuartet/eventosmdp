@@ -40,7 +40,7 @@ html, body {
 }
 
 .emdp-icon-favorite {
-    background-image: url(../img/system_icons/action/res/2x_web/ic_favorite_outline_48dp.png);
+    background-image: url(../img/system_icons/action/res/drawable-xhdpi/ic_favorite_outline_48dp.png);
 }
 
 .emdp-icon-favorite:hover {
