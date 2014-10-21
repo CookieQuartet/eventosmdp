@@ -215,9 +215,9 @@ material-button:not([disabled]).eventosmdp-btn-nav:hover, material-button:not([d
     /* margin-left:10px; */
     /* margin-top: 10px; */
     font-size: 0.8em;
-    position: relative;
+    /*position: relative;
     top: 50%;
-    transform: translateX(5%) translateY(100%);
+    transform: translateX(5%) translateY(100%);*/
 }
 
 .eventosmdp-sidenav-icon {
