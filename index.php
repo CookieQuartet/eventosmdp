@@ -20,12 +20,6 @@
                 <material-sidenav class="material-sidenav-left material-whiteframe-z2" component-id="left">
                     <material-toolbar class="material-theme-light" ng-show="persona.logged">
                         <section id="eventosmdp-profile">
-                            <!--<div flex="33" class="eventosmdp-profile-img">
-                                <img data-ng-src="{{ persona.pic }}" alt="Perfil" width="48" height="48"/>
-                            </div>
-                            <div class="eventosmdp-profile-name">{{ persona.name }}</div>-->
-
-
                             <div layout="vertical" layout-sm="horizontal" layout-align="start center">
                                 <div class="material-tile-left emdp-material-tile" layout="horizontal" layout-align="center start">
                                     <img data-ng-src="{{ persona.pic }}" alt="Perfil" width="48" height="48"/>
@@ -34,10 +28,6 @@
                                     <div class="eventosmdp-profile-name">{{ persona.name }}</div>
                                 </div>
                             </div>
-
-
-
-
                         </section>
                     </material-toolbar>
                     <material-content class="eventosmdp-sidenav material-content" layout="vertical">
