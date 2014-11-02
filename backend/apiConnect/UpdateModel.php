@@ -39,6 +39,11 @@ class UpdateModel {
             echo($evento->DescripcionEvento);
             echo ("</br>");
 
+            /*
+             * Poner todos en una tabla temporal y hacer un inner join con la tabla original para que me inserte
+             * los nuevos o me haga update de los existentes sin hacer mucho bardo.
+             */
+
         }
 
     }

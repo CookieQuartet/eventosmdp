@@ -8,7 +8,7 @@
 
 class Event {
     private $id;
-    private $idEvent;
+    private $idApi;
     private $name;
     private $description;
     private $descriptionShort;
@@ -26,7 +26,7 @@ class Event {
     private $idSubarea;
     private $active;
 
-    function __construct($active, $addressPlace, $allDay, $dateEnd, $dateStart, $description, $descriptionShort, $frecuency, $id, $idArea, $idEvent, $idSubarea, $imageUrl, $imageUrlSmall, $name, $namePlace, $price, $repeat)
+    function __construct($active, $addressPlace, $allDay, $dateEnd, $dateStart, $description, $descriptionShort, $frecuency, $id, $idArea, $idApi, $idSubarea, $imageUrl, $imageUrlSmall, $name, $namePlace, $price, $repeat)
     {
         $this->active = $active;
         $this->addressPlace = $addressPlace;
@@ -38,7 +38,7 @@ class Event {
         $this->frecuency = $frecuency;
         $this->id = $id;
         $this->idArea = $idArea;
-        $this->idEvent = $idEvent;
+        $this->idApi = $idApi; /*Si tiene id api significa que es un event obtenido de la API de la Municipalida*/
         $this->idSubarea = $idSubarea;
         $this->imageUrl = $imageUrl;
         $this->imageUrlSmall = $imageUrlSmall;
@@ -211,17 +211,17 @@ class Event {
     /**
      * @return mixed
      */
-    public function getIdEvent()
+    public function getIdApi()
     {
-        return $this->idEvent;
+        return $this->idApi;
     }
 
     /**
-     * @param mixed $idEvent
+     * @param mixed $idApi
      */
-    public function setIdEvent($idEvent)
+    public function setIdApi($idApi)
     {
-        $this->idEvent = $idEvent;
+        $this->idApi = $idApi;
     }
 
     /**
