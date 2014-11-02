@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 02, 2014 at 10:39 PM
+-- Generation Time: Nov 02, 2014 at 11:11 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -80,8 +80,7 @@ CREATE TABLE IF NOT EXISTS `EVENT` (
   `Calle` varchar(300) DEFAULT NULL,
   `DescripcionCalendario` varchar(3000) DEFAULT NULL,
   `DescripcionEvento` varchar(3000) DEFAULT NULL,
-  `Destacado` varchar(1000) DEFAULT NULL,
-  `DetaleTexto` int(1) DEFAULT NULL,
+  `Destacado` int(1) DEFAULT NULL,
   `DetalleTexto` varchar(3000) DEFAULT NULL,
   `DireccionEvento` varchar(500) DEFAULT NULL,
   `FechaHoraFin` varchar(500) DEFAULT NULL,
@@ -119,8 +118,7 @@ CREATE TABLE IF NOT EXISTS `EVENT-API` (
   `Calle` varchar(300) NOT NULL,
   `DescripcionCalendario` varchar(3000) NOT NULL,
   `DescripcionEvento` varchar(3000) NOT NULL,
-  `Destacado` varchar(1000) NOT NULL,
-  `DetaleTexto` int(1) NOT NULL,
+  `Destacado` int(1) NOT NULL,
   `DetalleTexto` varchar(3000) NOT NULL,
   `DireccionEvento` varchar(500) NOT NULL,
   `FechaHoraFin` varchar(500) NOT NULL,
