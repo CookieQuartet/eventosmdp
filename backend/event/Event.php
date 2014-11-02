@@ -7,45 +7,71 @@
  */
 
 class Event {
-    private $id;
-    private $idApi;
-    private $name;
-    private $description;
-    private $descriptionShort;
-    private $namePlace;
-    private $addressPlace;
-    private $price;
-    private $frecuency;
-    private $dateStart;
-    private $dateEnd;
-    private $repeat;
-    private $allDay;
-    private $imageUrl;
-    private $imageUrlSmall;
-    private $idArea;
-    private $idSubarea;
-    private $active;
+    private $id; //Id
+    private $idUser; //IdUser
+    private $active; //Active
+    private $height; //Altura
+    private $street; //Calle
+    private $descriptionCalendar; //DescripcionCalendario
+    private $descriptionEvent; //DescripcionEvento
+    private $star; //Destacado
+    private $detailText; //DetalleTexto
+    private $eventAddress; //DireccionEvento
+    private $dateEnd; //FechaHoraFin
+    private $dateStart; //FechaHoraInicio
+    private $frecuency; //Frecuencia
+    private $idArea; //IdArea
+    private $idCalendar; //IdCalendario
+    private $idEvent; //IdEvento
+    private $idSubarea; //IdSubarea
+    private $latitude; //Latitud
+    private $length; //Longitud
+    private $place; //Lugar
+    private $nameArea; //NombreArea
+    private $nameCalendar; //NombreCalendario
+    private $nameEvent; //NombreEvento
+    private $nameSubAreaFormat; //NombreSubAreaFormat
+    private $nameSubarea; //NombreSubArea
+    private $price; //Precio
+    private $repeat; //Repetir
+    private $imageUrl; //RutaImagen
+    private $imageUrlSmall; //RutaImagenMiniatura
+    private $allDay; //TodoDia
+    private $timeZone; //ZonaHoraria
 
-    function __construct($active, $addressPlace, $allDay, $dateEnd, $dateStart, $description, $descriptionShort, $frecuency, $id, $idArea, $idApi, $idSubarea, $imageUrl, $imageUrlSmall, $name, $namePlace, $price, $repeat)
+    function __construct($active, $allDay, $dateEnd, $dateStart, $descriptionCalendar, $descriptionEvent, $detailText, $eventAddress, $frecuency, $height, $id, $idArea, $idCalendar, $idEvent, $idSubarea, $idUser, $imageUrl, $imageUrlSmall, $latitude, $length, $nameArea, $nameCalendar, $nameEvent, $nameSubAreaFormat, $nameSubarea, $place, $price, $repeat, $star, $street, $timeZone)
     {
         $this->active = $active;
-        $this->addressPlace = $addressPlace;
         $this->allDay = $allDay;
         $this->dateEnd = $dateEnd;
         $this->dateStart = $dateStart;
-        $this->description = $description;
-        $this->descriptionShort = $descriptionShort;
+        $this->descriptionCalendar = $descriptionCalendar;
+        $this->descriptionEvent = $descriptionEvent;
+        $this->detailText = $detailText;
+        $this->eventAddress = $eventAddress;
         $this->frecuency = $frecuency;
+        $this->height = $height;
         $this->id = $id;
         $this->idArea = $idArea;
-        $this->idApi = $idApi; /*Si tiene id api significa que es un event obtenido de la API de la Municipalida*/
+        $this->idCalendar = $idCalendar;
+        $this->idEvent = $idEvent;
         $this->idSubarea = $idSubarea;
+        $this->idUser = $idUser;
         $this->imageUrl = $imageUrl;
         $this->imageUrlSmall = $imageUrlSmall;
-        $this->name = $name;
-        $this->namePlace = $namePlace;
+        $this->latitude = $latitude;
+        $this->length = $length;
+        $this->nameArea = $nameArea;
+        $this->nameCalendar = $nameCalendar;
+        $this->nameEvent = $nameEvent;
+        $this->nameSubAreaFormat = $nameSubAreaFormat;
+        $this->nameSubarea = $nameSubarea;
+        $this->place = $place;
         $this->price = $price;
         $this->repeat = $repeat;
+        $this->star = $star;
+        $this->street = $street;
+        $this->timeZone = $timeZone;
     }
 
     /**
@@ -62,22 +88,6 @@ class Event {
     public function setActive($active)
     {
         $this->active = $active;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAddressPlace()
-    {
-        return $this->addressPlace;
-    }
-
-    /**
-     * @param mixed $addressPlace
-     */
-    public function setAddressPlace($addressPlace)
-    {
-        $this->addressPlace = $addressPlace;
     }
 
     /**
@@ -131,33 +141,65 @@ class Event {
     /**
      * @return mixed
      */
-    public function getDescription()
+    public function getDescriptionCalendar()
     {
-        return $this->description;
+        return $this->descriptionCalendar;
     }
 
     /**
-     * @param mixed $description
+     * @param mixed $descriptionCalendar
      */
-    public function setDescription($description)
+    public function setDescriptionCalendar($descriptionCalendar)
     {
-        $this->description = $description;
+        $this->descriptionCalendar = $descriptionCalendar;
     }
 
     /**
      * @return mixed
      */
-    public function getDescriptionShort()
+    public function getDescriptionEvent()
     {
-        return $this->descriptionShort;
+        return $this->descriptionEvent;
     }
 
     /**
-     * @param mixed $descriptionShort
+     * @param mixed $descriptionEvent
      */
-    public function setDescriptionShort($descriptionShort)
+    public function setDescriptionEvent($descriptionEvent)
     {
-        $this->descriptionShort = $descriptionShort;
+        $this->descriptionEvent = $descriptionEvent;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDetailText()
+    {
+        return $this->detailText;
+    }
+
+    /**
+     * @param mixed $detailText
+     */
+    public function setDetailText($detailText)
+    {
+        $this->detailText = $detailText;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEventAddress()
+    {
+        return $this->eventAddress;
+    }
+
+    /**
+     * @param mixed $eventAddress
+     */
+    public function setEventAddress($eventAddress)
+    {
+        $this->eventAddress = $eventAddress;
     }
 
     /**
@@ -174,6 +216,22 @@ class Event {
     public function setFrecuency($frecuency)
     {
         $this->frecuency = $frecuency;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    /**
+     * @param mixed $height
+     */
+    public function setHeight($height)
+    {
+        $this->height = $height;
     }
 
     /**
@@ -211,17 +269,33 @@ class Event {
     /**
      * @return mixed
      */
-    public function getIdApi()
+    public function getIdCalendar()
     {
-        return $this->idApi;
+        return $this->idCalendar;
     }
 
     /**
-     * @param mixed $idApi
+     * @param mixed $idCalendar
      */
-    public function setIdApi($idApi)
+    public function setIdCalendar($idCalendar)
     {
-        $this->idApi = $idApi;
+        $this->idCalendar = $idCalendar;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdEvent()
+    {
+        return $this->idEvent;
+    }
+
+    /**
+     * @param mixed $idEvent
+     */
+    public function setIdEvent($idEvent)
+    {
+        $this->idEvent = $idEvent;
     }
 
     /**
@@ -238,6 +312,22 @@ class Event {
     public function setIdSubarea($idSubarea)
     {
         $this->idSubarea = $idSubarea;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdUser()
+    {
+        return $this->idUser;
+    }
+
+    /**
+     * @param mixed $idUser
+     */
+    public function setIdUser($idUser)
+    {
+        $this->idUser = $idUser;
     }
 
     /**
@@ -275,33 +365,129 @@ class Event {
     /**
      * @return mixed
      */
-    public function getName()
+    public function getLatitude()
     {
-        return $this->name;
+        return $this->latitude;
     }
 
     /**
-     * @param mixed $name
+     * @param mixed $latitude
      */
-    public function setName($name)
+    public function setLatitude($latitude)
     {
-        $this->name = $name;
+        $this->latitude = $latitude;
     }
 
     /**
      * @return mixed
      */
-    public function getNamePlace()
+    public function getLength()
     {
-        return $this->namePlace;
+        return $this->length;
     }
 
     /**
-     * @param mixed $namePlace
+     * @param mixed $length
      */
-    public function setNamePlace($namePlace)
+    public function setLength($length)
     {
-        $this->namePlace = $namePlace;
+        $this->length = $length;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNameArea()
+    {
+        return $this->nameArea;
+    }
+
+    /**
+     * @param mixed $nameArea
+     */
+    public function setNameArea($nameArea)
+    {
+        $this->nameArea = $nameArea;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNameCalendar()
+    {
+        return $this->nameCalendar;
+    }
+
+    /**
+     * @param mixed $nameCalendar
+     */
+    public function setNameCalendar($nameCalendar)
+    {
+        $this->nameCalendar = $nameCalendar;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNameEvent()
+    {
+        return $this->nameEvent;
+    }
+
+    /**
+     * @param mixed $nameEvent
+     */
+    public function setNameEvent($nameEvent)
+    {
+        $this->nameEvent = $nameEvent;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNameSubAreaFormat()
+    {
+        return $this->nameSubAreaFormat;
+    }
+
+    /**
+     * @param mixed $nameSubAreaFormat
+     */
+    public function setNameSubAreaFormat($nameSubAreaFormat)
+    {
+        $this->nameSubAreaFormat = $nameSubAreaFormat;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNameSubarea()
+    {
+        return $this->nameSubarea;
+    }
+
+    /**
+     * @param mixed $nameSubarea
+     */
+    public function setNameSubarea($nameSubarea)
+    {
+        $this->nameSubarea = $nameSubarea;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlace()
+    {
+        return $this->place;
+    }
+
+    /**
+     * @param mixed $place
+     */
+    public function setPlace($place)
+    {
+        $this->place = $place;
     }
 
     /**
@@ -336,6 +522,53 @@ class Event {
         $this->repeat = $repeat;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getStar()
+    {
+        return $this->star;
+    }
+
+    /**
+     * @param mixed $star
+     */
+    public function setStar($star)
+    {
+        $this->star = $star;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStreet()
+    {
+        return $this->street;
+    }
+
+    /**
+     * @param mixed $street
+     */
+    public function setStreet($street)
+    {
+        $this->street = $street;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTimeZone()
+    {
+        return $this->timeZone;
+    }
+
+    /**
+     * @param mixed $timeZone
+     */
+    public function setTimeZone($timeZone)
+    {
+        $this->timeZone = $timeZone;
+    }
 
 
 
