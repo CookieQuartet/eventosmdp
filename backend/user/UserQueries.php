@@ -19,28 +19,32 @@ class UserQueries {
 
     public final function getUserList() //Lista de Usuarios
     {
-        return $this->dataBase->query("select * from USER");
+        $userQuery = "select UR.*,UT.description from USER UR, USER_TYPE UT where UR.id_user_type = UT.id";
+        return $this->dataBase->query($userQuery);
     }
 
     public final function addUser($user)
     {
-        return $this->dataBase->query("insert into USER (name, email, password, id_user_type, fcbk_token) values ('$user->getName()' , '$user->getEmail()' , '$user->getPassword()', '$user->getUserType()', '$user->getFcbkToken()' )");
+        $userQuery = "insert into USER (name, email, password, id_user_type) values ('$user->getName()' , '$user->getEmail()' , '$user->getPassword()', '$user->getUserType()' )";
+        return $this->dataBase->query($userQuery);
     }
 
     public final function updateUser($user)
     {
-        $query = "update USER set 'name'='$user->getName()', 'email'='$user->getEmail()', 'password'='$user->getPassword()', 'id_user_type'='$user->getUserType()', 'fcbk_token'='$user->getFcbkToken()', 'active'='$user->getActive()' where 'id'='$user->getId()'";
-        return $this->dataBase->query($query);
+        $userQuery = "update USER set 'name'='$user->getName()', 'email'='$user->getEmail()', 'password'='$user->getPassword()', 'id_user_type'='$user->getUserType()', 'active'='$user->getActive()' where 'id'='$user->getId()'";
+        return $this->dataBase->query($userQuery);
     }
 
     public final function deleteUser($user)
     {
-        return $this->dataBase->query("update USER set active = '0' where id = '$user->id'");
+        $userQuery = "update USER set active = '0' where id = '$user->id'";
+        return $this->dataBase->query($userQuery);
     }
 
     public final function getUserById($id)
     {
-        return $this->dataBase->query("select * from `USER` WHERE id = $id");
+        $userQuery = "select UR.*,UT.description from USER UR, USER_TYPE UT where UR.id = $id and UR.id_user_type = UT.id";
+        return $this->dataBase->query($userQuery);
     }
 
 }
