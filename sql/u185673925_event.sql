@@ -3,10 +3,11 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 02, 2014 at 11:11 PM
+-- Generation Time: Nov 03, 2014 at 03:04 AM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -109,11 +110,40 @@ CREATE TABLE IF NOT EXISTS `EVENT` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `EVENT-API`
+-- Table structure for table `EVENT-not-used`
 --
 
-DROP TABLE IF EXISTS `EVENT-API`;
-CREATE TABLE IF NOT EXISTS `EVENT-API` (
+DROP TABLE IF EXISTS `EVENT-not-used`;
+CREATE TABLE IF NOT EXISTS `EVENT-not-used` (
+`id` int(11) NOT NULL,
+  `id_event` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `description` varchar(3000) NOT NULL,
+  `description_short` varchar(1000) NOT NULL,
+  `name_place` varchar(100) NOT NULL,
+  `address_place` varchar(300) DEFAULT NULL,
+  `price` decimal(30,0) DEFAULT NULL,
+  `frecuency` varchar(100) NOT NULL,
+  `date_start` date NOT NULL,
+  `date_end` date NOT NULL,
+  `repeat_event` varchar(100) NOT NULL,
+  `all_day` int(11) NOT NULL DEFAULT '0',
+  `image_url` varchar(500) DEFAULT NULL,
+  `image_url_small` varchar(500) DEFAULT NULL,
+  `id_area` int(11) NOT NULL,
+  `id_subarea` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `active` int(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `EVENT_API`
+--
+
+DROP TABLE IF EXISTS `EVENT_API`;
+CREATE TABLE IF NOT EXISTS `EVENT_API` (
   `Altura` varchar(100) NOT NULL,
   `Calle` varchar(300) NOT NULL,
   `DescripcionCalendario` varchar(3000) NOT NULL,
@@ -143,35 +173,6 @@ CREATE TABLE IF NOT EXISTS `EVENT-API` (
   `TodoDia` int(1) NOT NULL,
   `ZonaHoraria` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `EVENT-not-used`
---
-
-DROP TABLE IF EXISTS `EVENT-not-used`;
-CREATE TABLE IF NOT EXISTS `EVENT-not-used` (
-`id` int(11) NOT NULL,
-  `id_event` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `description` varchar(3000) NOT NULL,
-  `description_short` varchar(1000) NOT NULL,
-  `name_place` varchar(100) NOT NULL,
-  `address_place` varchar(300) DEFAULT NULL,
-  `price` decimal(30,0) DEFAULT NULL,
-  `frecuency` varchar(100) NOT NULL,
-  `date_start` date NOT NULL,
-  `date_end` date NOT NULL,
-  `repeat_event` varchar(100) NOT NULL,
-  `all_day` int(11) NOT NULL DEFAULT '0',
-  `image_url` varchar(500) DEFAULT NULL,
-  `image_url_small` varchar(500) DEFAULT NULL,
-  `id_area` int(11) NOT NULL,
-  `id_subarea` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `active` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -223,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `USER` (
   `password` varchar(30) NOT NULL,
   `id_user_type` int(11) NOT NULL,
   `active` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=41 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=43 ;
 
 --
 -- Dumping data for table `USER`
@@ -233,7 +234,9 @@ INSERT INTO `USER` (`id`, `name`, `email`, `password`, `id_user_type`, `active`)
 (1, 'Martin', 'mmaestri@gmail.com', '123456', 2, 1),
 (19, 'usuario@mail.com', 'usuario@mail.com', '123456', 2, 1),
 (39, 'user@mail.com', 'user@mail.com', '123456', 2, 1),
-(40, 'otro@mail.com', 'otro@mail.com', '123456', 2, 1);
+(40, 'otro@mail.com', 'otro@mail.com', '123456', 2, 1),
+(41, 'pablo@gmail.com', 'pablo@gmail.com', '1234', 2, 1),
+(42, 'martin@gmail.com', 'martin@gmail.com', '1234', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -352,7 +355,8 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `USER`
 --
 ALTER TABLE `USER`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;SET FOREIGN_KEY_CHECKS=1;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
