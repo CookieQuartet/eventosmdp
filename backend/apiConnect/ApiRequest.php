@@ -10,6 +10,13 @@ include_once('ApiConnectConstants.php');
 
 class ApiRequest {
 
+    private $dataBase;
+
+    function __construct()
+    {
+        $this->dataBase = new DataBase();
+    }
+
     public function getSubareas()
     {
         $url = consultaAreasUrl;
@@ -59,6 +66,7 @@ class ApiRequest {
 
         if ($aresult->Estado==warning)
         {
+           // return $aresult->Eventos;
             return array_map("unserialize", array_unique(array_map("serialize",array_merge ($aresult->Eventos,$this->getEventsBySubarea($idSubArea, end($aresult->Eventos)->FechaHoraInicio)))));
         }
         elseif ($aresult->Estado==sucessfull)
