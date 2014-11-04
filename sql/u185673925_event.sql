@@ -3,11 +3,10 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 03, 2014 at 03:04 AM
+-- Generation Time: Nov 04, 2014 at 02:00 AM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -98,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `EVENT` (
   `NombreCalendario` varchar(500) NOT NULL,
   `NombreEvento` varchar(500) NOT NULL,
   `NombreSubAreaFormat` varchar(500) NOT NULL,
-  `NombreSubArea` varchar(500) NOT NULL,
+  `NombreSubarea` varchar(500) NOT NULL,
   `Precio` decimal(10,0) DEFAULT NULL,
   `Repetir` varchar(500) DEFAULT NULL,
   `RutaImagen` varchar(2000) DEFAULT NULL,
@@ -165,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `EVENT_API` (
   `NombreCalendario` varchar(500) NOT NULL,
   `NombreEvento` varchar(500) NOT NULL,
   `NombreSubAreaFormat` varchar(500) NOT NULL,
-  `NombreSubArea` varchar(500) NOT NULL,
+  `NombreSubarea` varchar(500) NOT NULL,
   `Precio` decimal(10,0) NOT NULL,
   `Repetir` varchar(500) NOT NULL,
   `RutaImagen` varchar(2000) NOT NULL,
@@ -355,8 +354,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `USER`
 --
 ALTER TABLE `USER`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;SET FOREIGN_KEY_CHECKS=1;
-
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
