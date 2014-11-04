@@ -94,29 +94,6 @@ class DataBase {
         }
     }
 
-    public function mysql_insert($table, $inserts) {
-
-        try {
-            $this->openConnection();
-
-            $columns = implode(", ",array_keys($inserts));
-//            $escaped_values = array_map('mysql_real_escape_string', array_values($inserts));
-            $values  = implode(", ", array_values($inserts));
-            $sql = "INSERT INTO $table ($columns) VALUES ($values)";
-
-            $queryResult = $this->connection->query($sql);
-            if (!$queryResult) {
-                printf("Errormessage: %s\n", $this->connection->error);
-            }
-            $this->closeConnection();
-
-            return $queryResult;
-
-        } catch(exception $e) {
-            return $e;
-        }
-    }
-
     public function insertArrayObjects($table, $arrayObjects) {
 
         try {
