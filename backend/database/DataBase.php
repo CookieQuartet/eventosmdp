@@ -93,4 +93,57 @@ class DataBase {
             return $e;
         }
     }
+
+    public function insertArrayObjects($table, $arrayObjects) {
+
+        try {
+            $this->openConnection();
+
+            $columns = implode(", ", array_keys(get_object_vars($arrayObjects[0])));
+
+            function getValueString($object)
+            {
+                $arrayObject=get_object_vars($object);
+//                $escapedValues = array_map('mysql_real_escape_string', $arrayObject);
+                foreach ($arrayObject as $key => $value)
+                {
+                    $arrayObject[$key]="'".$value."'";
+                }
+
+                return "(".implode(", ", array_values($arrayObject))."), ";
+            }
+
+            $arrayValues = array_map('getValueString', array_values($arrayObjects));
+
+//            foreach ($arrayValues as $value)
+//            {
+//                $arrayEscapedValues[]=mysqli_real_escape_string($this->connection, $value);
+//            }
+
+//            $escaped_values = array_map('mysql_real_escape_string', array_values($inserts));
+
+
+            $lastValue = substr(end($arrayValues), 0, -2); /*Elimino los ultimos dos digitos del ultimo registro*/
+            $arrayValues[key($arrayValues)]=$lastValue;
+
+            $values=implode("",$arrayValues);
+
+            $sql = "INSERT INTO "."`".$table."` "."($columns) VALUES $values";
+
+//            echo($sql); die;
+            $queryResult = $this->connection->query($sql);
+            if (!$queryResult) {
+                printf("Errormessage: %s\n", $this->connection->error);
+            }
+            $this->closeConnection();
+
+            return $queryResult;
+
+        } catch(exception $e) {
+            return $e;
+        }
+    }
+
+
+
 }

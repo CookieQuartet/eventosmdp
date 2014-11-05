@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="1824572056">
-    <data-source source="LOCAL" name="MySQL - eventosmdp@localhost" uuid="2b50f3fc-6e41-4806-9e66-415cd8721992">
+  <component name="DataSourceManagerImpl" format="xml" hash="4211361039">
+    <data-source source="LOCAL" name="MySQL - u185673925_event@localhost" uuid="2b50f3fc-6e41-4806-9e66-415cd8721992">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/eventosmdp</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/u185673925_event</jdbc-url>
       <driver-properties>
         <property name="zeroDateTimeBehavior" value="convertToNull" />
         <property name="tinyInt1isBit" value="false" />
