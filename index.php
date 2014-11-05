@@ -20,7 +20,7 @@
                 <material-sidenav class="material-sidenav-left material-whiteframe-z2" component-id="left">
                     <material-toolbar class="material-theme-light" ng-show="persona.logged">
                         <section id="eventosmdp-profile">
-                            <div layout="vertical" layout-sm="horizontal" layout-align="start center">
+                            <div layout="horizontal" layout-sm="horizontal" layout-align="start center">
                                 <div class="material-tile-left emdp-material-tile" layout="horizontal" layout-align="center start">
                                     <img data-ng-src="{{ persona.pic }}" alt="Perfil" width="48" height="48"/>
                                 </div>
@@ -35,6 +35,17 @@
                             <emdp-login-form></emdp-login-form>
                         </section>
                         <section class="eventosmdp-logged" ng-show="persona.logged">
+                            <!--<section class="emdp-search">
+                                <emdp-material-input
+                                    layout-align="center"
+                                    fid="search"
+                                    label="Buscar"
+                                    type="search"
+                                    value="search"
+                                    class="material-input-group-theme-light-blue material-input-group-inverted">
+                                </emdp-material-input>
+                            </section>
+                            <material-divider class="emdp-divider"></material-divider>-->
                             <emdp-action
                                 ng-repeat="action in actions.list | filter:persona.user.type"
                                 name="{{ action.name }}"

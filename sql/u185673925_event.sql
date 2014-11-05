@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 12-10-2014 a las 22:08:59
+-- Tiempo de generación: 11-10-2014 a las 22:39:52
 -- Versión del servidor: 5.6.16
 -- Versión de PHP: 5.5.11
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `u185673925_event`
 --
+CREATE DATABASE IF NOT EXISTS `u185673925_event` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `u185673925_event`;
 
 -- --------------------------------------------------------
 
@@ -31,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `ALERT` (
   `id_user` int(11) NOT NULL,
   `id_area` int(11) DEFAULT NULL,
   `id_subarea` int(11) DEFAULT NULL,
-  `keyword` varchar(100) NOT NULL,
+  `keyword` varchar(100) DEFAULT NULL,
   `active` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `id_user` (`id_user`,`id_subarea`)
@@ -75,15 +77,15 @@ CREATE TABLE IF NOT EXISTS `EVENT` (
   `id_event` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `description` varchar(3000) NOT NULL,
-  `description_short` varchar(1000) NOT NULL,
-  `name_place` varchar(100) NOT NULL,
+  `description_short` varchar(1000) DEFAULT NULL,
+  `name_place` varchar(100) DEFAULT NULL,
   `address_place` varchar(300) DEFAULT NULL,
   `price` decimal(30,0) DEFAULT NULL,
   `frecuency` varchar(100) NOT NULL,
   `date_start` date NOT NULL,
   `date_end` date NOT NULL,
-  `repeat_event` varchar(100) NOT NULL,
-  `all_day` int(11) NOT NULL DEFAULT '0',
+  `repeat` varchar(100) DEFAULT NULL,
+  `all_day` int(1) NOT NULL DEFAULT '0',
   `image_url` varchar(500) DEFAULT NULL,
   `image_url_small` varchar(500) DEFAULT NULL,
   `id_area` int(11) NOT NULL,

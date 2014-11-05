@@ -1,20 +1,22 @@
 <material-whiteframe class="material-whiteframe-z1" layout="vertical" layout-sm="vertical">
-
     <div layout="vertical" layout-sm="horizontal" layout-align="start center">
-        <div class="material-tile-left emdp-material-tile" layout="horizontal" layout-align="center start">
-            <img ng-src="{{ ::event.RutaImagenMiniatura }}" class="face">
+        <div class="material-tile-left emdp-material-tile" layout="vertical" layout-align="center start">
+            <img ng-src="{{ ::(event.RutaImagen ? event.RutaImagen : event.RutaImagenMiniatura) }}" class="face" width="220" height="220">
+            <div class="emdp-event-controls" layout="horizontal" layout-align="start center">
+                <div>
+                    <i class="emdp-icon emdp-icon-medium emdp-icon-favorite" ng-class="{ 'emdp-icon-favorite-selected': event.favorite }" ng-click="methods.favorite(event)">
+                        <material-tooltip>Marcar como favorito</material-tooltip>
+                    </i>
+                    <i class="emdp-icon emdp-icon-medium emdp-icon-comment" ng-class="{ 'emdp-icon-comment-show': config.showComments }" ng-click="methods.comments()">
+                        <material-tooltip>Comentarios</material-tooltip>
+                    </i>
+                </div>
+                <emdp-rating max="5" value="{{ event.rating }}"></emdp-rating>
+            </div>
         </div>
         <div class="material-tile-content emdp-material-whiteframe-content">
             <h1 block-sm hide class="emdp-font-title-content">{{ ::event.NombreEvento }}</h1>
             <h2 hide-sm class="emdp-material-title-content">{{ ::event.NombreEvento }}</h2>
-            <material-divider class="emdp-divider"></material-divider>
-            <div class="emdp-event-controls" layout="horizontal" layout-align="start center">
-                <div>
-                    <i class="emdp-icon emdp-icon-medium emdp-icon-favorite"></i>
-                    <i class="emdp-icon emdp-icon-medium emdp-icon-comment"></i>
-                </div>
-                <emdp-rating max="5"></emdp-rating>
-            </div>
             <material-divider class="emdp-divider"></material-divider>
             <h3>{{ ::event.DescripcionEvento }}</h3>
             <br/>
@@ -23,10 +25,27 @@
             <h3 class="emdp-card-place">{{ ::event.Lugar }}</h3>
         </div>
     </div>
-
+    <div layout="vertical" ng-show="config.showComments">
+        <material-divider class="emdp-divider"></material-divider>
+        <material-content>
+            <material-list>
+                <material-item ng-repeat="item in event.comments">
+                    <material-item-content>
+                        <div class="material-tile-left">
+                            <img ng-src="{{item.pic}}" class="emdp-event-comment pic" alt="{{item.usuario}}">
+                        </div>
+                        <div class="material-tile-content">
+                            <h4>{{item.usuario}}</h4>
+                            <p>
+                                {{item.comentario}}
+                            </p>
+                        </div>
+                    </material-item-content>
+                </material-item>
+            </material-list>
+        </material-content>
+    </div>
     <material-divider class="emdp-divider"></material-divider>
-
-
     <div layout="horizontal" layout-sm="horizontal" layout-padding>
         <div flex="33">
             <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_place_48dp.png" height=40 width=40 alt=""/>
@@ -44,5 +63,4 @@
             <p hide-sm class="emdp-card-text-small">{{ ::event.Precio && ('$' + event.Precio) || 'Gratis' }}</p>
         </div>
     </div>
-
 </material-whiteframe>

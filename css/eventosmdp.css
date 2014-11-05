@@ -8,11 +8,13 @@ html, body {
 
 .emdp-rating {
     display: inline-block;
-    margin-left: 20px;
+    /*margin-left: 20px;*/
+    margin-left: 10px;
 }
 
 .emdp-divider {
     margin: 10px 0 10px 0;
+    width: 100%;
 }
 
 .emdp-icon {
@@ -47,10 +49,15 @@ html, body {
     background-image: url(../img/system_icons/action/res/drawable-xhdpi/ic_favorite_48dp.png);
 }
 
+.emdp-icon-favorite-selected {
+    background-image: url(../img/system_icons/action/res/drawable-xhdpi/ic_favorite_48dp_red.png);
+}
+
 .emdp-icon-comment {
     background-image: url(../img/system_icons/editor/res/2x_web/ic_mode_comment_48dp.png);
 }
 
+.emdp-icon-comment-show,
 .emdp-icon-comment:hover {
     background-image: url(../img/system_icons/editor/res/2x_web/ic_insert_comment_48dp.png);
 }
@@ -115,7 +122,8 @@ material-whiteframe {
 }
 
 .emdp-cardlist-background {
-    background: url(../img/patterns/6F6eAzr.png);
+/*    background: url(../img/patterns/6F6eAzr.png);*/
+    background: url(../img/patterns/congruent_pentagon/congruent_pentagon.png);
     overflow: hidden;
     height: 100%;
 }
@@ -350,4 +358,16 @@ material-button:not([disabled]).eventosmdp-btn-nav:hover, material-button:not([d
 
 .eventosmdp-content {
    /* height:1000px;*/
+}
+
+.emdp-search {
+    width: 90%;
+    margin: 10px 10% 20px 10%;
+}
+
+img.emdp-event-comment.pic {
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    width: 48px;
+    margin: 16px;
 }

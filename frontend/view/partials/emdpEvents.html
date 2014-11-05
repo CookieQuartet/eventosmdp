@@ -1,6 +1,6 @@
 <div layout="vertical" flex layout-fill>
     <material-content >
-        <section ng-repeat="day in days">
+        <section ng-repeat="day in eventList | orderBy:'fecha'">
             <material-subheader class="material-subheader-colored emdp-subheader-calendar">
                 <material-icon flex icon="img/svg/calendar.svg" class="emdp-subheader-calendar-icon"></material-icon>
                 <span flex>{{ day.fecha_completa }}</span>

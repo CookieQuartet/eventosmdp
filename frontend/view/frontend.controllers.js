@@ -1,6 +1,7 @@
 angular.module('view', ['ngMaterial', 'users'])
   .controller('AppController', function($scope, $timeout, $materialSidenav, $rootScope) {
     $rootScope.lastState = '';
+    $rootScope.eventList = [];
     $scope.methods = {
       toggleMenu: function() {
         $materialSidenav('left').toggle();
@@ -20,9 +21,8 @@ angular.module('view', ['ngMaterial', 'users'])
   .controller('emdpEventsController', function($rootScope, $scope, $state, user, eventsAPI) {
     $rootScope.lastState = 'events';
     user.checkLogged(function() {
-      $scope.days = [];
       eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
-        $scope.days = response;
+        $rootScope.eventList = _.merge(response, $rootScope.eventList);
       });
     });
   })
