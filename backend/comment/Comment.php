@@ -6,6 +6,8 @@
  * Time: 06:11 PM
  */
 
+include_once('CommentQueries.php');
+
 class Comment {
     private $id;
     private $idUser;
@@ -14,12 +16,10 @@ class Comment {
     private $idEvent;
     private $eventFromApi;
     private $stars;
-    private $commentStatusDescription;
-    private $userName;
-    private $userEmail;
+    private static $commentQueries;
 
 
-    function __construct($id, $idUser, $text, $idCommentStatus, $idEvent, $eventFromApi, $stars, $commentStatusDescription, $userName, $userEmail)
+    function __construct($id, $idUser, $text, $idCommentStatus, $idEvent, $eventFromApi, $stars)
     {
         $this->id = $id;
         $this->idUser = $idUser;
@@ -28,10 +28,16 @@ class Comment {
         $this->idEvent = $idEvent;
         $this->eventFromApi = $eventFromApi;
         $this->stars = $stars;
-        $this->commentStatusDescription = $commentStatusDescription;
-        $this->userName = $userName;
-        $this->userEmail = $userEmail;
 
+    }
+
+    public static function getCommentQueries() {
+
+        if (!isset(self::$commentQueries)) {
+            self::$commentQueries = new CommentQueries();
+        }
+
+        return self::$commentQueries;
     }
 
     /**
@@ -144,54 +150,6 @@ class Comment {
     public function setStars($stars)
     {
         $this->stars = $stars;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCommentStatusDescription()
-    {
-        return $this->commentStatusDescription;
-    }
-
-    /**
-     * @param mixed $commentStatusDescription
-     */
-    public function setCommentStatusDescription($commentStatusDescription)
-    {
-        $this->commentStatusDescription = $commentStatusDescription;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUserEmail()
-    {
-        return $this->userEmail;
-    }
-
-    /**
-     * @param mixed $userEmail
-     */
-    public function setUserEmail($userEmail)
-    {
-        $this->userEmail = $userEmail;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUserName()
-    {
-        return $this->userName;
-    }
-
-    /**
-     * @param mixed $userName
-     */
-    public function setUserName($userName)
-    {
-        $this->userName = $userName;
     }
 
 

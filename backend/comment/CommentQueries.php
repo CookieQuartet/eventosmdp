@@ -55,7 +55,7 @@ class CommentQueries {
     //Update completo de Comentario
     public final function updateComment($comment)
     {
-        $commentQuery = "update COMMENT set text='$comment->getText()', idCommentStatus='$comment->getIdCommentStatus()', idEvent='$comment->getIdEvent()', stars='$comment->getStars()' where id='$comment->getId()'";
+        $commentQuery = "update COMMENT set text='$comment->getText()', idCommentStatus='$comment->getIdCommentStatus()', stars='$comment->getStars()' where id='$comment->getId()'";
         return $this->dataBase->query($commentQuery);
     }
 
