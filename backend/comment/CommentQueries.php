@@ -17,63 +17,59 @@ class CommentQueries {
         $this->dataBase = new DataBase();
     }
 
-    public final function getCommentList() //Lista de Comentarios Completa
+    //Lista de Comentarios Completa
+    public final function getCommentList()
     {
-        $commentQuery = "select CO.*,SC.description from COMMENT CO, STATUS_COMMENT SC where CO.idStatusComment = SC.id";
+        $commentQuery = "select CO.*,CS.description,UR.name,UR.email from COMMENT CO, COMMENT_STATUS CS, USER UR where CO.idCommentStatus = CS.id and CO.idUser = UR.id";
         return $this->dataBase->query($commentQuery);
     }
 
-    public final function getCommentListPending() //Lista de Comentarios Pendientes
+    //Lista de Comentarios Pendientes
+    public final function getCommentListPending()
     {
-        $commentQuery = "select CO.*,SC.description from COMMENT CO, STATUS_COMMENT SC where CO.idStatusComment = SC.id and SC.id = 1";
+        $commentQuery = "select CO.*,CS.description,UR.name,UR.email from COMMENT CO, COMMENT_STATUS CS, USER UR where CO.idCommentStatus = CS.id and CS.id = '1' and CO.idUser = UR.id";
         return $this->dataBase->query($commentQuery);
     }
 
-    public final function getCommentListReported() //Lista de Comentarios Denunciados
+    //Lista de Comentarios Denunciados
+    public final function getCommentListReported()
     {
-        $commentQuery = "select CO.*,SC.description from COMMENT CO, STATUS_COMMENT SC where CO.idStatusComment = SC.id and SC.id = 3";
+        $commentQuery = "select CO.*,CS.description,UR.name,UR.email from COMMENT CO, COMMENT_STATUS CS, USER UR where CO.idCommentStatus = CS.id and CS.id = '3' and CO.idUser = UR.id";
         return $this->dataBase->query($commentQuery);
     }
 
-    public final function getCommentListForEvent($idEvent) //Lista de Comentarios Aprobados para un Evento
+    //Lista de Comentarios Aprobados para un Evento, por usuarios activos Activo
+    public final function getCommentListForEvent($idEvent)
     {
-        $commentQuery = "select CO.*,SC.description from COMMENT CO, STATUS_COMMENT SC where CO.idStatusComment = SC.id  and SC.id = 2 and CO.id_event = '$idEvent'";
+        $commentQuery = "select CO.*,CS.description,UR.name from COMMENT CO, COMMENT_STATUS CS, USER UR where CO.idCommentStatus = CS.id  and CS.id = '2' and CO.idEvent = '$idEvent' and CO.idUser = UR.id and UR.active = '1'";
         return $this->dataBase->query($commentQuery);
     }
 
+    //Insertar Comentario. Si 'idCommentStatus' pasa null, por defecto se marca Pendiente. Si es ADMIN, idCommentStatus = Aprobado 2
     public final function addComment($comment)
     {
-        $commentQuery = "insert into COMMENT (text, idStatusComment, id_event, stars) values ('$comment->getText()' , '$comment->getIdCommentStatus()', '$comment->getIdEvent()', '$comment->getStars()' )";
+        $commentQuery = "insert into COMMENT (idUser, text, idCommentStatus, idEvent, eventFromApi, stars) values ('$comment->getIdUser()', '$comment->getText()', '$comment->getIdCommentStatus()', '$comment->getIdEvent()', '$comment->getEventFromApi()', '$comment->getStars()' )";
         return $this->dataBase->query($commentQuery);
     }
 
+    //Update completo de Comentario
     public final function updateComment($comment)
     {
-        $commentQuery = "update COMMENT set text='$comment->getText()', idStatusComment='$comment->getIdCommentStatus()', id_event='$comment->getIdEvent()', stars='$comment->getStars()' where id='$comment->getId()'";
+        $commentQuery = "update COMMENT set text='$comment->getText()', idCommentStatus='$comment->getIdCommentStatus()', idEvent='$comment->getIdEvent()', stars='$comment->getStars()' where id='$comment->getId()'";
         return $this->dataBase->query($commentQuery);
     }
 
-    public final function approveComment($id) //Set Comentario Aprobado
+    //Update CommentStatus del Comentario: Aprobado 2, Denunciado 3, Eliminado 4
+    public final function updateCommentStatus($id,$idCommentStatus)
     {
-        $commentQuery = "update COMMENT set idStatusComment = '2' where id = '$id'";
+        $commentQuery = "update COMMENT set idCommentStatus = '$idCommentStatus' where id = '$id'";
         return $this->dataBase->query($commentQuery);
     }
 
-    public final function reportComment($id) //Set Comentario Denunciado
-    {
-        $commentQuery = "update COMMENT set idStatusComment = '3' where id = '$id'";
-        return $this->dataBase->query($commentQuery);
-    }
-
-    public final function deleteComment($id) //Set Comentario Eliminado
-    {
-        $commentQuery = "update COMMENT set idStatusComment = '4' where id = '$id'";
-        return $this->dataBase->query($commentQuery);
-    }
-
+    //Obtiene info de un Comentario
     public final function getCommentById($id)
     {
-        $commentQuery = "select * from COMMENT WHERE id = '$id'";
+        $commentQuery = "select CO.*,CS.description,UR.name,UR.email from COMMENT CO, COMMENT_STATUS CS, USER UR where CO.idCommentStatus = CS.id and CO.idUser = UR.id and CO.id = '$id'";
         return $this->dataBase->query($commentQuery);
     }
 } 

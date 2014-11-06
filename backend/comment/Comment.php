@@ -8,18 +8,30 @@
 
 class Comment {
     private $id;
+    private $idUser;
     private $text;
     private $idCommentStatus;
     private $idEvent;
+    private $eventFromApi;
     private $stars;
+    private $commentStatusDescription;
+    private $userName;
+    private $userEmail;
 
-    function __construct($id, $idCommentStatus, $idEvent, $stars, $text)
+
+    function __construct($id, $idUser, $text, $idCommentStatus, $idEvent, $eventFromApi, $stars, $commentStatusDescription, $userName, $userEmail)
     {
         $this->id = $id;
+        $this->idUser = $idUser;
+        $this->text = $text;
         $this->idCommentStatus = $idCommentStatus;
         $this->idEvent = $idEvent;
+        $this->eventFromApi = $eventFromApi;
         $this->stars = $stars;
-        $this->text = $text;
+        $this->commentStatusDescription = $commentStatusDescription;
+        $this->userName = $userName;
+        $this->userEmail = $userEmail;
+
     }
 
     /**
@@ -36,6 +48,38 @@ class Comment {
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdUser()
+    {
+        return $this->idUser;
+    }
+
+    /**
+     * @param mixed $idUser
+     */
+    public function setIdUser($idUser)
+    {
+        $this->idUser = $idUser;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    /**
+     * @param mixed $text
+     */
+    public function setText($text)
+    {
+        $this->text = $text;
     }
 
     /**
@@ -73,6 +117,22 @@ class Comment {
     /**
      * @return mixed
      */
+    public function getEventFromApi()
+    {
+        return $this->eventFromApi;
+    }
+
+    /**
+     * @param mixed $eventFromApi
+     */
+    public function setEventFromApi($eventFromApi)
+    {
+        $this->eventFromApi = $eventFromApi;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getStars()
     {
         return $this->stars;
@@ -89,18 +149,51 @@ class Comment {
     /**
      * @return mixed
      */
-    public function getText()
+    public function getCommentStatusDescription()
     {
-        return $this->text;
+        return $this->commentStatusDescription;
     }
 
     /**
-     * @param mixed $text
+     * @param mixed $commentStatusDescription
      */
-    public function setText($text)
+    public function setCommentStatusDescription($commentStatusDescription)
     {
-        $this->text = $text;
+        $this->commentStatusDescription = $commentStatusDescription;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUserEmail()
+    {
+        return $this->userEmail;
+    }
+
+    /**
+     * @param mixed $userEmail
+     */
+    public function setUserEmail($userEmail)
+    {
+        $this->userEmail = $userEmail;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserName()
+    {
+        return $this->userName;
+    }
+
+    /**
+     * @param mixed $userName
+     */
+    public function setUserName($userName)
+    {
+        $this->userName = $userName;
+    }
+
 
 
 } 
