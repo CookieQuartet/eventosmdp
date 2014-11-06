@@ -365,9 +365,16 @@ material-button:not([disabled]).eventosmdp-btn-nav:hover, material-button:not([d
     margin: 10px 10% 20px 10%;
 }
 
+img.emdp-event-profile.pic,
 img.emdp-event-comment.pic {
     border-radius: 30px;
     border: 1px solid #ddd;
     width: 48px;
     margin: 16px;
+}
+
+.emdp-event-comment-textarea {
+    width: 100%;
+    resize: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
 }

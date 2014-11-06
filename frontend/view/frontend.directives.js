@@ -179,10 +179,6 @@
       return {
         restrict: 'E',
         replace: true,
-       // priority: 1000,
-        controller: function($scope) {
-
-        },
         templateUrl: 'frontend/view/partials/emdpEvents.html'
       };
     })
@@ -193,37 +189,55 @@
         scope: {
           max: '@',
           value: '@',
-          event: '='
+          event: '=',
+          editable: '@'
         },
         link: function(scope, element, attrs) {
-          var q = parseInt(attrs.max) || 5;
-          scope.stars = [];
-          for(var i = 0; i < q; i++){ scope.stars.push({ index: i, on: false }); }
+
+          scope.config = {
+            max: parseInt(attrs.max) || 5,
+            editable: true
+          };
+
+          scope.data = {
+              stars: []
+          };
+
+          for(var i = 0; i < scope.config.max; i++){
+            scope.data.stars.push({ index: i, on: false });
+          }
 
           scope.methods = {
             select: function(node) {
-              var i, max = parseInt(scope.max) || 5;
-              for(i = 0; i < max; i++) {
-                scope.stars[i].on = false;
-              }
+              var i;
+
+              angular.forEach(scope.data.stars, function(star) {
+                star.on = false;
+              });
+
               if(node && node.index >= 0) {
                 for(i = 0; i < node.index; i++) {
-                  scope.stars[i].on = true;
+                  scope.data.stars[i].on = true;
                 }
-                scope.stars[i].on = true;
+                scope.data.stars[i].on = true;
               }
               scope.$parent.event.rating = node.index + 1;
+              element.find('textarea').focus();
             }
           };
 
           attrs.$observe('value', function(value) {
             var _value = parseInt(value),
                 node = {
-                  //index: _value > 0 ? _value - 1 : 0,
                   index: _value - 1,
                   on: false
                 };
             scope.methods.select(node);
+          });
+
+          attrs.$observe('editable', function(value) {
+            var editable = value === 'true' ? true : false;
+            scope.config.editable = editable;
           });
         },
         templateUrl: 'frontend/view/partials/emdpRating.html'

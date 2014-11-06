@@ -1,6 +1,6 @@
 <div class="emdp-rating">
-    <material-tooltip>Calificá este evento</material-tooltip>
-    <i ng-repeat="star in stars track by $index"
+    <material-tooltip ng-show="config.editable">Calificá este evento</material-tooltip>
+    <i ng-repeat="star in data.stars track by $index"
        class="emdp-icon emdp-icon-medium emdp-icon-rating"
        ng-click="methods.select(star)"
        ng-class="{ 'emdp-icon-rating-on': star.on }"></i>

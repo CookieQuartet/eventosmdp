@@ -22,7 +22,7 @@
                         <section id="eventosmdp-profile">
                             <div layout="horizontal" layout-sm="horizontal" layout-align="start center">
                                 <div class="material-tile-left emdp-material-tile" layout="horizontal" layout-align="center start">
-                                    <img data-ng-src="{{ persona.pic }}" alt="Perfil" width="48" height="48"/>
+                                    <img class="emdp-event-profile pic" data-ng-src="{{ persona.pic }}" alt="Perfil" width="48" height="48"/>
                                 </div>
                                 <div flex>
                                     <div class="eventosmdp-profile-name">{{ persona.name }}</div>
