@@ -94,7 +94,7 @@ class DataBase {
         }
     }
 
-    public function insertArrayObjects($table, $arrayObjects) {
+    public function insertArrayObjects($table, $arrayObjects, $limit = null) {
 
         try {
             $this->openConnection();
@@ -104,7 +104,7 @@ class DataBase {
             function getValueString($object)
             {
                 $arrayObject=get_object_vars($object);
-//                $escapedValues = array_map('mysql_real_escape_string', $arrayObject);
+                $arrayObject = array_map('mysql_real_escape_string', $arrayObject); //VER LA CODIFICACIóN
                 foreach ($arrayObject as $key => $value)
                 {
                     $arrayObject[$key]="'".$value."'";
@@ -115,26 +115,47 @@ class DataBase {
 
             $arrayValues = array_map('getValueString', array_values($arrayObjects));
 
-//            foreach ($arrayValues as $value)
-//            {
-//                $arrayEscapedValues[]=mysqli_real_escape_string($this->connection, $value);
-//            }
+            if ($limit!=null)
+            {
+                while (!empty($arrayValues))
+                {
+                    $arrayLimitValues = array_slice($arrayValues, 0, $limit);
+                    $arrayValues =   array_slice($arrayValues, $limit);
+//                    echo(count($arrayLimitValues));
 
-//            $escaped_values = array_map('mysql_real_escape_string', array_values($inserts));
+                    $lastValue = substr(end($arrayLimitValues), 0, -2); /*Elimino los ultimos dos digitos del ultimo registro*/
+                    $arrayLimitValues[key($arrayLimitValues)]=$lastValue;
 
+                    $values=implode("",$arrayLimitValues); /* Lo convierto a un string*/
 
-            $lastValue = substr(end($arrayValues), 0, -2); /*Elimino los ultimos dos digitos del ultimo registro*/
-            $arrayValues[key($arrayValues)]=$lastValue;
+                    $sql = "INSERT INTO "."`".$table."` "."($columns) VALUES $values";
+//                    echo($sql);
+//                    echo("</br>");
+//                    echo("---------");
 
-            $values=implode("",$arrayValues);
-
-            $sql = "INSERT INTO "."`".$table."` "."($columns) VALUES $values";
-
-//            echo($sql); die;
-            $queryResult = $this->connection->query($sql);
-            if (!$queryResult) {
-                printf("Errormessage: %s\n", $this->connection->error);
+                    //die;
+                    $queryResult = $this->connection->query($sql);
+                    if (!$queryResult) {
+                        printf("Errormessage: %s\n", $this->connection->error);
+                        continue;
+                    }
+                }
             }
+            else
+            {
+                $lastValue = substr(end($arrayValues), 0, -2); /*Elimino los ultimos dos digitos del ultimo registro*/
+                $arrayValues[key($arrayValues)]=$lastValue;
+
+                $values=implode("",$arrayValues);
+
+                $sql = "INSERT INTO "."`".$table."` "."($columns) VALUES $values";
+                //            echo($sql); die;
+                $queryResult = $this->connection->query($sql);
+                if (!$queryResult) {
+                    printf("Errormessage: %s\n", $this->connection->error);
+                }
+            }
+
             $this->closeConnection();
 
             return $queryResult;

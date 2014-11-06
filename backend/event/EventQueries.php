@@ -18,9 +18,14 @@ class EventQueries {
         $this->dataBase = new DataBase();
     }
 
-    public final function getEventList()
+    public final function getOwnEventsList()
     {
-        return $this->dataBase->query("select * from EVENT");
+        return $this->dataBase->fetchArray($this->dataBase->query("select * from EVENT"));
+    }
+
+    public final function getApiEventsList()
+    {
+        return $this->dataBase->fetchArray($this->dataBase->query("select * from EVENT_API"));
     }
 
     public final function addEvent($event)
