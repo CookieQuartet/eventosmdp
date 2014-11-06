@@ -5,6 +5,7 @@
  * Date: 04/10/2014
  * Time: 06:11 PM
  */
+include('EventQueries.php');
 
 class Event {
     private $id; //Id
@@ -38,6 +39,8 @@ class Event {
     private $imageUrlSmall; //RutaImagenMiniatura
     private $allDay; //TodoDia
     private $timeZone; //ZonaHoraria
+    private static $eventQueries;
+
 
     function __construct($active, $allDay, $dateEnd, $dateStart, $descriptionCalendar, $descriptionEvent, $detailText, $eventAddress, $frecuency, $height, $id, $idArea, $idCalendar, $idEvent, $idSubarea, $idUser, $imageUrl, $imageUrlSmall, $latitude, $length, $nameArea, $nameCalendar, $nameEvent, $nameSubAreaFormat, $nameSubarea, $place, $price, $repeat, $star, $street, $timeZone)
     {
@@ -72,6 +75,15 @@ class Event {
         $this->star = $star;
         $this->street = $street;
         $this->timeZone = $timeZone;
+    }
+
+    public static function getEventQueries() {
+
+        if (!isset(self::$eventQueries)) {
+            self::$eventQueries = new EventQueries();
+        }
+
+        return self::$eventQueries;
     }
 
     /**
