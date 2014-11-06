@@ -30,19 +30,29 @@
         <material-content>
             <material-list>
                 <material-item ng-repeat="item in event.comments">
-                    <material-item-content>
+                    <material-item-content layout="vertical" layout-sm="horizontal">
                         <div class="material-tile-left">
-                            <img ng-src="{{item.pic}}" class="emdp-event-comment pic" alt="{{item.usuario}}">
+                            <!--<img ng-src="{{item.pic}}" class="emdp-event-comment pic" alt="{{item.usuario}}">-->
+                            <img src="img/svg/account-circle.svg" class="emdp-event-comment pic" alt="{{item.usuario}}">
                         </div>
                         <div class="material-tile-content">
                             <h4>{{item.usuario}}</h4>
-                            <p>
-                                {{item.comentario}}
-                            </p>
+                            <p>{{item.comentario}}</p>
                         </div>
+                        <emdp-rating max="5" value="0"></emdp-rating>
                     </material-item-content>
+                    <material-divider class="emdp-divider"></material-divider>
                 </material-item>
             </material-list>
+            <material-item-content layout="vertical" layout-sm="horizontal">
+                <div class="material-tile-left">
+                    <img ng-src="{{ persona.pic }}" class="emdp-event-comment pic" alt="{{ persona.name }}">
+                </div>
+                <div class="material-tile-content">
+                    <textarea class="emdp-event-comment-textarea"></textarea>
+                </div>
+                <emdp-rating max="5" value="0"></emdp-rating>
+            </material-item-content>
         </material-content>
     </div>
     <material-divider class="emdp-divider"></material-divider>
