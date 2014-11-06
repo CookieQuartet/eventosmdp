@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 06-11-2014 a las 01:42:08
+-- Tiempo de generación: 06-11-2014 a las 04:53:23
 -- Versión del servidor: 5.6.20
 -- Versión de PHP: 5.5.15
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `u185673925_event`
 --
+CREATE DATABASE IF NOT EXISTS `u185673925_event` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `u185673925_event`;
 
 -- --------------------------------------------------------
 
@@ -54,11 +56,34 @@ CREATE TABLE IF NOT EXISTS `AREA` (
 
 CREATE TABLE IF NOT EXISTS `COMMENT` (
 `id` int(11) NOT NULL,
-  `text` varchar(300) NOT NULL,
-  `id_status_comment` int(11) NOT NULL DEFAULT '1',
-  `id_event` int(11) NOT NULL,
+  `idUser` int(11) NOT NULL,
+  `text` varchar(1000) NOT NULL,
+  `idCommentStatus` int(11) NOT NULL DEFAULT '1',
+  `idEvent` int(11) NOT NULL,
+  `eventFromApi` int(1) NOT NULL DEFAULT '1',
   `stars` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `COMMENT_STATUS`
+--
+
+CREATE TABLE IF NOT EXISTS `COMMENT_STATUS` (
+  `id` int(11) NOT NULL,
+  `description` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `COMMENT_STATUS`
+--
+
+INSERT INTO `COMMENT_STATUS` (`id`, `description`) VALUES
+(1, 'Pendiente Aprobación'),
+(2, 'Aprobado'),
+(3, 'Denunciado'),
+(4, 'Eliminado');
 
 -- --------------------------------------------------------
 
@@ -153,27 +178,6 @@ CREATE TABLE IF NOT EXISTS `FAVORITE_EVENT_USER` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `STATUS_COMMENT`
---
-
-CREATE TABLE IF NOT EXISTS `STATUS_COMMENT` (
-  `id` int(11) NOT NULL,
-  `description` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `STATUS_COMMENT`
---
-
-INSERT INTO `STATUS_COMMENT` (`id`, `description`) VALUES
-(1, 'Pendiente Aprobación'),
-(2, 'Aprobado'),
-(3, 'Denunciado'),
-(4, 'Eliminado');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `SUBAREA`
 --
 
@@ -251,6 +255,12 @@ ALTER TABLE `AREA`
 -- Indices de la tabla `COMMENT`
 --
 ALTER TABLE `COMMENT`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `id` (`id`);
+
+--
+-- Indices de la tabla `COMMENT_STATUS`
+--
+ALTER TABLE `COMMENT_STATUS`
  ADD PRIMARY KEY (`id`);
 
 --
@@ -269,12 +279,6 @@ ALTER TABLE `EVENT_API`
 -- Indices de la tabla `FAVORITE_EVENT_USER`
 --
 ALTER TABLE `FAVORITE_EVENT_USER`
- ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `STATUS_COMMENT`
---
-ALTER TABLE `STATUS_COMMENT`
  ADD PRIMARY KEY (`id`);
 
 --
