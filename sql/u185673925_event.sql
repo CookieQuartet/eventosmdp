@@ -2,10 +2,10 @@
 -- version 4.2.7.1
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Nov 04, 2014 at 02:00 AM
--- Server version: 5.6.20
--- PHP Version: 5.5.15
+-- Servidor: localhost
+-- Tiempo de generación: 06-11-2014 a las 01:42:08
+-- Versión del servidor: 5.6.20
+-- Versión de PHP: 5.5.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,18 +17,15 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `u185673925_event`
+-- Base de datos: `u185673925_event`
 --
-CREATE DATABASE IF NOT EXISTS `u185673925_event` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `u185673925_event`;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ALERT`
+-- Estructura de tabla para la tabla `ALERT`
 --
 
-DROP TABLE IF EXISTS `ALERT`;
 CREATE TABLE IF NOT EXISTS `ALERT` (
 `id` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
@@ -41,10 +38,9 @@ CREATE TABLE IF NOT EXISTS `ALERT` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `AREA`
+-- Estructura de tabla para la tabla `AREA`
 --
 
-DROP TABLE IF EXISTS `AREA`;
 CREATE TABLE IF NOT EXISTS `AREA` (
 `id` int(11) NOT NULL,
   `description` varchar(300) CHARACTER SET utf8 NOT NULL
@@ -53,10 +49,9 @@ CREATE TABLE IF NOT EXISTS `AREA` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `COMMENT`
+-- Estructura de tabla para la tabla `COMMENT`
 --
 
-DROP TABLE IF EXISTS `COMMENT`;
 CREATE TABLE IF NOT EXISTS `COMMENT` (
 `id` int(11) NOT NULL,
   `text` varchar(300) NOT NULL,
@@ -68,10 +63,9 @@ CREATE TABLE IF NOT EXISTS `COMMENT` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `EVENT`
+-- Estructura de tabla para la tabla `EVENT`
 --
 
-DROP TABLE IF EXISTS `EVENT`;
 CREATE TABLE IF NOT EXISTS `EVENT` (
 `Id` int(11) NOT NULL,
   `IdUser` int(11) DEFAULT NULL,
@@ -109,39 +103,9 @@ CREATE TABLE IF NOT EXISTS `EVENT` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `EVENT-not-used`
+-- Estructura de tabla para la tabla `EVENT_API`
 --
 
-DROP TABLE IF EXISTS `EVENT-not-used`;
-CREATE TABLE IF NOT EXISTS `EVENT-not-used` (
-`id` int(11) NOT NULL,
-  `id_event` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `description` varchar(3000) NOT NULL,
-  `description_short` varchar(1000) NOT NULL,
-  `name_place` varchar(100) NOT NULL,
-  `address_place` varchar(300) DEFAULT NULL,
-  `price` decimal(30,0) DEFAULT NULL,
-  `frecuency` varchar(100) NOT NULL,
-  `date_start` date NOT NULL,
-  `date_end` date NOT NULL,
-  `repeat_event` varchar(100) NOT NULL,
-  `all_day` int(11) NOT NULL DEFAULT '0',
-  `image_url` varchar(500) DEFAULT NULL,
-  `image_url_small` varchar(500) DEFAULT NULL,
-  `id_area` int(11) NOT NULL,
-  `id_subarea` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `active` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `EVENT_API`
---
-
-DROP TABLE IF EXISTS `EVENT_API`;
 CREATE TABLE IF NOT EXISTS `EVENT_API` (
   `Altura` varchar(100) NOT NULL,
   `Calle` varchar(300) NOT NULL,
@@ -176,17 +140,29 @@ CREATE TABLE IF NOT EXISTS `EVENT_API` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `STATUS_COMMENT`
+-- Estructura de tabla para la tabla `FAVORITE_EVENT_USER`
 --
 
-DROP TABLE IF EXISTS `STATUS_COMMENT`;
+CREATE TABLE IF NOT EXISTS `FAVORITE_EVENT_USER` (
+`id` int(11) NOT NULL,
+  `idUser` int(11) NOT NULL,
+  `idEvento` int(11) NOT NULL,
+  `eventFromApi` int(1) NOT NULL DEFAULT '1' COMMENT '1: idEvent is from EVENT_API / 2: idEvent is from EVENT'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `STATUS_COMMENT`
+--
+
 CREATE TABLE IF NOT EXISTS `STATUS_COMMENT` (
   `id` int(11) NOT NULL,
   `description` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `STATUS_COMMENT`
+-- Volcado de datos para la tabla `STATUS_COMMENT`
 --
 
 INSERT INTO `STATUS_COMMENT` (`id`, `description`) VALUES
@@ -198,10 +174,9 @@ INSERT INTO `STATUS_COMMENT` (`id`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `SUBAREA`
+-- Estructura de tabla para la tabla `SUBAREA`
 --
 
-DROP TABLE IF EXISTS `SUBAREA`;
 CREATE TABLE IF NOT EXISTS `SUBAREA` (
 `id` int(11) NOT NULL,
   `description` varchar(100) CHARACTER SET utf8 NOT NULL,
@@ -212,10 +187,9 @@ CREATE TABLE IF NOT EXISTS `SUBAREA` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `USER`
+-- Estructura de tabla para la tabla `USER`
 --
 
-DROP TABLE IF EXISTS `USER`;
 CREATE TABLE IF NOT EXISTS `USER` (
 `id` int(11) NOT NULL,
   `name` varchar(60) NOT NULL,
@@ -226,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `USER` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=43 ;
 
 --
--- Dumping data for table `USER`
+-- Volcado de datos para la tabla `USER`
 --
 
 INSERT INTO `USER` (`id`, `name`, `email`, `password`, `id_user_type`, `active`) VALUES
@@ -240,17 +214,16 @@ INSERT INTO `USER` (`id`, `name`, `email`, `password`, `id_user_type`, `active`)
 -- --------------------------------------------------------
 
 --
--- Table structure for table `USER_TYPE`
+-- Estructura de tabla para la tabla `USER_TYPE`
 --
 
-DROP TABLE IF EXISTS `USER_TYPE`;
 CREATE TABLE IF NOT EXISTS `USER_TYPE` (
   `id` int(11) NOT NULL,
   `description` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `USER_TYPE`
+-- Volcado de datos para la tabla `USER_TYPE`
 --
 
 INSERT INTO `USER_TYPE` (`id`, `description`) VALUES
@@ -259,99 +232,105 @@ INSERT INTO `USER_TYPE` (`id`, `description`) VALUES
 (3, 'Usuario General');
 
 --
--- Indexes for dumped tables
+-- Índices para tablas volcadas
 --
 
 --
--- Indexes for table `ALERT`
+-- Indices de la tabla `ALERT`
 --
 ALTER TABLE `ALERT`
  ADD PRIMARY KEY (`id`), ADD KEY `id_user` (`id_user`,`id_subarea`);
 
 --
--- Indexes for table `AREA`
+-- Indices de la tabla `AREA`
 --
 ALTER TABLE `AREA`
  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `COMMENT`
+-- Indices de la tabla `COMMENT`
 --
 ALTER TABLE `COMMENT`
  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `EVENT`
+-- Indices de la tabla `EVENT`
 --
 ALTER TABLE `EVENT`
  ADD PRIMARY KEY (`Id`), ADD UNIQUE KEY `Id_2` (`Id`), ADD UNIQUE KEY `IdEvento` (`IdEvento`), ADD KEY `Id` (`Id`), ADD KEY `IdEvento_2` (`IdEvento`);
 
 --
--- Indexes for table `EVENT-not-used`
+-- Indices de la tabla `EVENT_API`
 --
-ALTER TABLE `EVENT-not-used`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `id_event` (`id_event`), ADD KEY `id_area` (`id_area`,`id_subarea`), ADD KEY `id_user` (`id_user`);
+ALTER TABLE `EVENT_API`
+ ADD PRIMARY KEY (`IdEvento`), ADD UNIQUE KEY `IdEvento` (`IdEvento`), ADD KEY `IdEvento_2` (`IdEvento`);
 
 --
--- Indexes for table `STATUS_COMMENT`
+-- Indices de la tabla `FAVORITE_EVENT_USER`
+--
+ALTER TABLE `FAVORITE_EVENT_USER`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `STATUS_COMMENT`
 --
 ALTER TABLE `STATUS_COMMENT`
  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `SUBAREA`
+-- Indices de la tabla `SUBAREA`
 --
 ALTER TABLE `SUBAREA`
  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `USER`
+-- Indices de la tabla `USER`
 --
 ALTER TABLE `USER`
  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `EMAIL` (`email`), ADD KEY `id_user_type` (`id_user_type`);
 
 --
--- Indexes for table `USER_TYPE`
+-- Indices de la tabla `USER_TYPE`
 --
 ALTER TABLE `USER_TYPE`
  ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT for table `ALERT`
+-- AUTO_INCREMENT de la tabla `ALERT`
 --
 ALTER TABLE `ALERT`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `AREA`
+-- AUTO_INCREMENT de la tabla `AREA`
 --
 ALTER TABLE `AREA`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `COMMENT`
+-- AUTO_INCREMENT de la tabla `COMMENT`
 --
 ALTER TABLE `COMMENT`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `EVENT`
+-- AUTO_INCREMENT de la tabla `EVENT`
 --
 ALTER TABLE `EVENT`
 MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `EVENT-not-used`
+-- AUTO_INCREMENT de la tabla `FAVORITE_EVENT_USER`
 --
-ALTER TABLE `EVENT-not-used`
+ALTER TABLE `FAVORITE_EVENT_USER`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `SUBAREA`
+-- AUTO_INCREMENT de la tabla `SUBAREA`
 --
 ALTER TABLE `SUBAREA`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `USER`
+-- AUTO_INCREMENT de la tabla `USER`
 --
 ALTER TABLE `USER`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
