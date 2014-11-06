@@ -4,10 +4,15 @@
             <img ng-src="{{ ::(event.RutaImagen ? event.RutaImagen : event.RutaImagenMiniatura) }}" class="face" width="220" height="220">
             <div class="emdp-event-controls" layout="horizontal" layout-align="start center">
                 <div>
-                    <i class="emdp-icon emdp-icon-medium emdp-icon-favorite" ng-class="{ 'emdp-icon-favorite-selected': event.favorite }" ng-click="methods.favorite(event)">
+                    <i class="emdp-icon emdp-icon-medium emdp-icon-favorite"
+                       ng-show="persona.logged"
+                       ng-class="{ 'emdp-icon-favorite-selected': event.favorite }"
+                       ng-click="methods.favorite(event)">
                         <material-tooltip>Marcar como favorito</material-tooltip>
                     </i>
-                    <i class="emdp-icon emdp-icon-medium emdp-icon-comment" ng-class="{ 'emdp-icon-comment-show': config.showComments }" ng-click="methods.comments()">
+                    <i class="emdp-icon emdp-icon-medium emdp-icon-comment"
+                       ng-class="{ 'emdp-icon-comment-show': config.showComments }"
+                       ng-click="methods.comments()">
                         <material-tooltip>Comentarios</material-tooltip>
                     </i>
                 </div>
@@ -41,18 +46,21 @@
                         </div>
                         <emdp-rating max="5" value="0"></emdp-rating>
                     </material-item-content>
-                    <material-divider class="emdp-divider"></material-divider>
+                    <material-divider class="emdp-divider" ng-hide="$last"></material-divider>
                 </material-item>
             </material-list>
-            <material-item-content layout="vertical" layout-sm="horizontal">
-                <div class="material-tile-left">
-                    <img ng-src="{{ persona.pic }}" class="emdp-event-comment pic" alt="{{ persona.name }}">
-                </div>
-                <div class="material-tile-content">
-                    <textarea class="emdp-event-comment-textarea"></textarea>
-                </div>
-                <emdp-rating max="5" value="0"></emdp-rating>
-            </material-item-content>
+            <section ng-show="persona.logged">
+                <material-divider class="emdp-divider"></material-divider>
+                <material-item-content layout="vertical" layout-sm="horizontal">
+                    <div class="material-tile-left">
+                        <img ng-src="{{ persona.pic }}" class="emdp-event-comment pic" alt="{{ persona.name }}">
+                    </div>
+                    <div class="material-tile-content">
+                        <textarea class="emdp-event-comment-textarea"></textarea>
+                    </div>
+                    <emdp-rating max="5" value="0"></emdp-rating>
+                </material-item-content>
+            </section>
         </material-content>
     </div>
     <material-divider class="emdp-divider"></material-divider>

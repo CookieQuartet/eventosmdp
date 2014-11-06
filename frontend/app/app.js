@@ -7,7 +7,7 @@ angular.module('app', ['users', 'view', 'events', 'ui.router'])
         { name: 'Favoritos', icon: "img/svg/heart.svg", action: 'state.go("favorites")', type: 2 },
         { name: 'Mi perfil', icon: "img/svg/account.svg", action: 'state.go("profile")', type: 2 },
         { name: 'Mis Alertas', icon: "img/svg/bell.svg", action: 'state.go("alerts")', type: 2 },
-        { name: 'Cerrar sesión', icon: "img/svg/exit-to-app.svg", action: 'user.logout(); state.go("home")', type: 0 }
+        { name: 'Cerrar sesión', icon: "img/svg/exit-to-app.svg", action: 'user.logout(); state.go("events")', type: 0 }
 
         /*{ name: 'Gestionar eventos', icon: "img/svg/account.svg", action: 'state.go("profile")', type: 3 },
         { name: 'Gestionar usuarios', icon: "img/svg/bell.svg", action: 'state.go("alerts")', type: 3 },
@@ -16,7 +16,7 @@ angular.module('app', ['users', 'view', 'events', 'ui.router'])
       ]
     })
     .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-      $urlRouterProvider.otherwise('/home');
+      $urlRouterProvider.otherwise('/events');
       $stateProvider
         .state('login', {
           "url": "/login",

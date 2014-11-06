@@ -11,7 +11,7 @@ angular.module('users', ['facebook'])
       name: 'Usuario Anónimo',
       type: 2,
       email: 'user@mail.com',
-      pic: 'img/svg/account-circle_wht.svg',
+      pic: 'img/svg/account-circle.svg',
       logged: false
     })
     .value('profiles', {
@@ -43,7 +43,7 @@ angular.module('users', ['facebook'])
       return function(callback) {
         userAPI.checkServerLogged().then(function(response) {
           if(!(response.logged || $rootScope.persona.logged)) {
-            $state.go('home');
+            $state.go('events');
           } else {
             if(angular.isFunction(callback)) {
               callback.call();
