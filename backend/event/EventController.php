@@ -11,12 +11,19 @@ class EventController {
 
     public function showEvents()
     {
-        $ownEvents = array();
-        $apiEvents = array();
         $ownEvents= Event::getEventQueries()->getOwnEventsList();
-        $apiEvents = Event::getEventQueries()->getApiEventsList();
+        if ($ownEvents==null)
+        {
+            $ownEvents = array();
+        }
 
-        echo json_encode(array_merge($ownEvents,$apiEvents)); die;
+        $apiEvents = Event::getEventQueries()->getApiEventsList();
+        if ($apiEvents==null)
+        {
+            $apiEvents = array();
+        }
+
+        return json_encode(array_merge($ownEvents,$apiEvents));
 
     }
 
