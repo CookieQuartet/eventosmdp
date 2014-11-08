@@ -1,13 +1,17 @@
 
-angular.module('app', ['users', 'view', 'events', 'ui.router'])
+angular.module('app', ['users', 'view', 'events', 'ui.router', 'angular.filter'])
     .value('emdpActions', {
       list: [
 
-        { name: 'Eventos', icon: "img/svg/map-marker.svg", action: 'state.go("events")', type: 2 },
-        { name: 'Favoritos', icon: "img/svg/heart.svg", action: 'state.go("favorites")', type: 2 },
-        { name: 'Mi perfil', icon: "img/svg/account.svg", action: 'state.go("profile")', type: 2 },
-        { name: 'Mis Alertas', icon: "img/svg/bell.svg", action: 'state.go("alerts")', type: 2 },
-        { name: 'Cerrar sesión', icon: "img/svg/exit-to-app.svg", action: 'user.logout(); state.go("events")', type: 0 }
+        { name: 'Eventos', icon: "img/svg/map-marker.svg", action: 'state.go("events")', type: 3 },
+        { name: 'Nuevo evento', icon: "img/svg/plus.svg", action: 'state.go("new_event")', type: 2 },
+        { name: 'Favoritos', icon: "img/svg/heart.svg", action: 'state.go("favorites")', type: 3 },
+        { name: 'Mi perfil', icon: "img/svg/account.svg", action: 'state.go("profile")', type: 3 },
+        { name: 'Nuevo usuario', icon: "img/svg/person-plus.svg", action: 'state.go("profile")', type: 1 },
+        { name: 'Usuarios', icon: "img/svg/people.svg", action: 'state.go("profile")', type: 1 },
+        { name: 'Mis Alertas', icon: "img/svg/bell.svg", action: 'state.go("alerts")', type: 3 },
+        { name: 'Cerrar sesión', icon: "img/svg/exit-to-app.svg", action: 'user.logout(); state.go("events")', type: 3 }
+
 
         /*{ name: 'Gestionar eventos', icon: "img/svg/account.svg", action: 'state.go("profile")', type: 3 },
         { name: 'Gestionar usuarios', icon: "img/svg/bell.svg", action: 'state.go("alerts")', type: 3 },

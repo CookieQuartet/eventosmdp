@@ -1,3 +1,55 @@
-<div class="emdp-profile">
-    Perfil
-</div>
+<material-whiteframe class="material-whiteframe-z1 emdp-profile" layout="vertical" layout-sm="vertical">
+    <div layout="vertical" layout-align="center center">
+        <div layout="vertical" layout-md="horizontal" layout-align="start center" style="width:100%;">
+            <div class="material-tile-left emdp-material-tile" layout="vertical" layout-align="start start">
+                <img ng-src="{{ persona.pic }}" class="emdp-profile-pic face" width="220" height="220">
+            </div>
+            <div class="material-tile-content emdp-material-whiteframe-content" layout="vertical" layout-sm="horizontal" layout-align="start center">
+                <section class="eventosmdp-user-inputs emdp-minsize">
+                    <emdp-material-input
+                            layout-align="center"
+                            fid="name"
+                            label="Nombre"
+                            type="text"
+                            value="persona.name"
+                            class="material-input-group-theme-light-blue material-input-group-inverted">
+                    </emdp-material-input>
+                    <emdp-material-input
+                            layout-align="center"
+                            fid="email"
+                            label="Email"
+                            type="email"
+                            value="persona.email"
+                            class="material-input-group-theme-light-blue material-input-group-inverted">
+                    </emdp-material-input>
+                    <emdp-material-input
+                            layout-align="center"
+                            fid="password"
+                            label="Contraseña"
+                            type="password"
+                            value="persona.password"
+                            class="material-input-group-theme-light-blue material-input-group-inverted">
+                    </emdp-material-input>
+                </section>
+                <section>
+                    <material-radio-group ng-model="persona.type.toString()">
+                        <material-radio-button ng-disabled="persona.type > 1" value="1" aria-label="Admin">Admin</material-radio-button>
+                        <material-radio-button ng-disabled="persona.type > 2" value="2" aria-label="Publicador"> Publicador </material-radio-button>
+                        <material-radio-button ng-disabled="persona.type > 3" value="3" aria-label="Usuario">Usuario</material-radio-button>
+                    </material-radio-group>
+                </section>
+            </div>
+        </div>
+        <material-divider class="emdp-divider"></material-divider>
+        <section
+            class="eventosmdp-profile-button"
+            layout="vertical"
+            layout-sm="horizontal"
+            layout-align="center center">
+            <material-button
+                style="width:200px;"
+                class="material-button-raised material-button-colored"
+                data-ng-click="">Guardar</material-button>
+        </section>
+    </div>
+</material-whiteframe>

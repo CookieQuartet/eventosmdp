@@ -47,7 +47,7 @@
                             </section>
                             <material-divider class="emdp-divider"></material-divider>-->
                             <emdp-action
-                                ng-repeat="action in actions.list | filter:persona.user.type"
+                                ng-repeat="action in actions.list | filter:filterActions"
                                 name="{{ action.name }}"
                                 action="{{ action.action }}"
                                 icon="{{ action.icon }}"></emdp-action>
@@ -55,10 +55,13 @@
                     </material-content>
                 </material-sidenav>
                 <material-content flex class="emdp-cardlist-background">
+                    <!--<material-toolbar class="material-theme-indigo">
+                        <div>EventosMDP</div>
+                    </material-toolbar>-->
                     <div class="eventosmdp-content"
                          layout="horizontal"
                          layout-fill
-                         layout-align="center"
+                         layout-align="center start"
                          ui-view="content"></div>
                 </material-content>
             </material-content>
@@ -66,6 +69,7 @@
         <script src="bower_components/lodash/dist/lodash.js"></script>
         <script src="bower_components/datejs/build/date-es-AR.js"></script>
         <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-filter/dist/angular-filter.js"></script>
         <script src="bower_components/angular-i18n/angular-locale_es-ar.js"></script>
         <script src="bower_components/angular-aria/angular-aria.js"></script>
         <script src="bower_components/angular-animate/angular-animate.js"></script>

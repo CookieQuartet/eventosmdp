@@ -1,5 +1,5 @@
 <material-whiteframe class="material-whiteframe-z1" layout="vertical" layout-sm="vertical">
-    <div layout="vertical" layout-sm="horizontal" layout-align="start center">
+    <div layout="vertical" layout-sm="horizontal" layout-align="center center">
         <div class="material-tile-left emdp-material-tile" layout="vertical" layout-align="center start">
             <img ng-src="{{ ::(event.RutaImagen ? event.RutaImagen : event.RutaImagenMiniatura) }}" class="face" width="220" height="220">
             <div class="emdp-event-controls" layout="horizontal" layout-align="start center">
@@ -25,7 +25,7 @@
             <material-divider class="emdp-divider"></material-divider>
             <h3>{{ ::event.DescripcionEvento }}</h3>
             <br/>
-            <p style="text-align: justify;">{{ ::event.DetalleTexto }}</p>
+            <p class="emdp-event-detalle-texto">{{ ::event.DetalleTexto }}</p>
             <br/>
             <h3 class="emdp-card-place">{{ ::event.Lugar }}</h3>
         </div>

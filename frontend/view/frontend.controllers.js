@@ -7,6 +7,9 @@ angular.module('view', ['ngMaterial', 'users'])
         $materialSidenav('left').toggle();
       }
     };
+    $scope.filterActions = function (action) {
+      return action.type >= $rootScope.persona.type;
+    };
   })
   .controller('emdpLoginController', function($rootScope, $scope, $state, user) {
 

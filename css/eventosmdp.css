@@ -106,10 +106,22 @@ html, body {
     display: -webkit-inline-box;
 }
 
+
 material-whiteframe {
     background: #fff;
-    margin: 20px;
     padding: 20px;
+}
+
+@media (max-width: 470px) {
+    material-whiteframe {
+        margin: 20px;
+    }
+}
+
+@media (min-width: 480px) {
+    material-whiteframe {
+        margin: 40px;
+    }
 }
 
 .emdp-body {
@@ -129,8 +141,9 @@ material-whiteframe {
 }
 
 .emdp-cardlist {
+    float:left;
+    width: 100%;
     height: 100%;
-    float: left;
     margin-bottom: 50px;
 }
 
@@ -192,11 +205,6 @@ material-whiteframe {
 
 }
 
-.eventosmdp-login-inputs input {
-    color:black !important;
-}
-
-
 .eventosmdp-btn-nav {
     width: 296px;
     margin-left: 4px;
@@ -232,17 +240,22 @@ material-button:not([disabled]).eventosmdp-btn-nav:hover, material-button:not([d
     margin: 0 10px 0 10px;
 }
 
-.eventosmdp-login-inputs {
-    width: 100%;
-    padding: 0 10% 0 10%;
+.eventosmdp-user-inputs input {
+    color:black !important;
 }
 
-.eventosmdp-login-inputs #email,
-.eventosmdp-login-inputs #password {
+.eventosmdp-user-inputs {
+    width: 80%;
+    padding: 0 5% 0 5%;
+}
+
+.eventosmdp-user-inputs #name,
+.eventosmdp-user-inputs #email,
+.eventosmdp-user-inputs #password {
     width: 100%;
 }
 
-.eventosmdp-login-inputs material-input-group {
+.eventosmdp-user-inputs material-input-group {
     margin: 2px;
 }
 
@@ -371,10 +384,54 @@ img.emdp-event-comment.pic {
     border: 1px solid #ddd;
     width: 48px;
     margin: 16px;
+    background: #4285f4;
 }
 
 .emdp-event-comment-textarea {
     width: 100%;
     resize: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+}
+
+.emdp-event-detalle-texto {
+    height: 95px;
+    overflow: auto;
+    text-align: justify;
+}
+
+@media (max-width: 960px) {
+    .emdp-profile {
+        width: 600px;
+    }
+}
+
+@media (min-width: 960px) {
+    .emdp-profile {
+        width: 800px;
+    }
+}
+
+
+@media (max-width: 600px) {
+    .emdp-profile {
+        width: 400px;
+    }
+}
+
+img.emdp-profile-pic {
+    border-radius: 50px;
+    border: 1px solid #ddd;
+    width: 100px;
+    height: 100px;
+    margin: 0;
+    /*margin: 16px;*/
+    background: #4285f4;
+}
+
+.eventosmdp-profile-button {
+    margin: 20px;
+}
+
+.emdp-minsize {
+    min-width:200px;
 }

@@ -33,7 +33,7 @@ class ApiRequest {
         );
 
         $result = curl_exec($request);
-        $aresult = json_decode($result);
+        $aresult = json_decode(utf8_encode($result));
 
         if ($aresult->Estado==sucessfull || $aresult->Estado==warning)
         {
@@ -63,6 +63,9 @@ class ApiRequest {
 
         $result = curl_exec($request);
         $aresult = json_decode($result);
+        //$aresult = json_decode(utf8_encode($result));
+        //$aresult = json_decode(iconv( "ISO-8859-1", "UTF-8", $result ));
+
 
         if ($aresult->Estado==warning)
         {

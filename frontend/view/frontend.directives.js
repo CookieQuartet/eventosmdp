@@ -69,6 +69,7 @@
               onLoginLogoutHandler = function(event, data) {
                 switch(event.name) {
                   case 'user:login':
+                      $rootScope.persona.password = '';
                     break;
                   case 'user:logout':
                   case 'user:fbLogout':

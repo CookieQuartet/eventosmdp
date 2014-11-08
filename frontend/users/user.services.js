@@ -28,6 +28,11 @@ angular.module('users', ['facebook'])
         name: "publisher"
       }
     })
+    .filter('lessEqualThan', function() {
+      return function(val1, val2){
+        return val1 <= val2;
+      }
+    })
     .service('checkLogged', function($rootScope, $state, userAPI) {
       /*
       return function(callback) {
