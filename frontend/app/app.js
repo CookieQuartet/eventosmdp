@@ -1,5 +1,6 @@
 
-angular.module('app', ['users', 'view', 'events', 'ui.router', 'angular.filter'])
+//angular.module('app', ['users', 'view', 'events', 'ui.router', 'angular.filter'])
+angular.module('app', ['users', 'view', 'events', 'ui.router'])
     .value('emdpActions', {
       list: [
 

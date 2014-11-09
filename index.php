@@ -69,7 +69,7 @@
         <script src="bower_components/lodash/dist/lodash.js"></script>
         <script src="bower_components/datejs/build/date-es-AR.js"></script>
         <script src="bower_components/angular/angular.js"></script>
-        <script src="bower_components/angular-filter/dist/angular-filter.js"></script>
+        <!--<script src="bower_components/angular-filter/dist/angular-filter.js"></script>-->
         <script src="bower_components/angular-i18n/angular-locale_es-ar.js"></script>
         <script src="bower_components/angular-aria/angular-aria.js"></script>
         <script src="bower_components/angular-animate/angular-animate.js"></script>
