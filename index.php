@@ -8,26 +8,28 @@
     </head>
     <body data-ng-controller="AppController">
         <div layout="vertical" layout-fill>
-            <material-toolbar scroll-shrink class="material-theme-indigo">
-                <div class="material-toolbar-tools" layout="horizontal">
+            <material-toolbar
+                scroll-shrink
+                class="material-theme-dark"
+                ng-class="{ 'material-medium-tall': data.search.visible, 'material-medium': !data.search.visible  }">
+                <div class="material-toolbar-tools" layout-arrange="center center" layout="horizontal">
                     <material-button ng-click="methods.toggleMenu()" hide-md>
                         <material-icon icon="img/svg/menu_wht.svg" style="width: 24px; height: 24px;"></material-icon>
                     </material-button>
                     <div>EventosMDP</div>
                 </div>
-            </material-toolbar>
-            <material-toolbar scroll-shrink class="material-theme-indigo">
-                <div class="material-toolbar-tools" layout="horizontal">
+                <div ng-show="data.search.visible" class="material-toolbar-tools" layout="horizontal">
                     <emdp-material-input
                         layout-align="center"
                         fid="name"
                         label="Buscar"
                         type="text"
-                        value="data.name"
-                        class="material-input-group-theme-light-blue material-input-group-inverted">
+                        value="data.search.text"
+                        class="emdp-search material-input-group-theme-light-blue material-input-group-inverted">
                     </emdp-material-input>
                 </div>
             </material-toolbar>
+            
             <material-content class="emdp-body" layout="horizontal" flex data-ng-cloak>
                 <material-sidenav class="material-sidenav-left material-whiteframe-z2" component-id="left">
                     <material-toolbar class="material-theme-light" ng-show="persona.logged">
