@@ -248,6 +248,9 @@ material-button:not([disabled]).eventosmdp-btn-nav:hover, material-button:not([d
     width: 80%;
     padding: 0 5% 0 5%;
 }
+.emdp-margin-left-10 {
+    margin-left:10%;
+}
 
 .eventosmdp-user-inputs #name,
 .eventosmdp-user-inputs #email,
