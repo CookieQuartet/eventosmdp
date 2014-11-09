@@ -11,7 +11,7 @@
                             fid="name"
                             label="Nombre"
                             type="text"
-                            value="persona.name"
+                            value="data.name"
                             class="material-input-group-theme-light-blue material-input-group-inverted">
                     </emdp-material-input>
                     <emdp-material-input
@@ -19,7 +19,7 @@
                             fid="email"
                             label="Email"
                             type="email"
-                            value="persona.email"
+                            value="data.email"
                             class="material-input-group-theme-light-blue material-input-group-inverted">
                     </emdp-material-input>
                     <emdp-material-input
@@ -27,12 +27,12 @@
                             fid="password"
                             label="Contraseña"
                             type="password"
-                            value="persona.password"
+                            value="data.password"
                             class="material-input-group-theme-light-blue material-input-group-inverted">
                     </emdp-material-input>
                 </section>
                 <section>
-                    <material-radio-group ng-model="persona.type.toString()">
+                    <material-radio-group ng-model="data.type">
                         <material-radio-button ng-disabled="persona.type > 1" value="1" aria-label="Admin">Admin</material-radio-button>
                         <material-radio-button ng-disabled="persona.type > 2" value="2" aria-label="Publicador"> Publicador </material-radio-button>
                         <material-radio-button ng-disabled="persona.type > 3" value="3" aria-label="Usuario">Usuario</material-radio-button>
@@ -49,7 +49,7 @@
             <material-button
                 style="width:200px;"
                 class="material-button-raised material-button-colored"
-                data-ng-click="">Guardar</material-button>
+                data-ng-click="methods.saveProfile(data)">Guardar</material-button>
         </section>
     </div>
 </material-whiteframe>

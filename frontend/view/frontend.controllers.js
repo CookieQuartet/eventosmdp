@@ -1,12 +1,20 @@
 angular.module('view', ['ngMaterial', 'users'])
-  .controller('AppController', function($scope, $timeout, $materialSidenav, $rootScope) {
+  .controller('AppController', function($scope, $timeout, $materialSidenav, $materialToast, $rootScope) {
     $rootScope.lastState = '';
     $rootScope.eventList = [];
     $scope.methods = {
       toggleMenu: function() {
         $materialSidenav('left').toggle();
+      },
+      toastMessage: function(message) {
+        $materialToast.show({
+          template: '<material-toast>' + message + '</material-toast>',
+          duration: 1000,
+          position: 'bottom top left right'
+        });
       }
     };
+
     $scope.filterActions = function (action) {
       return action.type >= $rootScope.persona.type;
     };
@@ -37,8 +45,23 @@ angular.module('view', ['ngMaterial', 'users'])
   })
   .controller('emdpProfileController', function($rootScope, $scope, $state, user) {
     $rootScope.lastState = 'profile';
-    user.checkLogged(function() {
 
+    $scope.methods = {
+      saveProfile: function(data) {
+        console.log(data);
+        angular.extend($rootScope.persona, data);
+        $scope.$parent.methods.toastMessage('Cambios guardados.');
+      }
+    };
+
+    user.checkLogged(function() {
+        $scope.data = {
+          email: $rootScope.persona.email,
+          name: $rootScope.persona.name,
+          password: '',
+          pic: $rootScope.persona.pic,
+          type: $rootScope.persona.type
+        };
     });
   })
   .controller('emdpAlertsController', function($rootScope, $scope, $state, user) {
