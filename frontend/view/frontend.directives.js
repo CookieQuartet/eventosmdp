@@ -35,10 +35,14 @@
       return {
         restrict: 'E',
         replace: false,
-        controller: function($scope, user, $state, $materialSidenav) {
+        controller: function($scope, user, $state, $materialSidenav, emdpActions) {
           $scope.user = user;
           $scope.state = $state;
           $scope.call = function() {
+            angular.forEach(emdpActions.list, function(action) {
+              action.selected = false;
+            });
+            $scope.$parent.action.selected = true;
             $scope.$eval($scope.action);
             $materialSidenav('left').toggle();
           }

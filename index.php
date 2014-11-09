@@ -11,9 +11,9 @@
             <material-toolbar
                 scroll-shrink
                 class="material-theme-dark"
-                ng-class="{ 'material-medium-tall': data.search.visible, 'material-medium': !data.search.visible  }">
+                ng-class="{ 'material-medium-tall': data.search.visible  }">
                 <div class="material-toolbar-tools" layout-arrange="center center" layout="horizontal">
-                    <material-button ng-click="methods.toggleMenu()" hide-md>
+                    <material-button ng-click="methods.toggleMenu()" hide-md style="margin:0;">
                         <material-icon icon="img/svg/menu_wht.svg" style="width: 24px; height: 24px;"></material-icon>
                     </material-button>
                     <div>EventosMDP</div>
@@ -49,19 +49,9 @@
                             <emdp-login-form></emdp-login-form>
                         </section>
                         <section class="eventosmdp-logged" ng-show="persona.logged">
-                            <!--<section class="emdp-search">
-                                <emdp-material-input
-                                    layout-align="center"
-                                    fid="search"
-                                    label="Buscar"
-                                    type="search"
-                                    value="search"
-                                    class="material-input-group-theme-light-blue material-input-group-inverted">
-                                </emdp-material-input>
-                            </section>
-                            <material-divider class="emdp-divider"></material-divider>-->
                             <emdp-action
                                 ng-repeat="action in actions.list | filter:filterActions"
+                                ng-class="{ 'emdp-action-selected': action.selected }"
                                 name="{{ action.name }}"
                                 action="{{ action.action }}"
                                 icon="{{ action.icon }}"></emdp-action>
@@ -69,9 +59,6 @@
                     </material-content>
                 </material-sidenav>
                 <material-content flex class="emdp-cardlist-background">
-                    <!--<material-toolbar class="material-theme-indigo">
-                        <div>EventosMDP</div>
-                    </material-toolbar>-->
                     <div class="eventosmdp-content"
                          layout="horizontal"
                          layout-fill

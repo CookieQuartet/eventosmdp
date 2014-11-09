@@ -3,27 +3,21 @@
 angular.module('app', ['users', 'view', 'events', 'ui.router'])
     .value('emdpActions', {
       list: [
-
-        { name: 'Eventos', icon: "img/svg/map-marker.svg", action: 'state.go("events")', type: 3 },
-        { name: 'Nuevo evento', icon: "img/svg/plus.svg", action: 'state.go("new_event")', type: 2 },
-        { name: 'Favoritos', icon: "img/svg/heart.svg", action: 'state.go("favorites")', type: 3 },
-        { name: 'Mi perfil', icon: "img/svg/account.svg", action: 'state.go("profile")', type: 3 },
-        { name: 'Nuevo usuario', icon: "img/svg/person-plus.svg", action: 'state.go("profile")', type: 1 },
-        { name: 'Usuarios', icon: "img/svg/people.svg", action: 'state.go("profile")', type: 1 },
-        { name: 'Mis Alertas', icon: "img/svg/bell.svg", action: 'state.go("alerts")', type: 3 },
-        { name: 'Cerrar sesión', icon: "img/svg/exit-to-app.svg", action: 'user.logout(); state.go("events")', type: 3 }
-
-
-        /*{ name: 'Gestionar eventos', icon: "img/svg/account.svg", action: 'state.go("profile")', type: 3 },
-        { name: 'Gestionar usuarios', icon: "img/svg/bell.svg", action: 'state.go("alerts")', type: 3 },
-        { name: 'Cerrar sesión', icon: "img/svg/exit-to-app.svg", action: 'user.logout(); state.go("home")', type: 3 }*/
-
+        { id: 'events', name: 'Eventos', icon: "img/svg/map-marker.svg", action: 'state.go("events")', type: 3 },
+        { id: 'new_event', name: 'Nuevo evento', icon: "img/svg/plus.svg", action: 'state.go("new_event")', type: 2 },
+        { id: 'favorites', name: 'Favoritos', icon: "img/svg/heart.svg", action: 'state.go("favorites")', type: 3 },
+        { id: 'profile', name: 'Mi perfil', icon: "img/svg/account.svg", action: 'state.go("profile")', type: 3 },
+        { id: 'new_user', name: 'Nuevo usuario', icon: "img/svg/person-plus.svg", action: 'state.go("new_user")', type: 1 },
+        { id: 'users', name: 'Usuarios', icon: "img/svg/people.svg", action: 'state.go("users")', type: 1 },
+        { id: 'alerts', name: 'Mis Alertas', icon: "img/svg/bell.svg", action: 'state.go("alerts")', type: 3 },
+        { id: 'logout', name: 'Cerrar sesión', icon: "img/svg/exit-to-app.svg", action: 'user.logout(); state.go("events")', type: 3 }
       ]
     })
-    .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', 'emdpActionsProvider', function($stateProvider, $urlRouterProvider, emdpActions) {
+      var actions = emdpActions.$get().list;
       $urlRouterProvider.otherwise('/events');
       $stateProvider
-        .state('login', {
+        /*.state('login', {
           "url": "/login",
           "views": {
             "content": {
@@ -32,33 +26,8 @@ angular.module('app', ['users', 'view', 'events', 'ui.router'])
             }
           },
           "resolve" : {
-
           }
-        })
-        .state('register', {
-          "url": "/register",
-          "views": {
-            "content": {
-              "templateUrl": "frontend/view/partials/emdpNewUser.html",
-              "controller": 'emdpNewUserController'
-            }
-          },
-          "resolve" : {
-
-          }
-        })
-        .state('home', {
-          "url": "/home",
-          "views": {
-            "content": {
-              "templateUrl": "frontend/view/partials/emdpHome.html",
-              "controller": 'emdpHomeController'
-            }
-          },
-          "resolve" : {
-
-          }
-        })
+        })*/
         .state('events', {
           "url": "/events",
           "views": {
@@ -68,7 +37,23 @@ angular.module('app', ['users', 'view', 'events', 'ui.router'])
             }
           },
           "resolve" : {
-
+            "action": function() {
+              return _.find(actions, { id: 'events' });
+            }
+          }
+        })
+        .state('new_event', {
+          "url": "/new_event",
+          "views": {
+            "content": {
+              "templateUrl": "frontend/view/partials/emdpNewEvent.html",
+              "controller": 'emdpNewEventController'
+            }
+          },
+          "resolve" : {
+            "action": function() {
+              return _.find(actions, { id: 'new_event' });
+            }
           }
         })
         .state('favorites', {
@@ -80,7 +65,9 @@ angular.module('app', ['users', 'view', 'events', 'ui.router'])
             }
           },
           "resolve" : {
-
+            "action": function() {
+              return _.find(actions, { id: 'favorites' });
+            }
           }
         })
         .state('profile', {
@@ -92,7 +79,37 @@ angular.module('app', ['users', 'view', 'events', 'ui.router'])
             }
           },
           "resolve" : {
-
+            "action": function() {
+              return _.find(actions, { id: 'profile' });
+            }
+          }
+        })
+        .state('new_user', {
+          "url": "/new_user",
+          "views": {
+            "content": {
+              "templateUrl": "frontend/view/partials/emdpProfile.html",
+              "controller": 'emdpNewUserController'
+            }
+          },
+          "resolve" : {
+            "action": function() {
+              return _.find(actions, { id: 'new_user' });
+            }
+          }
+        })
+        .state('users', {
+          "url": "/users",
+          "views": {
+            "content": {
+              "templateUrl": "frontend/view/partials/emdpUsers.html",
+              "controller": 'emdpUsersController'
+            }
+          },
+          "resolve" : {
+            "action": function() {
+              return _.find(actions, { id: 'users' });
+            }
           }
         })
         .state('alerts', {
@@ -104,7 +121,9 @@ angular.module('app', ['users', 'view', 'events', 'ui.router'])
             }
           },
           "resolve" : {
-
+            "action": function() {
+              return _.find(actions, { id: 'alerts' });
+            }
           }
         });
     }]);

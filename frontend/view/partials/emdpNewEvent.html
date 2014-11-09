@@ -1,0 +1,61 @@
+<div layout="vertical" flex layout-fill>
+    <material-content >
+        <section>
+            <material-whiteframe class="material-whiteframe-z1" layout="vertical" layout-sm="vertical">
+                <div layout="vertical" layout-sm="horizontal" layout-align="center center">
+                    <div class="material-tile-left emdp-material-tile" layout="vertical" layout-align="center start">
+                        <img ng-src="{{ data.imageLink }}" class="face" width="220" height="220">
+                        <div class="emdp-event-controls" layout="horizontal" layout-align="start center">
+                            <input class="emdp-event-image-link" type="text" ng-model="data.imageLink" placeholder="Link a la imagen del evento"/>
+                        </div>
+                    </div>
+                    <div class="material-tile-content emdp-material-whiteframe-content">
+                        <h1 block-sm hide class="emdp-font-title-content"><input type="text" placeholder="Nombre del evento"/></h1>
+                        <h2 hide-sm class="emdp-material-title-content"><input type="text" placeholder="Nombre del evento"/></h2>
+                        <material-divider class="emdp-divider"></material-divider>
+                        <h3><input type="text" placeholder="Descripción del evento"/></h3>
+                        <br/>
+                        <p class="emdp-event-detalle-texto">
+                            <textarea
+                                class="emdp-newEvent-textarea"
+                                name="detalleTexto"
+                                id="detalleTexto"
+                                placeholder="Contenido del evento"></textarea>
+                        </p>
+                        <br/>
+                        <h3 class="emdp-card-place"><input type="text" placeholder="Lugar"/></h3>
+                    </div>
+                </div>
+                <material-divider class="emdp-divider"></material-divider>
+                <div layout="horizontal" layout-sm="horizontal" layout-padding>
+                    <div flex="33">
+                        <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_place_48dp.png" height=40 width=40 alt=""/>
+                        <p block-sm hide class="emdp-card-text"><input class="emdp-newEvent-direccion" type="text" placeholder="Dirección del evento"/></p>
+                        <p hide-sm class="emdp-card-text-small"><input class="emdp-newEvent-direccion" type="text" placeholder="Dirección del evento"/></p>
+                    </div>
+                    <div flex="33">
+                        <img class="emdp-card-icon" src="img/system_icons/device/res/2x_web/ic_access_time_48dp.png" height=40 width=40 alt=""/>
+                        <p block-sm hide class="emdp-card-text"><input class="emdp-newEvent-hora" placeholder="Hora"/>hs</p>
+                        <p hide-sm class="emdp-card-text-small"><input class="emdp-newEvent-hora" placeholder="Hora"/>hs</p>
+                    </div>
+                    <div flex="33">
+                        <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_local_offer_48dp.png" height=40 width=40 alt=""/>
+                        <p block-sm hide class="emdp-card-text"><input class="emdp-newEvent-precio" type="text" placeholder="Precio"/></p>
+                        <p hide-sm class="emdp-card-text-small"><input class="emdp-newEvent-precio" type="text" placeholder="Precio"/></p>
+                    </div>
+                </div>
+                <material-divider class="emdp-divider"></material-divider>
+                <section
+                    class="eventosmdp-profile-button"
+                    layout="vertical"
+                    layout-sm="horizontal"
+                    layout-align="center center">
+                    <material-button
+                        style="width:200px;"
+                        class="material-button-raised material-button-colored"
+                        data-ng-click="methods.saveEvent(data)">Guardar</material-button>
+                </section>
+            </material-whiteframe>
+        </section>
+    </material-content>
+</div>

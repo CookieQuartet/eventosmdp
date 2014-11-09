@@ -6,6 +6,11 @@ html, body {
     /*overflow: hidden;*/
 }
 
+.emdp-action-selected material-button {
+    background-color: #4285f4;
+    color: white;
+}
+
 .emdp-event-controls {
     margin:10px 0 10px 0;
 }
@@ -441,4 +446,32 @@ img.emdp-profile-pic {
 
 .emdp-minsize {
     min-width:200px;
+}
+
+.emdp-newEvent-hora {
+    width: 50%;
+    display: inline;
+    border-width: 0 0 1px 0;
+    padding-top: 2px;
+    line-height: 26px;
+    text-align: center;
+}
+
+.emdp-newEvent-textarea {
+    width: 100%;
+    height: 100%;
+    resize: none;
+    border: 1px solid #c7c7c7;
+}
+
+.emdp-newEvent-precio {
+    text-align: center;
+    width:80%;
+    margin:0 10% 0 10%;
+    float:left;
+}
+
+.emdp-newEvent-direccion {
+    width:100%;
+    text-align: center;
 }
