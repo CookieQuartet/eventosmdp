@@ -1,6 +1,11 @@
 <div class="emdp-favorites" layout="vertical" flex layout-fill>
-    <material-content >
-        <section ng-repeat="day in eventList | onlyFavorites | orderBy:'fecha' | filter:{ $: data.search.text }">
+    <material-whiteframe ng-show="favoriteWarning" class="material-whiteframe-z1" layout="vertical" layout-sm="vertical">
+        <div layout="vertical" layout-sm="horizontal" layout-align="center center">
+            <h2>No tenés ningún favorito aún</h2>
+        </div>
+        </material-whiteframe>
+    <material-content>
+        <section ng-repeat="day in onlyFavorites | orderBy:'fecha' | filter:{ $: data.search.text }">
             <material-subheader class="material-subheader-colored emdp-subheader-calendar">
                 <material-icon flex icon="img/svg/calendar.svg" class="emdp-subheader-calendar-icon"></material-icon>
                 <span flex>{{ day.fecha_completa }}</span>
@@ -11,3 +16,4 @@
         </section>
     </material-content>
 </div>
+

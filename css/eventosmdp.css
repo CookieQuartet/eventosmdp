@@ -76,7 +76,7 @@ html, body {
 }
 
 .emdp-icon-rating-on,
-.emdp-icon-rating:hover {
+.emdp-icon-rating-enabled:hover {
     background-image: url(../img/system_icons/toggle/res/drawable-xhdpi/ic_star_48dp.png);
 }
 
@@ -475,3 +475,26 @@ img.emdp-profile-pic {
     width:100%;
     text-align: center;
 }
+
+.emdp-fab {
+    width: 45px !important;
+    height: 45px !important;
+    margin: 20px 4px 20px 20px;
+}
+
+material-button.emdp-fab-ok:not([disabled]):hover, material-button.emdp-fab-ok:not([disabled]).focus {
+    background-color: rgba(0, 158, 0, 1);
+}
+
+.emdp-fab-ok {
+    background-color: rgba(0, 158, 0, 0.72);
+}
+
+.emdp-fab-report {
+    background-color: rgba(220, 13, 30, 0.87);
+}
+
+material-button.emdp-fab-report:not([disabled]):hover, material-button.emdp-fab-report:not([disabled]).focus {
+    background-color: rgba(220, 13, 30, 1);
+}
+

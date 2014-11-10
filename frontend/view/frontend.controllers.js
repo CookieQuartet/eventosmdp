@@ -27,13 +27,6 @@ angular.module('view', ['ngMaterial', 'users'])
       return action.type >= $rootScope.persona.type;
     };
   })
-  .controller('emdpLoginController', function($rootScope, $scope, $state, user) {
-
-  })
-  .controller('emdpHomeController', function($rootScope, $scope, $state, user) {
-    // este es el estado base
-
-  })
   .controller('emdpEventsController', function($rootScope, $scope, $state, user, eventsAPI, action) {
     $rootScope.lastState = 'events';
     $scope.data.search.visible = true;
@@ -44,26 +37,73 @@ angular.module('view', ['ngMaterial', 'users'])
       $scope.data.search.visible = false;
     });
   })
-  .controller('emdpNewEventController', function($rootScope, $scope, $state, user, eventsAPI, action) {
+  .controller('emdpNewEventController', function($rootScope, $scope, $state, user, eventsAPI, action, $filter) {
       $rootScope.lastState = 'new_event';
-
       $scope.data = {
-        imageLink: ''
+        imageLink: '',
+        Altura: null,
+        Calle: null,
+        DescripcionCalendario: null,
+        DescripcionEvento: null,
+        Destacado: null,
+        DetalleTexto: null,
+        DireccionEvento: null,
+        FechaHoraFin: null,
+        FechaHoraInicio: '2013/12/14 13:00',
+        Frecuencia: null,
+        IdArea: 2,
+        IdCalendario: 1,
+        IdEvento: null,
+        IdSubarea: 2,
+        Latitud: null,
+        Longitud: null,
+        Lugar: null,
+        NombreEvento: null,
+        Precio: null,
+        Repetir: null,
+        RutaImagen: null,
+        RutaImagenMiniatura: null,
+        TodoDia: null,
+        ZonaHoraria: null,
+        favorite: false,
+        fecha: null,
+        fecha_real: null
       };
       $scope.methods = {
         saveEvent: function(data) {
           console.log(data);
-          $scope.$parent.methods.toastMessage('Se creó el usuario.');
+          var fecha = Date.parse(data.FechaHoraInicio.split(' ')[0]);
+          var dia = _.find($rootScope.eventList, { fecha: fecha });
+          if(typeof dia === 'undefined') {
+            dia = {
+              "fecha": fecha.toISOString(),
+              "fecha_completa": $filter('date')(Date.parse(fecha), 'fullDate', 'es_AR'),
+              "eventos":[]
+            };
+            $rootScope.eventList.push(dia);
+          }
+          dia.eventos.push(data);
+          $scope.$parent.methods.toastMessage('Se creó el evento.');
         }
-      };  })
-  .controller('emdpFavoritesController', function($rootScope, $scope, $state, user, action) {
+      };
+  })
+  .controller('emdpFavoritesController', function($rootScope, $scope, $state, user, action, $filter) {
     $rootScope.lastState = 'favorites';
     $scope.data.search.visible = true;
+    $scope.eventList = $rootScope.eventList;
+    $scope.checkFavorites = function() {
+      $scope.onlyFavorites = $filter('onlyFavorites')($scope.eventList);
+      $scope.favoriteWarning = $scope.onlyFavorites.length === 0;
+    };
+    $scope.$watch('eventList', function() {
+      $scope.checkFavorites();
+    }, true);
     user.checkLogged(function() {
-
+      $scope.checkFavorites();
     });
     $scope.$on('$destroy', function() {
       $scope.data.search.visible = false;
+      $scope.onlyFavorites.length = 0;
     });
   })
   .controller('emdpProfileController', function($rootScope, $scope, $state, user, action) {

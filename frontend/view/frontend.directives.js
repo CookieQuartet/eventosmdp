@@ -214,20 +214,22 @@
 
           scope.methods = {
             select: function(node) {
-              var i;
+              if(scope.config.editable) {
+                var i;
 
-              angular.forEach(scope.data.stars, function(star) {
-                star.on = false;
-              });
+                angular.forEach(scope.data.stars, function(star) {
+                  star.on = false;
+                });
 
-              if(node && node.index >= 0) {
-                for(i = 0; i < node.index; i++) {
+                if(node && node.index >= 0) {
+                  for(i = 0; i < node.index; i++) {
+                    scope.data.stars[i].on = true;
+                  }
                   scope.data.stars[i].on = true;
                 }
-                scope.data.stars[i].on = true;
+                scope.$parent.event.rating = node.index + 1;
+                element.find('textarea').focus();
               }
-              scope.$parent.event.rating = node.index + 1;
-              element.find('textarea').focus();
             }
           };
 

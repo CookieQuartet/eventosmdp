@@ -8,7 +8,7 @@
                        ng-show="persona.logged"
                        ng-class="{ 'emdp-icon-favorite-selected': event.favorite }"
                        ng-click="methods.favorite(event)">
-                        <material-tooltip>Marcar como favorito</material-tooltip>
+                        <material-tooltip>Favorito</material-tooltip>
                     </i>
                     <i class="emdp-icon emdp-icon-medium emdp-icon-comment"
                        ng-class="{ 'emdp-icon-comment-show': config.showComments }"
@@ -16,7 +16,7 @@
                         <material-tooltip>Comentarios</material-tooltip>
                     </i>
                 </div>
-                <emdp-rating max="5" value="{{ event.rating }}"></emdp-rating>
+                <emdp-rating max="5" value="{{ event.rating }}" editable="false"></emdp-rating>
             </div>
         </div>
         <div class="material-tile-content emdp-material-whiteframe-content">
@@ -44,7 +44,10 @@
                             <h4>{{item.usuario}}</h4>
                             <p>{{item.comentario}}</p>
                         </div>
-                        <emdp-rating max="5" value="0"></emdp-rating>
+                        <emdp-rating max="5" value="0" editable="false"></emdp-rating>
+                        <material-button class="material-button-fab emdp-fab emdp-fab-report" aria-label="New document">
+                            <material-icon icon="img/svg/close_wht.svg" style="width: 24px; height: 24px;"></material-icon>
+                        </material-button>
                     </material-item-content>
                     <material-divider class="emdp-divider" ng-hide="$last"></material-divider>
                 </material-item>
@@ -58,7 +61,10 @@
                     <div class="material-tile-content">
                         <textarea class="emdp-event-comment-textarea"></textarea>
                     </div>
-                    <emdp-rating max="5" value="0"></emdp-rating>
+                    <emdp-rating max="5" value="0" editable="true"></emdp-rating>
+                    <material-button class="material-button-fab emdp-fab emdp-fab-ok" aria-label="New document">
+                        <material-icon icon="img/svg/check_wht.svg" style="width: 24px; height: 24px;"></material-icon>
+                    </material-button>
                 </material-item-content>
             </section>
         </material-content>
