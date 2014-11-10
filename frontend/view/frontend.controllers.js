@@ -32,6 +32,7 @@ angular.module('view', ['ngMaterial', 'users'])
     $scope.data.search.visible = true;
     eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
       $rootScope.eventList = _.merge(response, $rootScope.eventList);
+      //$rootScope.eventList = _.merge($rootScope.eventList, response);
     });
     $scope.$on('$destroy', function() {
       $scope.data.search.visible = false;
@@ -40,7 +41,6 @@ angular.module('view', ['ngMaterial', 'users'])
   .controller('emdpNewEventController', function($rootScope, $scope, $state, user, eventsAPI, action, $filter) {
       $rootScope.lastState = 'new_event';
       $scope.data = {
-        imageLink: '',
         Altura: null,
         Calle: null,
         DescripcionCalendario: null,
@@ -147,8 +147,23 @@ angular.module('view', ['ngMaterial', 'users'])
         }
       };
   })
-  .controller('emdpUsersController', function($rootScope, $scope, $state, user, action) {
+  .controller('emdpUsersController', function($rootScope, $scope, $state, userAPI, user, action) {
+      $scope.data = {
+        users: []
 
+      };
+      $scope.methods = {
+        toggleActive: function(item) {
+          item.active = !item.active;
+          item.icon = item.active ? "img/svg/thump-up_wht.svg" : "img/svg/thumb-down_wht.svg";
+        }
+      };
+      userAPI.getUsers().then(function(response) {
+        $scope.data.users = _.merge(response, $scope.data.users);
+      });
+      $scope.$on('$destroy', function() {
+        $scope.data.users = [];
+      });
   })
   .controller('emdpAlertsController', function($rootScope, $scope, $state, user, action) {
     $rootScope.lastState = 'alerts';

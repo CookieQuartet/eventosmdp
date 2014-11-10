@@ -4564,7 +4564,7 @@ function MaterialTooltipDirective($timeout, $window, $$rAF, $document) {
     });
     parent.on('blur mouseleave touchend touchcancel', function() {
       // Don't hide the tooltip if the parent is still focused.
-      if (document.activeElement === parent[0]) return;
+      //if (document.activeElement === parent[0]) return;
       setVisible(false);
     });
 

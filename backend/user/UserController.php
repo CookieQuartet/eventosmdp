@@ -32,6 +32,19 @@ class UserController {
                         $return = '{ "logged": false, "error": "Error de email / password" }';
                     }
                     break;
+                case 'users':
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
+                        $rows = $_SESSION["user"]->getUserQueries()->getUserList();
+                        $result = array();
+                        while ($row = $rows->fetch_assoc()) {
+                            array_push($result, $row);
+                        }
+                        $rows->free();
+                        $return = json_encode($result);
+                    } else {
+                        $return = '{ "logged": false, "error": "Error obteniendo los usuarios" }';
+                    }
+                    break;
                 case 'check':
                     if(isset($_SESSION["user"]) && $_SESSION["user"]) {
                         $return = json_encode($_SESSION["user"]->getUserData());

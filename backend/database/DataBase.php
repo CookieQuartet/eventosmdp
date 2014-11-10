@@ -40,11 +40,11 @@ class DataBase {
         $query = str_replace("}", "", $query);
         try {
             $this->openConnection();
-
             $queryResult = $this->connection->query($query);
             if (!$queryResult) {
                 printf("Errormessage: %s\n", $this->connection->error);
             }
+
             $this->closeConnection();
 
             return $queryResult;

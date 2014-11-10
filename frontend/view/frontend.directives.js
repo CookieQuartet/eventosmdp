@@ -132,7 +132,7 @@
         templateUrl: 'frontend/view/partials/emdpLoginForm2.html'
       };
     })
-    .directive('emdpEvent', function() {
+    .directive('emdpEvent', function($rootScope, $q) {
       return {
         restrict: 'E',
         replace: true,
@@ -140,30 +140,65 @@
           scope.config = {
             showComments: false
           };
+          scope.comment = {
+            usuario: $rootScope.persona.name,
+            pic: $rootScope.persona.pic,
+            comentario: '',
+            rating: 0,
+            visible: true
+          };
+          scope.event.comments = [];
 
+          var mockComments = function() {
+            var defer = $q.defer();
+            defer.resolve([
+              {
+                usuario: 'un usuario',
+                pic: 'img/svg/account-circle.svg',
+                comentario: 'esto es un comentario',
+                rating: 4,
+                visible: true
+              },
+              {
+                usuario: 'un usuario',
+                pic: 'img/svg/account-circle.svg',
+                comentario: 'esto es un comentario',
+                rating: 4,
+                visible: true
+              },
+              {
+                usuario: 'un usuario',
+                pic: 'img/svg/account-circle.svg',
+                comentario: 'esto es un comentario',
+                rating: 4,
+                visible: true
+              }
+            ]);
+            return defer.promise;
+          };
           scope.methods = {
             favorite: function(item) {
               item.favorite = !item.favorite || false;
             },
+            report: function(item) {
+              item.visible = false;
+            },
+            comment: function(data) {
+              scope.event.comments.push({
+                usuario: $rootScope.persona.name,
+                pic: $rootScope.persona.pic,
+                comentario: data.comentario,
+                rating: scope.event.rating,
+                visible: true
+              });
+              document.getElementById('emdp-comment-area-' + scope.event.IdEvento).remove();
+            },
             comments: function() {
-              scope.event.comments = [
-                {
-                  usuario: 'un usuario',
-                  pic: 'pic',
-                  comentario: 'esto es un comentario'
-                },
-                {
-                  usuario: 'un usuario',
-                  pic: 'pic',
-                  comentario: 'esto es un comentario'
-                },
-                {
-                  usuario: 'un usuario',
-                  pic: 'pic',
-                  comentario: 'esto es un comentario'
-                }
-              ];
+              mockComments().then(function(comments) {
+                scope.event.comments = _.merge(scope.event.comments, comments);
+              });
               scope.config.showComments = !scope.config.showComments;
+              document.getElementById('emdp-textarea-comment-' + scope.event.IdEvento).focus();
             }
           }
         },
@@ -228,7 +263,6 @@
                   scope.data.stars[i].on = true;
                 }
                 scope.$parent.event.rating = node.index + 1;
-                element.find('textarea').focus();
               }
             }
           };

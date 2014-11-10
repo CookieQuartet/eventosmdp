@@ -71,7 +71,7 @@ angular.module('users', ['facebook'])
                 _scope.$emit('user:fbData', data);
                 _scope.$emit('user:welcome', data);
                 _scope.$emit('user:login', {
-                  type: 2
+                  type: 3
                 });
               });
               iface.getProfilePicture().then(function(pic) {
@@ -203,6 +203,27 @@ angular.module('users', ['facebook'])
           })
           .error(function(error) {
             defer.resolve(error);
+          });
+          return defer.promise;
+        },
+        getUsers: function(loginData) {
+          var defer = $q.defer();
+          $http({
+            url: 'backend/user/UserAPI.php',
+            method: 'get',
+            params: {
+              method: 'users'
+            }
+          })
+          .success(function(response) {
+            var data = _.map(response, function(item) {
+              item.pic = 'img/svg/account-circle_wht.svg';
+              return item;
+            });
+            defer.resolve(data);
+          })
+          .error(function(error) {
+            defer.reject(error);
           });
           return defer.promise;
         },

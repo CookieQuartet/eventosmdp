@@ -1,0 +1,35 @@
+<material-whiteframe class="material-whiteframe-z1" layout="vertical" layout-sm="vertical">
+    <material-list>
+        <material-item ng-repeat="item in data.users">
+            <material-item-content layout="vertical" layout-sm="horizontal">
+                <div class="material-tile-left">
+                    <img ng-src="{{ item.pic }}" class="emdp-event-comment pic" alt="{{item.name}}">
+                </div>
+                <div class="material-tile-content">
+                    <h4>{{item.name}}</h4>
+                    <p style="text-align: justify;">{{item.email}}</p>
+                </div>
+                <div class="material-tile-content">
+                    <h4>{{item.description}}</h4>
+                </div>
+                <material-button
+                    class="material-button-fab emdp-fab emdp-fab-enabled"
+                    ng-class="{ 'emdp-fab-disabled' : !item.active }"
+                    aria-label="New document"
+                    ng-click="methods.toggleActive(item)">
+                    <material-icon ng-show="item.active" icon="img/svg/thump-up_wht.svg" style="width: 24px; height: 24px;"></material-icon>
+                    <material-icon ng-show="!item.active" icon="img/svg/thumb-down_wht.svg" style="width: 24px; height: 24px;"></material-icon>
+                    <material-tooltip>Habilitar o deshabilitar</material-tooltip>
+                </material-button>
+                <material-button
+                    class="material-button-fab emdp-fab emdp-fab-ok"
+                    aria-label="New document"
+                    ng-click="methods.report(item)">
+                    <material-icon icon="img/svg/arrow-right_wht.svg" style="width: 24px; height: 24px;"></material-icon>
+                    <material-tooltip>Ir al perfil</material-tooltip>
+                </material-button>
+            </material-item-content>
+            <material-divider class="emdp-divider" ng-hide="$last"></material-divider>
+        </material-item>
+    </material-list>
+</material-whiteframe>

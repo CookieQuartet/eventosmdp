@@ -19,7 +19,9 @@ class UserQueries {
 
     public final function getUserList() //Lista de Usuarios
     {
-        $userQuery = "select UR.*,UT.description from USER UR, USER_TYPE UT where UR.id_user_type = UT.id";
+        //$userQuery = "select UR.*,UT.description from USER UR, USER_TYPE UT where UR.id_user_type = UT.id";
+        $userQuery = "select UR.*,UT.description from USER UR join USER_TYPE UT on UR.id_user_type = UT.id";
+        //$userQuery = "select * from USER";
         return $this->dataBase->query($userQuery);
     }
 
