@@ -1,6 +1,6 @@
 
 //angular.module('app', ['users', 'view', 'events', 'ui.router', 'angular.filter'])
-angular.module('app', ['users', 'view', 'events', 'ui.router'])
+angular.module('app', ['users', 'view', 'events', 'ui.router', 'ngSanitize'])
     .value('emdpActions', {
       list: [
         { id: 'events', name: 'Eventos', icon: "img/svg/map-marker.svg", action: 'state.go("events")', type: 3 },
@@ -17,17 +17,6 @@ angular.module('app', ['users', 'view', 'events', 'ui.router'])
       var actions = emdpActions.$get().list;
       $urlRouterProvider.otherwise('/events');
       $stateProvider
-        /*.state('login', {
-          "url": "/login",
-          "views": {
-            "content": {
-              "templateUrl": "frontend/view/partials/emdpLogin.html",
-              "controller": 'emdpLoginController'
-            }
-          },
-          "resolve" : {
-          }
-        })*/
         .state('events', {
           "url": "/events",
           "views": {
@@ -82,6 +71,18 @@ angular.module('app', ['users', 'view', 'events', 'ui.router'])
             "action": function() {
               return _.find(actions, { id: 'profile' });
             }
+          }
+        })
+        .state('user', {
+          "url": "/user/:id",
+          "views": {
+            "content": {
+              "templateUrl": "frontend/view/partials/emdpProfile.html",
+              "controller": 'emdpProfileUserController'
+            }
+          },
+          "resolve" : {
+
           }
         })
         .state('new_user', {

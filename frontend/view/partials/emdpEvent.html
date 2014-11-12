@@ -25,7 +25,10 @@
             <material-divider class="emdp-divider"></material-divider>
             <h3>{{ ::event.DescripcionEvento }}</h3>
             <br/>
-            <p class="emdp-event-detalle-texto">{{ ::event.DetalleTexto }}</p>
+            <!--<p class="emdp-event-detalle-texto">{{ ::event.DetalleTexto }}</p>-->
+            <!--<p class="emdp-event-detalle-texto" ng-bind-html="event.DetalleTexto"></p>-->
+            <div class="emdp-event-detalle-texto" ng-bind-html="event.DetalleTexto"></div>
+
             <br/>
             <h3 class="emdp-card-place">{{ ::event.Lugar }}</h3>
         </div>
@@ -78,18 +81,24 @@
     </div>
     <material-divider class="emdp-divider"></material-divider>
     <div layout="horizontal" layout-sm="horizontal" layout-padding>
-        <div flex="33">
-            <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_place_48dp.png" height=40 width=40 alt=""/>
+        <div flex="33" layout="vertical" layout-align="center center">
+            <div style="width:48px;">
+                <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_place_48dp.png" height=40 width=40 alt=""/>
+            </div>
             <p block-sm hide class="emdp-card-text">{{ ::event.DireccionEvento }}</p>
             <p hide-sm class="emdp-card-text-small">{{ ::event.DireccionEvento }}</p>
         </div>
-        <div flex="33">
-            <img class="emdp-card-icon" src="img/system_icons/device/res/2x_web/ic_access_time_48dp.png" height=40 width=40 alt=""/>
+        <div flex="33" layout="vertical" layout-align="center center">
+            <div style="width:48px;">
+                <img class="emdp-card-icon" src="img/system_icons/device/res/2x_web/ic_access_time_48dp.png" height=40 width=40 alt=""/>
+            </div>
             <p block-sm hide class="emdp-card-text">{{ ::event.FechaHoraInicio | date:'HH:mm' }}hs</p>
             <p hide-sm class="emdp-card-text-small">{{ ::event.FechaHoraInicio | date:'HH:mm' }}hs</p>
         </div>
-        <div flex="33">
-            <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_local_offer_48dp.png" height=40 width=40 alt=""/>
+        <div flex="33" layout="vertical" layout-align="center center">
+            <div style="width:48px;">
+                <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_local_offer_48dp.png" height=40 width=40 alt=""/>
+            </div>
             <p block-sm hide class="emdp-card-text">{{ ::event.Precio && ('$' + event.Precio) || 'Gratis' }}</p>
             <p hide-sm class="emdp-card-text-small">{{ ::event.Precio && ('$' + event.Precio) || 'Gratis' }}</p>
         </div>

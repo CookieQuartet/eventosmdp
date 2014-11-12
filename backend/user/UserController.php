@@ -17,9 +17,22 @@ class UserController {
         } else {
             switch($_GET['method']) {
                 case 'register':
-                    $_SESSION["user"] = UserFactory::getInstance()->register($_GET['email'], $_GET['password'], 2);
+                    $_SESSION["user"] = UserFactory::getInstance()->register($_GET['email'], $_GET['password'], 3);
                     if(isset($_SESSION["user"]) && $_SESSION["user"]) {
                         $return = json_encode($_SESSION["user"]->getUserData());
+                    } else {
+                        $return = '{ "logged": false, "error": "Ya existe un usuario registrado con ese email" }';
+                    }
+                    break;
+                case 'create':
+                    $name = $_GET['name'];
+                    $email = $_GET['email'];
+                    $type =  $_GET['type'];
+                    $password =  $_GET['password'];
+
+                    $user = UserFactory::getInstance()->create($email, $name, $password, $type);
+                    if(isset($user) && $user) {
+                        $return = '{ "status": "ok", "message": "Se creó el usuario" }';
                     } else {
                         $return = '{ "logged": false, "error": "Ya existe un usuario registrado con ese email" }';
                     }
@@ -43,6 +56,43 @@ class UserController {
                         $return = json_encode($result);
                     } else {
                         $return = '{ "logged": false, "error": "Error obteniendo los usuarios" }';
+                    }
+                    break;
+                case 'user':
+                    if(isset($_SESSION["user"]) && $_SESSION["user"] && isset($_GET["id"])) {
+                        $rows = $_SESSION["user"]->getUserQueries()->getUserById($_GET["id"]);
+                        $result = array();
+                        while ($row = $rows->fetch_assoc()) {
+                            array_push($result, $row);
+                        }
+                        $rows->free();
+                        $return = json_encode($result);
+                    } else {
+                        $return = '{ "logged": false, "error": "Error obteniendo el usuario" }';
+                    }
+                    break;
+                case 'update':
+                    if(isset($_SESSION["user"]) && $_SESSION["user"] && isset($_GET["id"])) {
+                        $email = $_GET["email"];
+                        $id = $_GET["id"];
+                        $name = $_GET["name"];
+                        $password = $_GET["password"];
+                        $active = $_GET["active"];
+                        $type = $_GET["type"];
+                        $rows = $_SESSION["user"]->getUserQueries()->updateUser($email, $id, $name, $password, $active, $type);
+                        $return = json_encode($rows);
+                    } else {
+                        $return = '{ "logged": false, "error": "Error actualizando el usuario" }';
+                    }
+                    break;
+                case 'toggle':
+                    if(isset($_SESSION["user"]) && $_SESSION["user"] && isset($_GET["id"])) {
+                        $id = $_GET["id"];
+                        $active = $_GET["active"];
+                        $rows = $_SESSION["user"]->getUserQueries()->toggleUser($id, $active);
+                        $return = json_encode($rows);
+                    } else {
+                        $return = '{ "logged": false, "error": "Error actualizando el usuario" }';
                     }
                     break;
                 case 'check':

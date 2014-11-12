@@ -113,22 +113,60 @@ angular.module('view', ['ngMaterial', 'users'])
       saveProfile: function(data) {
         // diferentes tipos de datos entre lo que se guarda y lo que se muestra
         angular.extend($rootScope.persona, data, { type: parseInt(data.type)});
-        console.log(data);
         $scope.$parent.methods.toastMessage('Cambios guardados.');
       }
     };
 
     user.checkLogged(function() {
-        $scope.data = {
-          email: $rootScope.persona.email,
-          name: $rootScope.persona.name,
-          password: '',
-          pic: $rootScope.persona.pic,
-          type: $rootScope.persona.type.toString()
-        };
+      $scope.data = {
+        email: $rootScope.persona.email,
+        name: $rootScope.persona.name,
+        password: '',
+        pic: $rootScope.persona.pic,
+        type: $rootScope.persona.type.toString()
+      };
     });
   })
-  .controller('emdpNewUserController', function($rootScope, $scope, $state, user, action) {
+  .controller('emdpProfileUserController', function($rootScope, $scope, $state, user, userHolder, userAPI) {
+    $rootScope.lastState = 'user';
+    var data = userHolder.get();
+    $scope.methods = {
+      saveProfile: function(data) {
+        userAPI.updateUser({
+          email: data.email,
+          id: data.id,
+          name: data.name,
+          password: data.password,
+          active: data.active ? '1' : '0',
+          type: data.type
+        }).then(function(response) {
+          //angular.extend({}, data, { type: parseInt(data.type)});
+          $scope.$parent.methods.toastMessage('Se modificó el usuario.');
+        }, function(message) {
+          $scope.$parent.methods.toastMessage(message.error);
+        });
+        // diferentes tipos de datos entre lo que se guarda y lo que se muestra
+      }
+    };
+    if(data) {
+      user.checkLogged(function() {
+        $scope.data = angular.extend({}, data, { type: data.id_user_type.toString() });
+      });
+    } else {
+      user.checkLogged(function() {
+        if($rootScope.persona.type === 1) {
+          userAPI.getUser($state.params.id).then(function(data) {
+            $scope.data = angular.extend({}, data, { type: data.id_user_type.toString() });
+          }, function(error) {
+            $state.go('events');
+          });
+        } else {
+          $state.go('events');
+        }
+      });
+    }
+  })
+  .controller('emdpNewUserController', function($rootScope, $scope, $state, user, userAPI, action) {
       $rootScope.lastState = 'new_user';
 
       $scope.data = {
@@ -140,22 +178,49 @@ angular.module('view', ['ngMaterial', 'users'])
       };
       $scope.methods = {
         saveProfile: function(data) {
+          userAPI.create({
+            email: data.email,
+            name: data.name,
+            password: data.password,
+            type: data.type
+          }).then(function(response) {
+            //angular.extend({}, data, { type: parseInt(data.type)});
+            $scope.$parent.methods.toastMessage(response.message);
+          }, function(message) {
+            $scope.$parent.methods.toastMessage(message.error);
+          });
           // diferentes tipos de datos entre lo que se guarda y lo que se muestra
-          angular.extend($rootScope.persona, data, { type: parseInt(data.type)});
-          console.log(data);
-          $scope.$parent.methods.toastMessage('Se creó el usuario.');
+          /*angular.extend($scope.data, data, { type: parseInt(data.type)});
+          $scope.$parent.methods.toastMessage('Se creó el usuario.');*/
         }
       };
   })
-  .controller('emdpUsersController', function($rootScope, $scope, $state, userAPI, user, action) {
+  .controller('emdpUsersController', function($rootScope, $scope, $state, userAPI, user, action, userHolder) {
       $scope.data = {
         users: []
-
       };
       $scope.methods = {
         toggleActive: function(item) {
           item.active = !item.active;
           item.icon = item.active ? "img/svg/thump-up_wht.svg" : "img/svg/thumb-down_wht.svg";
+          userAPI.toggleUser({
+            id: item.id,
+            active: item.active ? '1' : '0'
+          }).then(function(response) {
+            //angular.extend({}, item, { type: parseInt(item.type)});
+            if(item.active) {
+              $scope.$parent.methods.toastMessage('Se activó el usuario.');
+            } else {
+              $scope.$parent.methods.toastMessage('Se desactivó el usuario.');
+            }
+
+          }, function(message) {
+            $scope.$parent.methods.toastMessage(message.error);
+          });
+        },
+        getProfileData: function(user) {
+          userHolder.set(user);
+          $state.go('user', { id: user.id });
         }
       };
       userAPI.getUsers().then(function(response) {

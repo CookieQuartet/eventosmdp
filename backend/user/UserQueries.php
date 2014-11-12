@@ -25,21 +25,31 @@ class UserQueries {
         return $this->dataBase->query($userQuery);
     }
 
-    public final function addUser($user)
+    /*public final function addUser($user)
     {
         $userQuery = "insert into USER (name, email, password, id_user_type) values ('$user->getName()' , '$user->getEmail()' , '$user->getPassword()', '$user->getUserType()' )";
         return $this->dataBase->query($userQuery);
-    }
+    }*/
 
-    public final function updateUser($user)
+    //public final function updateUser($user)
+    public final function updateUser($email, $id, $name, $password, $active, $type)
     {
-        $userQuery = "update USER set 'name'='$user->getName()', 'email'='$user->getEmail()', 'password'='$user->getPassword()', 'id_user_type'='$user->getUserType()', 'active'='$user->getActive()' where 'id'='$user->getId()'";
+        //$userQuery = "update USER set 'name'='$user->getName()', 'email'='$user->getEmail()', 'password'='$user->getPassword()', 'id_user_type'='$user->getUserType()', 'active'='$user->getActive()' where 'id'='$user->getId()'";
+        $_active = $active == '1' ? true :  false;
+        $userQuery = "update USER set name='$name', email='$email', password='$password', id_user_type=$type, active=$_active where id=$id";
+        echo($userQuery);
         return $this->dataBase->query($userQuery);
     }
 
-    public final function deleteUser($user)
+    public final function toggleUser($id, $status)
     {
-        $userQuery = "update USER set active = '0' where id = '$user->id'";
+        $userQuery = "update USER set active = '$status' where id = '$id'";
+        return $this->dataBase->query($userQuery);
+    }
+
+    public final function getUserByEmail($email)
+    {
+        $userQuery = "select UR.*,UT.description from USER UR, USER_TYPE UT where UR.email = '$email' and UR.id_user_type = UT.id";
         return $this->dataBase->query($userQuery);
     }
 

@@ -53,13 +53,13 @@ function getEventos() {
         "IdArea" => 2,
         "IdSubarea" => 2,
         "Palabra" => null,
-        "FechaDesde" => "20131028T000000",
-        "FechaHasta" => "20141030T000000"
+        //"FechaDesde" => "20131028T000000",
+        //"FechaHasta" => "20141030T000000"
         //"FechaDesde" => null,
         //"FechaHasta" => null
 
-        //"FechaDesde" => $_GET['from'],
-        //"FechaHasta" => $_GET['to']
+        "FechaDesde" => $_GET['from'],
+        "FechaHasta" => $_GET['to']
 
         //"FechaDesde" => "20131128T000000",
         //"FechaHasta" => "20161030T000000"

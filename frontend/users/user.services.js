@@ -187,6 +187,25 @@ angular.module('users', ['facebook'])
           });
           return defer.promise;
         },
+        create: function(user) {
+          var defer = $q.defer();
+          $http({
+            url: 'backend/user/UserAPI.php',
+            method: 'get',
+            params: angular.extend({}, user, { method: 'create'})
+          })
+          .success(function(response) {
+            if(!response.error) {
+              defer.resolve(response);
+            } else {
+              defer.reject(response);
+            }
+          })
+          .error(function(error) {
+            defer.reject(error);
+          });
+          return defer.promise;
+        },
         login: function(loginData) {
           var defer = $q.defer();
           $http({
@@ -206,7 +225,7 @@ angular.module('users', ['facebook'])
           });
           return defer.promise;
         },
-        getUsers: function(loginData) {
+        getUsers: function() {
           var defer = $q.defer();
           $http({
             url: 'backend/user/UserAPI.php',
@@ -218,9 +237,74 @@ angular.module('users', ['facebook'])
           .success(function(response) {
             var data = _.map(response, function(item) {
               item.pic = 'img/svg/account-circle_wht.svg';
+              item.active = item.active == '1' ? true : false;
               return item;
             });
             defer.resolve(data);
+          })
+          .error(function(error) {
+            defer.reject(error);
+          });
+          return defer.promise;
+        },
+        getUser: function(id) {
+          var defer = $q.defer();
+          $http({
+            url: 'backend/user/UserAPI.php',
+            method: 'get',
+            params: {
+              method: 'user',
+              id: id
+            }
+          })
+          .success(function(response) {
+            if(!response.error) {
+              var data = response[0];
+              data.pic = 'img/svg/account-circle_wht.svg';
+              defer.resolve(data);
+            } else {
+              defer.reject(response);
+            }
+          })
+          .error(function(error) {
+            defer.reject(error);
+          });
+          return defer.promise;
+        },
+        updateUser: function(user) {
+          var defer = $q.defer();
+          $http({
+            url: 'backend/user/UserAPI.php',
+            method: 'get',
+            params: angular.extend({}, user, { method: 'update'})
+          })
+          .success(function(response) {
+            if(!response.error) {
+              var data = response[0];
+              defer.resolve(data);
+            } else {
+              defer.reject(response);
+            }
+          })
+          .error(function(error) {
+            defer.reject(error);
+          });
+          return defer.promise;
+        },
+        toggleUser: function(params) {
+          var defer = $q.defer();
+          $http({
+            url: 'backend/user/UserAPI.php',
+            method: 'get',
+            params: angular.extend({}, params, { method: 'toggle'})
+          })
+          .success(function(response) {
+            if(!response.error) {
+              var data = response[0];
+              defer.resolve(data);
+            } else {
+              defer.reject(response);
+            }
           })
           .error(function(error) {
             defer.reject(error);
@@ -372,6 +456,9 @@ angular.module('users', ['facebook'])
             _scope.$emit('user:loginError', { error: "Ingresá un email y password!" });
           }
         },
+        getUser: function(id) {
+
+        },
         getProfileData: function() {
           return _profile.fbUser.logged() ? _profile.fbUser.getProfileData() : _profile.user;
         },
@@ -380,4 +467,15 @@ angular.module('users', ['facebook'])
         },
         checkLogged: checkLogged
       };
+    })
+    .factory('userHolder', function() {
+      var holder = null;
+      return {
+        set: function(item) {
+          holder = item;
+        },
+        get: function() {
+          return holder;
+        }
+      }
     });

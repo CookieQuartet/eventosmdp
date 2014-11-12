@@ -66,6 +66,20 @@ class UserFactory {
         }
     }
 
+    private function addFullUser($email, $name, $password, $id_user_type)
+    {
+        $query_insert = "insert into `USER` (email, name, password, active, id_user_type) values ('$email', '$name', '$password', '1', $id_user_type)";
+        $query = "select * from `USER` WHERE email = '$email'";
+
+        $insert = self::getDatabase()->query($query_insert);
+        if($insert) {
+            $select = self::getDatabase()->query($query);
+            return $select;
+        } else {
+            return false;
+        }
+    }
+
     public static function encryptPassword($password)
     {
         // acá es donde deberíamos armar una función de encriptado de password
@@ -76,7 +90,7 @@ class UserFactory {
     public function login($email, $password)
     {
         $userData = $this->getUserByEmail($email);
-        if($userData) {
+        if($userData && $userData['active'] == '1') {
             $encryptedPassword = UserFactory::encryptPassword($password);
             if($encryptedPassword == $userData['password']) {
                 $email = $userData['email'];
@@ -123,4 +137,21 @@ class UserFactory {
             return false;
         }
     }
+    public function create($email, $name, $password, $id_user_type)
+    {
+        $userData = $this->getUserByEmail($email);
+        if(!$userData) {
+            $encryptedPassword = UserFactory::encryptPassword($password);
+            $sql = $this->addFullUser($email, $name, $encryptedPassword,  $id_user_type);
+            if(self::getDatabase()->hasRows($sql)) {
+                return true;
+            }
+            return false;
+
+        } else {
+            // ya se encuentra un usuario con el mail ingresado
+            return false;
+        }
+    }
+
 } 
