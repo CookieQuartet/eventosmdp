@@ -62,42 +62,8 @@
 
     define("dropEventTempTable", "DROP TABLE IF EXISTS  `event_temp_table`;");
 
-    define("updateEventTableV2", "INSERT INTO `event-api` (Altura, Calle, DescripcionCalendario, DescripcionEvento, Destacado, DetalleTexto, DireccionEvento, FechaHoraFin, FechaHoraInicio, Frecuencia, IdArea, IdCalendario, IdEvento, IdSubarea, Latitud, Longitud, Lugar, NombreArea, NombreCalendario, NombreEvento, NombreSubAreaFormat, NombreSubArea, Precio, Repetir, RutaImagen, RutaImagenMiniatura, TodoDia, ZonaHoraria)
-                                            SELECT event_temp_table.Altura, event_temp_table.Calle, event_temp_table.DescripcionCalendario, event_temp_table.DescripcionEvento, event_temp_table.Destacado, event_temp_table.DetalleTexto, event_temp_table.DireccionEvento, event_temp_table.FechaHoraFin, event_temp_table.FechaHoraInicio, event_temp_table.Frecuencia, event_temp_table.IdArea, event_temp_table.IdCalendario, event_temp_table.IdEvento, event_temp_table.IdSubarea, event_temp_table.Latitud, event_temp_table.Longitud, event_temp_table.Lugar, event_temp_table.NombreArea, event_temp_table.NombreCalendario, event_temp_table.NombreEvento, event_temp_table.NombreSubAreaFormat, event_temp_table.NombreSubArea, event_temp_table.Precio, event_temp_table.Repetir, event_temp_table.RutaImagen, event_temp_table.RutaImagenMiniatura, event_temp_table.TodoDia, event_temp_table.ZonaHoraria
-                                            FROM `event_temp_table`
-                                            ON DUPLICATE KEY
-                                              UPDATE Altura = (event_temp_table.Altura),
-                                                     Calle = (event_temp_table.Calle),
-                                                     DescripcionCalendario = (event_temp_table.DescripcionCalendario),
-                                                     DescripcionEvento = (event_temp_table.DescripcionEvento),
-                                                     Destacado = (event_temp_table.Destacado),
-                                                     DetalleTexto = (event_temp_table.DetalleTexto),
-                                                     Altura = (event_temp_table.Altura),
-                                                     DireccionEvento = (event_temp_table.DireccionEvento),
-                                                     FechaHoraFin = (event_temp_table.FechaHoraFin),
-                                                     FechaHoraInicio = (event_temp_table.FechaHoraInicio),
-                                                     Frecuencia = (event_temp_table.Frecuencia),
-                                                     IdArea = (event_temp_table.IdArea),
-                                                     IdCalendario = (event_temp_table.IdCalendario),
-                                                     IdEvento = (event_temp_table.IdEvento),
-                                                     IdSubarea = (event_temp_table.IdSubarea),
-                                                     Latitud = (event_temp_table.Latitud),
-                                                     Longitud = (event_temp_table.Longitud),
-                                                     Lugar = (event_temp_table.Lugar),
-                                                     NombreArea = (event_temp_table.NombreArea),
-                                                     NombreCalendario = (event_temp_table.NombreCalendario),
-                                                     NombreEvento = (event_temp_table.NombreEvento),
-                                                     NombreSubAreaFormat = (event_temp_table.NombreSubAreaFormat),
-                                                     NombreSubArea = (event_temp_table.NombreSubArea),
-                                                     Precio = (event_temp_table.Precio),
-                                                     Repetir = (event_temp_table.Repetir),
-                                                     RutaImagen = (event_temp_table.RutaImagen),
-                                                     RutaImagenMiniatura = (event_temp_table.RutaImagenMiniatura),
-                                                     TodoDia = (event_temp_table.TodoDia),
-                                                     ZonaHoraria = (event_temp_table.ZonaHoraria)
-                                              ");
 
-define("updateEventTable", "INSERT INTO `event_api` (Altura, Calle, DescripcionCalendario, DescripcionEvento, Destacado, DetalleTexto, DireccionEvento, FechaHoraFin, FechaHoraInicio, Frecuencia, IdArea, IdCalendario, IdEvento, IdSubarea, Latitud, Longitud, Lugar, NombreArea, NombreCalendario, NombreEvento, NombreSubAreaFormat, NombreSubArea, Precio, Repetir, RutaImagen, RutaImagenMiniatura, TodoDia, ZonaHoraria)
+    define("updateEventTable", "INSERT INTO `event_api` (Altura, Calle, DescripcionCalendario, DescripcionEvento, Destacado, DetalleTexto, DireccionEvento, FechaHoraFin, FechaHoraInicio, Frecuencia, IdArea, IdCalendario, IdEvento, IdSubarea, Latitud, Longitud, Lugar, NombreArea, NombreCalendario, NombreEvento, NombreSubAreaFormat, NombreSubArea, Precio, Repetir, RutaImagen, RutaImagenMiniatura, TodoDia, ZonaHoraria)
                                             SELECT event_temp_table.Altura, event_temp_table.Calle, event_temp_table.DescripcionCalendario, event_temp_table.DescripcionEvento, event_temp_table.Destacado, event_temp_table.DetalleTexto, event_temp_table.DireccionEvento, event_temp_table.FechaHoraFin, event_temp_table.FechaHoraInicio, event_temp_table.Frecuencia, event_temp_table.IdArea, event_temp_table.IdCalendario, event_temp_table.IdEvento, event_temp_table.IdSubarea, event_temp_table.Latitud, event_temp_table.Longitud, event_temp_table.Lugar, event_temp_table.NombreArea, event_temp_table.NombreCalendario, event_temp_table.NombreEvento, event_temp_table.NombreSubAreaFormat, event_temp_table.NombreSubArea, event_temp_table.Precio, event_temp_table.Repetir, event_temp_table.RutaImagen, event_temp_table.RutaImagenMiniatura, event_temp_table.TodoDia, event_temp_table.ZonaHoraria
                                             FROM `event_temp_table`
                                             ON DUPLICATE KEY

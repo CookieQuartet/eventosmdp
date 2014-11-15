@@ -94,6 +94,38 @@ class DataBase {
         }
     }
 
+    public function fetchQueryResultToAssocArray($result)
+    {
+        try {
+            $assocArray=array();
+            while ($fila = mysqli_fetch_assoc($result)) {
+                $assocArray[]=$fila;
+            }
+
+            return $assocArray;
+        } catch(exception $e) {
+            return $e;
+        }
+    }
+    public function fetchQueryResultToJson($rows)
+    {
+        try {
+            $result = array();
+            $cont=0;
+            while ($row = $rows->fetch_assoc() && $cont!=2) {
+                array_push($result, $row);
+                $cont++;
+            }
+            $rows->free();
+            echo json_encode($result);
+            echo ("dasdsad");
+            return json_encode($result);
+        } catch(exception $e) {
+            return $e;
+        }
+    }
+
+
     public function insertArrayObjects($table, $arrayObjects, $limit = null) {
 
         try {

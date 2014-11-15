@@ -20,12 +20,21 @@ class EventQueries {
 
     public final function getOwnEventsList()
     {
-        return $this->dataBase->fetchArray($this->dataBase->query("select * from EVENT"));
+        $result=$this->dataBase->query("select * from EVENT");
+        $result=$this->dataBase->fetchQueryResultToAssocArray($result);
+
+        return $result;
     }
 
     public final function getApiEventsList()
     {
-        return $this->dataBase->fetchArray($this->dataBase->query("select * from EVENT_API"));
+
+        $result=$this->dataBase->query("select * from EVENT_API");
+        $result=$this->dataBase->fetchQueryResultToJson($result);
+
+        $result=$this->dataBase->fetchQueryResultToAssocArray($result);
+
+        return $result;
     }
 
     public final function addEvent($event)
