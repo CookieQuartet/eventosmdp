@@ -61,7 +61,6 @@ class EventController {
                     } else {
                         $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
                     }
-                    $return = $this->getEvents($idUser, $from, $to);
                     break;
                 case 'add_event':
                     if(isset($_SESSION["user"]) && $_SESSION["user"]) {
