@@ -24,10 +24,8 @@ class UpdateModel {
 
     public function updateModel()
     {
-   //     $this->updateSubareas();
-
-        $this->updateEvents();
-
+        $result = $this->updateEvents();
+        echo $result;
     }
 
      /*
@@ -47,34 +45,33 @@ class UpdateModel {
 
 //        echo(json_encode($eventos)); die;
 
-//        echo("Cantidad Total de Eventos: ".count ($eventos));
-//        echo ("</br>");
-
+        $message = '';
         if (!empty($eventos))
         {
             $this->dataBase->query(createEventTempTable);
             $this->dataBase->insertArrayObjects("event_temp_table", $eventos, 200);
-            $this->dataBase->query(updateEventTable);
+            if ($this->dataBase->query(updateEventTable))
+            {
+                $message = 'Eventos actualizados satisfactoriamente.';
+            }
+            else
+            {
+                $message = 'Error al actualizar los eventos.';
+            }
             $this->dataBase->query(dropEventTempTable);
         }
+        else
+        {
+            $message = 'No se obtuvieron eventos de la API de la MGP.';
+        }
 
+        return $message;
     }
 
 
     public function updateSubareas()
     {
-
         $subAreas= $this->apiRequest->getSubareas();
-
-        foreach ($subAreas as $subarea)
-        {
-//            echo($subarea->Nombre);
-        }
-
-        /*Obtener las areas de la base nuestra e ir recorriendo uno a uno de los resultados obtenidos de la API, si no esta lo agrego,
-        y si esta (con el id que devuelve la API), implemento un compareTo y si son
-         distintos reemplazo el actual por el nuevo.
-        */
     }
 
 } 

@@ -5,9 +5,6 @@
  * */
 include_once('UpdateModel.php');
 
-
-
 /*Comienzo del update*/
 $updateModel = new UpdateModel();
-
 $updateModel->updateModel();
