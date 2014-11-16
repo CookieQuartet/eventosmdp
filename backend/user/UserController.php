@@ -49,7 +49,7 @@ class UserController {
                     if(isset($_SESSION["user"]) && $_SESSION["user"]) {
                         $uq = $_SESSION["user"]->getUserQueries();
                         $rows = $uq->getUserList();
-                        $result = $uq->fetch_all(MYSQLI_ASSOC);
+                        $result = $uq->fetch_all($rows);
                         /*$result = array();
                         while ($row = $rows->fetch_assoc()) {
                             array_push($result, $row);
