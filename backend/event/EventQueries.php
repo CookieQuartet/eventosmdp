@@ -27,7 +27,7 @@ class EventQueries {
         return $this->dataBase->query($query);
     }
 
-    public final function getEvents($from, $to)
+    public final function getEvents($user, $from, $to)
     {
         $dateConstraint="";
         if ($from && $to) {
@@ -42,7 +42,7 @@ class EventQueries {
             $dateConstraint =  " WHERE
                                 EVENTS.FechaHoraFin <= '$to'";
         }
-
+        $andUser = $user ? "AND idUser = '$user'" : "";
         $query = "
             SELECT *
             FROM (
@@ -77,10 +77,10 @@ class EventQueries {
                     EA.TodoDia,
                     EA.ZonaHoraria,
                     CS.stars,
-                    CASE WHEN FEU.idEvento IS NOT NULL THEN 1 ELSE 0 END AS favorite
+                    CASE WHEN FEU.idEvento IS NOT NULL AND FEU.idUser IS NOT NULL THEN 1 ELSE 0 END AS favorite
                 FROM EVENT_API EA
                 LEFT JOIN
-                    (SELECT * FROM FAVORITE_EVENT_USER FE WHERE FE.eventFromApi = 1) as FEU ON EA.idEvento = FEU.idEvento
+                    (SELECT * FROM FAVORITE_EVENT_USER FE WHERE FE.eventFromApi = 1 ".$andUser.") as FEU ON EA.idEvento = FEU.idEvento
                 LEFT JOIN
                     (SELECT AVG (C.stars) AS stars, C.idEvent
                         FROM COMMENT C
@@ -119,10 +119,10 @@ class EventQueries {
                     E.TodoDia,
                     E.ZonaHoraria,
                     CS.stars,
-                    CASE WHEN FEU.idEvento IS NOT NULL THEN 1 ELSE 0 END AS favorite
+                    CASE WHEN FEU.idEvento IS NOT NULL AND FEU.idUser IS NOT NULL THEN 1 ELSE 0 END AS favorite
                 FROM   EVENT  E
                 LEFT JOIN
-                    (SELECT * FROM FAVORITE_EVENT_USER FE WHERE FE.eventFromApi = 0) as FEU ON E.id = FEU.idEvento
+                    (SELECT * FROM FAVORITE_EVENT_USER FE WHERE FE.eventFromApi = 2 ".$andUser.") as FEU ON E.id = FEU.idEvento
                 LEFT JOIN
                     (SELECT AVG (C.stars) AS stars, C.idEvent
                         FROM COMMENT C

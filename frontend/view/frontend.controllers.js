@@ -1,5 +1,5 @@
 angular.module('view', ['ngMaterial', 'users'])
-  .controller('AppController', function($scope, $timeout, $materialSidenav, $materialToast, $rootScope) {
+  .controller('AppController', function($scope, $timeout, $materialSidenav, $materialToast, $rootScope, eventsAPI) {
     $rootScope.lastState = '';
     $rootScope.eventList = [];
 
@@ -27,6 +27,17 @@ angular.module('view', ['ngMaterial', 'users'])
       $scope.methods.toastMessage(data);
     });
 
+    $scope.$on('logout', function(event, data) {
+      eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
+        $rootScope.eventList = response;
+      });
+    });
+
+    $scope.$on('login', function(event, data) {
+      eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
+        $rootScope.eventList = response;
+      });
+    });
     $scope.filterActions = function (action) {
       return action.type >= $rootScope.persona.type;
     };
@@ -63,7 +74,7 @@ angular.module('view', ['ngMaterial', 'users'])
         return data.DescripcionEvento &&
             data.DetalleTexto &&
             data.DireccionEvento &&
-            data.FechaHoraFin &&
+            //data.FechaHoraFin &&
             data.FechaHoraInicio &&
             data.Lugar &&
             data.NombreEvento &&

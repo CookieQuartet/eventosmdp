@@ -35,7 +35,7 @@
       return {
         restrict: 'E',
         replace: false,
-        controller: function($scope, user, $state, $materialSidenav, emdpActions) {
+        controller: function($scope, $rootScope, user, $state, $materialSidenav, emdpActions) {
           $scope.user = user;
           $scope.state = $state;
           $scope.call = function() {
@@ -44,6 +44,9 @@
             });
             $scope.$parent.action.selected = true;
             $scope.$eval($scope.action);
+            if($scope.$parent.action.id === 'logout') {
+              $rootScope.$broadcast('logout');
+            }
             $materialSidenav('left').toggle();
           };
           $scope.$on('$destroy', function() {
