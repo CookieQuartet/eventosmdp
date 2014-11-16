@@ -41,31 +41,19 @@ angular.module('view', ['ngMaterial', 'users'])
   .controller('emdpNewEventController', function($rootScope, $scope, $state, user, eventsAPI, action, $filter) {
     $rootScope.lastState = 'new_event';
     $scope.data = {
-      Altura: null,
-      Calle: null,
-      DescripcionCalendario: null,
       DescripcionEvento: null,
-      Destacado: null,
       DetalleTexto: null,
       DireccionEvento: null,
       FechaHoraFin: null,
-      //FechaHoraInicio: '2013/12/14 13:00',
       FechaHoraInicio: null,
-      Frecuencia: null,
       IdArea: 2,
       IdCalendario: 1,
-      IdEvento: null,
       IdSubarea: 2,
-      Latitud: null,
-      Longitud: null,
       Lugar: null,
       NombreEvento: null,
       Precio: null,
-      Repetir: null,
       RutaImagen: null,
-      RutaImagenMiniatura: null,
-      TodoDia: null,
-      ZonaHoraria: null,
+      ZonaHoraria: "America/Argentina/Buenos_Aires",
       favorite: false,
       fecha: null,
       fecha_real: null
@@ -74,7 +62,7 @@ angular.module('view', ['ngMaterial', 'users'])
       saveEvent: function(data) {
         console.log(data);
         //var fecha = Date.parse(data.FechaHoraInicio.split(' ')[0]);
-        var fecha = data.FechaHoraInicio;
+        var fecha = data.FechaHoraInicio.clearTime();
         var dia = _.find($rootScope.eventList, { fecha: fecha });
         if(typeof dia === 'undefined') {
           dia = {
