@@ -7,7 +7,9 @@
  */
 
 include_once('CommentQueries.php');
-include_once('../database/DataBase.php');
+include_once('CommentStatusEnum.php');
+include_once('../user/UserFactory.php');
+include_once('../utils/Strings.php');
 
 class CommentController {
 
@@ -30,18 +32,16 @@ class CommentController {
 
             switch($_GET['method']) {
                 case 'add_review':
-//                    $_SESSION["user"] = UserFactory::getInstance()->register($_GET['email'], $_GET['password'], 2);
-//                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
-//                        $return = json_encode($_SESSION["user"]->getUserData());
-//                    } else {
-//                        $return = '{ "success": true, "message": "Ya existe un usuario registrado con ese email" }';
-//                    }
-                    break;
-                case 'login':
-
-                    break;
-                case 'check':
-
+//                    event:int, fromAPI:bool, comment: string, rating: int
+                    if (!isset($_GET['event']) || !isset($_GET['comment']) || !isset($_GET['fromAPI']))
+                    {
+                        $return = '{ "error": "Parametros incorrectos" }';
+                    }
+                    else
+                    {
+                        $rating = isset($_GET['rating'])?($_GET['rating']):0;
+                        $return = addReview($_GET['event'], $_GET['comment'], $_GET['fromAPI'], $rating);
+                    }
                     break;
                 case 'edit':
 
@@ -79,8 +79,23 @@ class CommentController {
 
     public function getReviewsByEvent($eventId, $eventFromApi)
     {
-        $comments= $this->commentQueries->getCommentListForEvent($eventId, $eventFromApi);
-        return DataBase::fetchQueryResultToJson($comments);
+        $rows= $this->commentQueries->getCommentListForEvent($eventId, $eventFromApi);
+        $result = $rows->fetch_all(MYSQLI_ASSOC);
+        return json_encode($result);
+    }
+
+    public function addReview($eventId, $comment, $fromApi, $rating)
+    {
+        $result= $this->commentQueries->addComment(UserFactory::getInstance()->getId(),$eventId, $comment, CommentStatusEnum::Pendiente,$fromApi, $rating);
+        if ($result)
+        {
+            echo ($result);
+            return "{\"status\": \"".sucessfull."\" , \"message\": \"Comentario agregado\"}";
+        }
+        else
+        {
+            return "{\"status\": \"".error."\" , \"message\": \"Error al agregar comentario\"}";
+        }
     }
 
 }

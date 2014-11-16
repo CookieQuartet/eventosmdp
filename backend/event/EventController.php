@@ -53,18 +53,7 @@ class EventController {
     {
         $rows = $this->eventQueries->getEvents($from, $to);
         $result = $rows->fetch_all(MYSQLI_ASSOC);
-
         return json_encode($result);
-        /*$json_array = array();
-        $length = count($result);
-        $i = 0;
-
-        while($i < $length) {
-            array_push($json_array, json_encode($result[$i]));
-            $i++;
-        }
-        $rows->free();
-        return '['.implode(',', $json_array).']';*/
     }
 
     public function newEvent()

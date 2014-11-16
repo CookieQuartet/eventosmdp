@@ -46,9 +46,9 @@ class CommentQueries {
     }
 
     //Insertar Comentario. Si 'idCommentStatus' pasa null, por defecto se marca Pendiente. Si es ADMIN, idCommentStatus = Aprobado 2
-    public final function addComment($comment)
+    public final function addComment($user, $eventId, $commentText, $commentStatus, $fromApi, $rating)
     {
-        $commentQuery = "insert into COMMENT (idUser, text, idCommentStatus, idEvent, eventFromApi, stars) values ('$comment->getIdUser()', '$comment->getText()', '$comment->getIdCommentStatus()', '$comment->getIdEvent()', '$comment->getEventFromApi()', '$comment->getStars()' )";
+        $commentQuery = "insert into COMMENT (idUser, text, idCommentStatus, idEvent, eventFromApi, stars) values ('$user', '$commentText', '$commentStatus','$eventId', '$fromApi', '$rating')";
         return $this->dataBase->query($commentQuery);
     }
 
