@@ -151,9 +151,10 @@ class EventQueries {
         return $this->dataBase->query($query);
     }
 
-    public final function addEvent($event)
+    public final function addEvent($userId, $eventStatus, $descripcionEvento, $detalleTexto, $direccionEvento, $fechaHoraFin, $fechaHoraInicio, $idCalendario, $idSubarea, $lugar, $nombreEvento, $precio, $rutaImagen, $zonaHoraria)
     {
-        return $this->dataBase->query("insert into EVENT (IdUser, Active, Altura, Calle, DescripcionCalendario, DescripcionEvento, Destacado, DetalleTexto, DireccionEvento, FechaHoraFin, FechaHoraInicio, Frecuencia, IdArea, IdCalendario, IdEvento, IdSubarea, Latitud, Longitud, Lugar, NombreArea, NombreCalendario, NombreEvento, NombreSubAreaFormat, NombreSubArea, Precio, Repetir, RutaImagen, RutaImagenMiniatura, TodoDia, ZonaHoraria ) values ('$event->getIdUser()', '$event->getActive()', '$event->getHeight()', '$event->getStreet()', '$event->getDescriptionCalendar()', '$event->getDescriptionEvent()', '$event->getStar()', '$event->getDetailText()', '$event->getEventAddress()', '$event->getDateEnd()', '$event->getDateStart()', '$event->getFrecuency()', '$event->getIdArea()', '$event->getIdCalendar()', '$event->getIdEvent()', '$event->getIdSubarea()', '$event->getLatitude()', '$event->getLength()', '$event->getPlace()', '$event->getNameArea()', '$event->getNameCalendar()', '$event->getNameEvent()', '$event->getNameSubAreaFormat()', '$event->getNameSubarea()', '$event->getPrice()', '$event->getRepeat()', '$event->getImageUrl()', '$event->getImageUrlSmall()', '$event->getAllDay()', '$event->getTimeZone()',     )");
+        return $this->dataBase->query("insert into EVENT (IdUser, Active, DescripcionEvento, DetalleTexto, DireccionEvento, FechaHoraFin, FechaHoraInicio, IdArea, IdCalendario, IdEvento, IdSubarea, Lugar, NombreEvento, Precio, RutaImagen, ZonaHoraria )
+                                    values ('$userId', '$eventStatus', '$descripcionEvento', '$detalleTexto', '$direccionEvento', '$fechaHoraFin', '$fechaHoraInicio', '2', '$idCalendario', null, '$idSubarea', '$lugar', '$nombreEvento', '$precio', '$rutaImagen', '$zonaHoraria')");
     }
 
     public final function getEventById($id)

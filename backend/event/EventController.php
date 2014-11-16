@@ -7,6 +7,8 @@
  */
 
 include_once('EventQueries.php');
+include_once('../user/UserFactory.php');
+include_once('../utils/Strings.php');
 
 class EventController {
 
@@ -34,8 +36,23 @@ class EventController {
                 case 'get_reviews':
 
                     break;
-                case 'add_review':
-
+                case 'add_event':
+                    if (!isset($_GET['DescripcionEvento']) || !isset($_GET['DetalleTexto']) || !isset($_GET['DireccionEvento'])
+                        || !isset($_GET['FechaHoraFin']) || !isset($_GET['FechaHoraInicio']) || !isset($_GET['IdArea'])
+                        || !isset($_GET['IdCalendario']) || !isset($_GET['IdSubarea']) || !isset($_GET['Lugar'])
+                        || !isset($_GET['NombreEvento']) || !isset($_GET['Precio']) || !isset($_GET['RutaImagen'])
+                        || !isset($_GET['ZonaHoraria']))
+                    {
+                        $return = '{ "error": "Parametros incorrectos" }';
+                    }
+                    else
+                    {
+                        $return = newEvent($_GET['DescripcionEvento'], $_GET['DetalleTexto'], $_GET['DireccionEvento'],
+                                           $_GET['FechaHoraFin'], $_GET['FechaHoraInicio'], $_GET['IdArea'],
+                                           $_GET['IdCalendario'], $_GET['IdSubarea'], $_GET['Lugar'],
+                                           $_GET['NombreEvento'], $_GET['Precio'], $_GET['RutaImagen'],
+                                           $_GET['ZonaHoraria']);
+                    }
                     break;
                 case 'remove_favorite':
 
@@ -56,8 +73,17 @@ class EventController {
         return json_encode($result);
     }
 
-    public function newEvent()
+    public function newEvent($descripcionEvento, $detalleTexto, $direccionEvento, $fechaHoraFin, $fechaHoraInicio, $idArea, $idCalendario, $idSubarea, $lugar, $nombreEvento, $precio, $rutaImagen, $zonaHoraria)
     {
+        $result= $this->eventQueries->addEvent(UserFactory::getInstance()->getId(), true, $descripcionEvento, $detalleTexto, $direccionEvento, $fechaHoraFin, $fechaHoraInicio, $idArea, $idCalendario, $idSubarea, $lugar, $nombreEvento, $precio, $rutaImagen, $zonaHoraria);
+        if ($result)
+        {
+            return "{\"status\": \"".sucessfull."\" , \"message\": \"Evento agregado\"}";
+        }
+        else
+        {
+            return "{\"status\": \"".error."\" , \"message\": \"Error al agregar evento\"}";
+        }
 
     }
 

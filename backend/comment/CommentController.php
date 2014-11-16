@@ -89,7 +89,6 @@ class CommentController {
         $result= $this->commentQueries->addComment(UserFactory::getInstance()->getId(),$eventId, $comment, CommentStatusEnum::Pendiente,$fromApi, $rating);
         if ($result)
         {
-            echo ($result);
             return "{\"status\": \"".sucessfull."\" , \"message\": \"Comentario agregado\"}";
         }
         else
