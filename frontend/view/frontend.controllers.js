@@ -73,7 +73,8 @@ angular.module('view', ['ngMaterial', 'users'])
     $scope.methods = {
       saveEvent: function(data) {
         console.log(data);
-        var fecha = Date.parse(data.FechaHoraInicio.split(' ')[0]);
+        //var fecha = Date.parse(data.FechaHoraInicio.split(' ')[0]);
+        var fecha = data.FechaHoraInicio;
         var dia = _.find($rootScope.eventList, { fecha: fecha });
         if(typeof dia === 'undefined') {
           dia = {
