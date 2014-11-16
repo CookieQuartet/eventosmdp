@@ -94,6 +94,22 @@ class EventController {
                         $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
                     }
                     break;
+                case 'remove_event':
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
+                        $user = $_SESSION["user"]->getUserData();
+                        if ($user['userType']==UserAdminType || $user['userType']==UserPublisherType)
+                        {
+                            $postData = json_decode(file_get_contents("php://input"));
+                            $return = $this->removeEvent($postData);
+                        }
+                        else
+                        {
+                            $return = '{ "status": "error", "message": "Debe ser usuario publicador o administrador" }';
+                        }
+                    } else {
+                        $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
+                    }
+                    break;
                 case 'remove_favorite':
                     if(isset($_SESSION["user"]) && $_SESSION["user"]) {
                         $postData = json_decode(file_get_contents("php://input"));
@@ -112,7 +128,6 @@ class EventController {
                         $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
                     }
                     break;
-
             }
         }
         echo $return;
@@ -190,6 +205,18 @@ class EventController {
         }
     }
 
+    public function removeEvent($event)
+    {
+        $result= $this->eventQueries->deleteEvent(
+            $event->Id
+        );
+        if ($result) {
+            return "{\"status\": \"".successfull."\" , \"message\": \"Evento eliminado\"}";
+        } else {
+            return "{\"status\": \"".error."\" , \"message\": \"Error al eliminar evento\"}";
+        }
+    }
+
     public function addFavorite($user, $event) {
         $idEvento = $event->IdEvento ? $event->IdEvento : $event->Id;
         $fromAPI = $event->fromAPI;
@@ -212,8 +239,4 @@ class EventController {
         }
     }
 
-    public function updateEvent()
-    {
-
-    }
 }
