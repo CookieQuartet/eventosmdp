@@ -49,7 +49,7 @@ class EventController {
                 case 'get_my_events':
                     if(isset($_SESSION["user"]) && $_SESSION["user"]) {
                         $user = $_SESSION["user"]->getUserData();
-                        if ($user['userType']==UserAdminType || $user['userType']==UserPublisherType)
+                        if ($user['userType']==UserTypeEnum::UserAdminType || $user['userType']==UserTypeEnum::UserPublisherType)
                         {
                             $postData = json_decode(file_get_contents("php://input"));
                             $return = $this->getMyEvents($user['id'], $postData);
@@ -64,9 +64,32 @@ class EventController {
                     break;
                 case 'add_event':
                     if(isset($_SESSION["user"]) && $_SESSION["user"]) {
-                        $postData = json_decode(file_get_contents("php://input"));
                         $user = $_SESSION["user"]->getUserData();
-                        $return = $this->newEvent($user['id'], $postData);
+                        if ($user['type']==UserTypeEnum::UserAdminType || $user['type']==UserTypeEnum::UserPublisherType)
+                        {
+                            $postData = json_decode(file_get_contents("php://input"));
+                            $return = $this->newEvent($user['id'], $postData);
+                        }
+                        else
+                        {
+                            $return = '{ "status": "error", "message": "Debe ser usuario publicador o administrador" }';
+                        }
+                    } else {
+                        $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
+                    }
+                    break;
+                case 'edit_event':
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
+                        $user = $_SESSION["user"]->getUserData();
+                        if ($user['userType']==UserAdminType || $user['userType']==UserPublisherType)
+                        {
+                            $postData = json_decode(file_get_contents("php://input"));
+                            $return = $this->editEvent($postData);
+                        }
+                        else
+                        {
+                            $return = '{ "status": "error", "message": "Debe ser usuario publicador o administrador" }';
+                        }
                     } else {
                         $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
                     }
@@ -142,6 +165,28 @@ class EventController {
             return "{\"status\": \"".successfull."\" , \"message\": \"Evento agregado\"}";
         } else {
             return "{\"status\": \"".error."\" , \"message\": \"Error al agregar evento\"}";
+        }
+    }
+
+    public function editEvent($event)
+    {
+        $result= $this->eventQueries->updateEvent(
+            $event->Id,
+            $event->DescripcionEvento,
+            $event->DetalleTexto,
+            $event->DireccionEvento,
+            $event->FechaHoraFin,
+            $event->FechaHoraInicio,
+            $event->Lugar,
+            $event->NombreEvento,
+            $event->Precio,
+            $event->RutaImagen,
+            $event->ZonaHoraria
+        );
+        if ($result) {
+            return "{\"status\": \"".successfull."\" , \"message\": \"Evento modificado\"}";
+        } else {
+            return "{\"status\": \"".error."\" , \"message\": \"Error al modificar evento\"}";
         }
     }
 
