@@ -36,9 +36,15 @@ class EventController {
             switch($_GET['method'])
             {
                 case 'get_events':
-                        $from = isset($_GET['from'])? $_GET['from']:null;
-                        $to = isset($_GET['to'])? $_GET['to']:null;
-                        $return = $this->getEvents($from, $to);
+                    $from = isset($_GET['from'])? $_GET['from']:null;
+                    $to = isset($_GET['to'])? $_GET['to']:null;
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
+                        $user = $_SESSION["user"]->getUserData();
+                        $idUser = $user['id'];
+                    } else {
+                        $idUser = null;
+                    }
+                    $return = $this->getEvents($idUser, $from, $to);
                     break;
                 case 'get_reviews':
 
@@ -76,10 +82,10 @@ class EventController {
         echo $return;
     }
 
-    public function getEvents($from, $to)
+    public function getEvents($user, $from, $to)
     {
         $eq = $this->eventQueries;
-        $rows = $eq->getEvents($from, $to);
+        $rows = $eq->getEvents($user, $from, $to);
         $result = $eq->fetch_all($rows);
         return json_encode($result);
     }
@@ -120,7 +126,8 @@ class EventController {
 
     public function addFavorite($user, $event) {
         $idEvento = $event->IdEvento ? $event->IdEvento : $event->Id;
-        $fromAPI = $event->IdEvento;
+        $fromAPI = $event->fromAPI;
+
         $result = $this->eventQueries->addFavorite($user, $idEvento, $fromAPI);
         if ($result) {
             return "{\"status\": \"".successfull."\" , \"message\": \"Se agregó a favoritos\"}";
