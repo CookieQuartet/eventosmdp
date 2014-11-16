@@ -54,6 +54,7 @@ class EventController {
         $json_array = array();
         $length = count($result);
         $i = 0;
+
         while($i < $length) {
             $row = json_encode($result[$i]);
             if(strlen($row) > 0) {
