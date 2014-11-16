@@ -5,11 +5,12 @@
  * Date: 04/10/2014
  * Time: 05:30 PM
  */
-include('Event.php');
+
+include_once('EventQueries.php');
 
 class EventController {
 
-    private $event;
+    private $eventQueries;
 
     function __construct()
     {
@@ -26,7 +27,9 @@ class EventController {
             switch($_GET['method'])
             {
                 case 'get_events':
-                    $return = $this->getEvents(null, null);
+                        $from = isset($_GET['from'])? $_GET['from']:null;
+                        $to = isset($_GET['to'])? $_GET['from']:null;
+                        $return = $this->getEvents($from, $to);
                     break;
                 case 'get_reviews':
 
@@ -46,9 +49,9 @@ class EventController {
         echo $return;
     }
 
-    public function getEvents($fechaDesde, $fechaHasta)
+    public function getEvents($from, $to)
     {
-        $rows = $this->eventQueries->getApiEventList();
+        $rows = $this->eventQueries->getEvents($from, $to);
         $result = $rows->fetch_all(MYSQLI_ASSOC);
         $json_array = array();
         $length = count($result);
@@ -74,7 +77,4 @@ class EventController {
     {
 
     }
-
-
-
 }

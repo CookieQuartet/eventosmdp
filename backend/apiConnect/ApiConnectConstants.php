@@ -73,7 +73,6 @@
                                                      DescripcionEvento = VALUES(DescripcionEvento),
                                                      Destacado = VALUES(Destacado),
                                                      DetalleTexto = VALUES(DetalleTexto),
-                                                     Altura = VALUES(Altura),
                                                      DireccionEvento = VALUES(DireccionEvento),
                                                      FechaHoraFin = VALUES(FechaHoraFin),
                                                      FechaHoraInicio = VALUES(FechaHoraInicio),

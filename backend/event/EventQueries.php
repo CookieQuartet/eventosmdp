@@ -8,7 +8,6 @@
 
 include_once('../database/DataBase.php');
 
-
 class EventQueries {
 
     private $dataBase;
@@ -28,10 +27,117 @@ class EventQueries {
 
     public final function getApiEventList() //Lista de Usuarios
     {
-        //$userQuery = "select UR.*,UT.description from USER UR, USER_TYPE UT where UR.id_user_type = UT.id";
         $query = "SELECT `Altura`, `Calle`, `DescripcionCalendario`, `DescripcionEvento`, `Destacado`, `DetalleTexto`, `DireccionEvento`, `FechaHoraFin`, `FechaHoraInicio`, `Frecuencia`, `IdArea`, `IdCalendario`, `IdEvento`, `IdSubarea`, `Latitud`, `Longitud`, `Lugar`, `NombreArea`, `NombreCalendario`, `NombreEvento`, `NombreSubAreaFormat`, `NombreSubarea`, `Precio`, `Repetir`, `RutaImagen`, `RutaImagenMiniatura`, `TodoDia`, `ZonaHoraria` FROM `EVENT_API` limit 28";
-        //$query = "select UR.*,UT.description from USER UR join USER_TYPE UT on UR.id_user_type = UT.id";
-        //$userQuery = "select * from USER";
+        return $this->dataBase->query($query);
+    }
+
+    public final function getEvents($from, $to)
+    {
+        $dateConstraint="";
+        if ($from && $to)
+        {
+            $dateConstraint =  " WHERE
+                                EVENTS.FechaHoraInicio >= '$from'
+                                AND
+                                EVENTS.FechaHoraFin <= '$to' ";
+        }
+        elseif ($from)
+        {
+            $dateConstraint =  " WHERE
+                                EVENTS.FechaHoraInicio >= '$from' ";
+        }
+        elseif ($to)
+        {
+            $dateConstraint =  " WHERE
+                                EVENTS.FechaHoraFin <= '$to' ";
+        }
+
+        $query = "SELECT *
+                                FROM (
+                                SELECT
+                                    EA.Altura,
+                                    EA.Calle,
+                                    EA.DescripcionCalendario,
+                                    EA.DescripcionEvento,
+                                    EA.Destacado,
+                                    EA.DetalleTexto,
+                                    EA.DireccionEvento,
+                                    EA.FechaHoraFin,
+                                    EA.FechaHoraInicio,
+                                    EA.Frecuencia,
+                                    EA.IdArea,
+                                    EA.IdCalendario,
+                                    EA.IdEvento,
+                                    EA.IdSubarea,
+                                    EA.Latitud,
+                                    EA.Longitud,
+                                    EA.Lugar,
+                                    EA.NombreArea,
+                                    EA.NombreCalendario,
+                                    EA.NombreEvento,
+                                    EA.NombreSubAreaFormat,
+                                    EA.NombreSubArea,
+                                    EA.Precio,
+                                    EA.Repetir,
+                                    EA.RutaImagen,
+                                    EA.RutaImagenMiniatura,
+                                    EA.TodoDia,
+                                    EA.ZonaHoraria,
+                                    CS.stars
+                                FROM EVENT_API EA
+                                LEFT JOIN
+                                    (SELECT * FROM FAVORITE_EVENT_USER FE WHERE FE.eventFromApi = 1) as FEU ON EA.idEvento = FEU.idEvento
+                                LEFT JOIN
+                                    (SELECT AVG (C.stars) AS stars, C.idEvent
+                                        FROM COMMENT C
+                                        LEFT JOIN COMMENT_STATUS S ON C.idCommentStatus = S.id
+                                        WHERE C.eventFromApi = 1 AND S.description LIKE 'Aprobado'
+                                        GROUP BY idEvent) as CS ON EA.idEvento = CS.idEvent
+
+                                UNION  ALL
+                                SELECT
+                                    E.Altura,
+                                    E.Calle,
+                                    E.DescripcionCalendario,
+                                    E.DescripcionEvento,
+                                    E.Destacado,
+                                    E.DetalleTexto,
+                                    E.DireccionEvento,
+                                    E.FechaHoraFin,
+                                    E.FechaHoraInicio,
+                                    E.Frecuencia,
+                                    E.IdArea,
+                                    E.IdCalendario,
+                                    E.IdEvento,
+                                    E.IdSubarea,
+                                    E.Latitud,
+                                    E.Longitud,
+                                    E.Lugar,
+                                    E.NombreArea,
+                                    E.NombreCalendario,
+                                    E.NombreEvento,
+                                    E.NombreSubAreaFormat,
+                                    E.NombreSubArea,
+                                    E.Precio,
+                                    E.Repetir,
+                                    E.RutaImagen,
+                                    E.RutaImagenMiniatura,
+                                    E.TodoDia,
+                                    E.ZonaHoraria,
+                                    CS.stars
+                                FROM   EVENT E
+                                LEFT JOIN
+                                    (SELECT * FROM FAVORITE_EVENT_USER FE WHERE FE.eventFromApi = 0) as FEU ON E.id = FEU.idEvento
+                                LEFT JOIN
+                                    (SELECT AVG (C.stars) AS stars, C.idEvent
+                                        FROM COMMENT C
+                                        LEFT JOIN COMMENT_STATUS S ON C.idCommentStatus = S.id
+                                        WHERE C.eventFromApi = 0 AND S.description LIKE 'Aprobado'
+                                        GROUP BY idEvent) as CS ON E.id = CS.idEvent
+                                WHERE E.Active = 1) EVENTS ".$dateConstraint." ORDER BY EVENTS.FechaHoraInicio";
+
+
+
         return $this->dataBase->query($query);
     }
 

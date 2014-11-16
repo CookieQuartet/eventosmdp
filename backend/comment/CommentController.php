@@ -6,9 +6,17 @@
  * Time: 05:30 PM
  */
 
-include_once('./Comment.php');
+include_once('CommentQueries.php');
 
 class CommentController {
+
+    private $commentQueries;
+
+    function __construct()
+    {
+        $this->commentQueries = new CommentQueries();
+    }
+
 
     public function invoke()
     {
@@ -20,7 +28,7 @@ class CommentController {
             $ownEvents= Event::getEventQueries()->getOwnEventsList();
 
             switch($_GET['method']) {
-                case 'add':
+                case 'add_review':
 //                    $_SESSION["user"] = UserFactory::getInstance()->register($_GET['email'], $_GET['password'], 2);
 //                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
 //                        $return = json_encode($_SESSION["user"]->getUserData());
@@ -52,13 +60,28 @@ class CommentController {
                 case 'reportedList':
 
                     break;
-                case 'commentListForEvent':
-
+                case 'get_reviews':
+                    if (!isset($_GET['event']) || !isset($_GET['fromAPI']))
+                    {
+                        $return = '{ "error": "Parametros incorrectos" }';
+                    }
+                    else
+                    {
+                        $return = getReviewsByEvent($_GET['event'], $_GET['fromAPI']);
+                    }
                     break;
 
             }
         }
         echo $return;
+    }
+
+
+    public function getReviewsByEvent($eventId, $eventFromApi)
+    {
+        $comments= $this->commentQueries->getCommentListForEvent($eventId, $eventFromApi);
+
+
     }
 
 } 

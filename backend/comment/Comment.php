@@ -6,7 +6,6 @@
  * Time: 06:11 PM
  */
 
-include_once('CommentQueries.php');
 
 class Comment {
     private $id;
@@ -16,8 +15,6 @@ class Comment {
     private $idEvent;
     private $eventFromApi;
     private $stars;
-    private static $commentQueries;
-
 
     function __construct($id, $idUser, $text, $idCommentStatus, $idEvent, $eventFromApi, $stars)
     {
@@ -29,15 +26,6 @@ class Comment {
         $this->eventFromApi = $eventFromApi;
         $this->stars = $stars;
 
-    }
-
-    public static function getCommentQueries() {
-
-        if (!isset(self::$commentQueries)) {
-            self::$commentQueries = new CommentQueries();
-        }
-
-        return self::$commentQueries;
     }
 
     /**

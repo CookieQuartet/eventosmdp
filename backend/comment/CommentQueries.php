@@ -39,9 +39,9 @@ class CommentQueries {
     }
 
     //Lista de Comentarios Aprobados para un Evento, por usuarios activos Activo
-    public final function getCommentListForEvent($idEvent)
+    public final function getCommentListForEvent($idEvent, $eventFromApi)
     {
-        $commentQuery = "select CO.*,CS.description,UR.name from COMMENT CO, COMMENT_STATUS CS, USER UR where CO.idCommentStatus = CS.id  and CS.id = '2' and CO.idEvent = '$idEvent' and CO.idUser = UR.id and UR.active = '1'";
+        $commentQuery = "select CO.*,CS.description,UR.name from COMMENT CO, COMMENT_STATUS CS, USER UR where CO.idCommentStatus = CS.id and CO.eventFromApi = '$eventFromApi' and CS.id = '2' and CO.idEvent = '$idEvent' and CO.idUser = UR.id and UR.active = '1'";
         return $this->dataBase->query($commentQuery);
     }
 
