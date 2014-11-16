@@ -54,7 +54,7 @@ angular.module('view', ['ngMaterial', 'users'])
   })
   .controller('emdpNewEventController', function($rootScope, $scope, $state, user, eventsAPI, action, $filter) {
     $rootScope.lastState = 'new_event';
-    $scope.data = {
+    var _data = {
       DescripcionEvento: null,
       DetalleTexto: null,
       DireccionEvento: null,
@@ -69,6 +69,7 @@ angular.module('view', ['ngMaterial', 'users'])
       RutaImagen: null,
       ZonaHoraria: "America/Argentina/Buenos_Aires"
     };
+    $scope.data = angular.copy(_data);
     $scope.methods = {
       checkData: function(data) {
         return data.DescripcionEvento &&
@@ -96,6 +97,8 @@ angular.module('view', ['ngMaterial', 'users'])
             }
             dia.eventos.push(data);
             $scope.$parent.methods.toastMessage('Se creó el evento.');
+            $scope.data = angular.copy(_data);
+            document.getElementById('emdp-newEvent-picture').src = "";
           });
         } else {
           $scope.$parent.methods.toastMessage('Faltan datos!.');
@@ -127,14 +130,24 @@ angular.module('view', ['ngMaterial', 'users'])
       $scope.onlyFavorites.length = 0;
     });
   })
-  .controller('emdpProfileController', function($rootScope, $scope, $state, user, action) {
+  .controller('emdpProfileController', function($rootScope, $scope, $state, user, userAPI, action) {
     $rootScope.lastState = 'profile';
 
     $scope.methods = {
       saveProfile: function(data) {
+        userAPI.updateUser({
+          email: data.email,
+          id: data.id,
+          name: data.name,
+          password: data.password,
+          active: '1',
+          type: data.type
+        }).then(function(response) {
+          $scope.$parent.methods.toastMessage('Se actualizaron los datos');
+        }, function(error) {
+          $scope.$parent.methods.toastMessage(error.message);
+        });
         // diferentes tipos de datos entre lo que se guarda y lo que se muestra
-        angular.extend($rootScope.persona, data, { type: parseInt(data.type)});
-        $scope.$parent.methods.toastMessage('Cambios guardados.');
       }
     };
 
@@ -143,6 +156,7 @@ angular.module('view', ['ngMaterial', 'users'])
         email: $rootScope.persona.email,
         name: $rootScope.persona.name,
         password: '',
+        id: $rootScope.persona.id,
         pic: $rootScope.persona.pic,
         type: $rootScope.persona.type.toString()
       };
@@ -189,14 +203,14 @@ angular.module('view', ['ngMaterial', 'users'])
   })
   .controller('emdpNewUserController', function($rootScope, $scope, $state, user, userAPI, action) {
       $rootScope.lastState = 'new_user';
-
-      $scope.data = {
-        email: '',
-        name: '',
-        password: '',
-        pic: 'img/svg/account-circle_wht.svg',
-        type: '3'
-      };
+      var _data = {
+            email: '',
+            name: '',
+            password: '',
+            pic: 'img/svg/account-circle_wht.svg',
+            type: '3'
+          };
+      $scope.data = angular.copy(_data);
       $scope.methods = {
         saveProfile: function(data) {
           userAPI.create({
@@ -205,14 +219,11 @@ angular.module('view', ['ngMaterial', 'users'])
             password: data.password,
             type: data.type
           }).then(function(response) {
-            //angular.extend({}, data, { type: parseInt(data.type)});
             $scope.$parent.methods.toastMessage(response.message);
+            $scope.data = angular.copy(_data);
           }, function(message) {
             $scope.$parent.methods.toastMessage(message.error);
           });
-          // diferentes tipos de datos entre lo que se guarda y lo que se muestra
-          /*angular.extend($scope.data, data, { type: parseInt(data.type)});
-          $scope.$parent.methods.toastMessage('Se creó el usuario.');*/
         }
       };
       user.checkLogged();
@@ -229,7 +240,6 @@ angular.module('view', ['ngMaterial', 'users'])
             id: item.id,
             active: item.active ? '1' : '0'
           }).then(function(response) {
-            //angular.extend({}, item, { type: parseInt(item.type)});
             if(item.active) {
               $scope.$parent.methods.toastMessage('Se activó el usuario.');
             } else {

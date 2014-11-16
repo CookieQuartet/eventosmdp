@@ -379,6 +379,7 @@ angular.module('users', [])
                 pic: 'img/svg/account-circle_wht.svg',
                 name: _profile.user.name.length > 0 ? _profile.user.name : _profile.user.email,
                 email: _profile.user.email,
+                id: parseInt(_profile.user.id),
                 type: _profile.user.type,
                 logged: true
               });
@@ -397,13 +398,14 @@ angular.module('users', [])
               if(typeof user.error !== 'undefined') {
                 _scope.$emit('user:loginError', user);
               } else {
-                _profile.user = angular.extend(_profile.user, user);
+                _profile.user = angular.extend(_profile.user, user, { id: parseInt(user.id) });
                 _scope.$emit('user:login', {
                   fbData: null,
                   pic: 'img/svg/account-circle_wht.svg',
                   name: _profile.user.name,
                   email: _profile.user.email,
                   type: _profile.user.type,
+                  id: _profile.user.id,
                   logged: true
                 });
                 _scope.$emit('user:logged', user.logged);
@@ -440,7 +442,7 @@ angular.module('users', [])
               if(typeof user.error !== 'undefined') {
                 _scope.$emit('user:loginError', user);
               } else {
-                _profile.user = angular.extend(_profile.user, user);
+                _profile.user = angular.extend(_profile.user, user, { id: parseInt(user.id) });
                 _scope.$emit('user:login', {
                   fbData: null,
                   pic: 'img/svg/account-circle_wht.svg',
