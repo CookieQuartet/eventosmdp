@@ -57,21 +57,36 @@ angular.module('view', ['ngMaterial', 'users'])
       ZonaHoraria: "America/Argentina/Buenos_Aires"
     };
     $scope.methods = {
+      checkData: function(data) {
+        return data.DescripcionEvento &&
+            data.DetalleTexto &&
+            data.DireccionEvento &&
+            data.FechaHoraFin &&
+            data.FechaHoraInicio &&
+            data.Lugar &&
+            data.NombreEvento &&
+            data.Precio &&
+            data.RutaImagen;
+      },
       saveEvent: function(data) {
-        eventsAPI.addEvent($scope.data).then(function(response) {
-          var fecha = (new Date(data.FechaHoraInicio)).clearTime();
-          var dia = _.find($rootScope.eventList, { fecha: fecha });
-          if(typeof dia === 'undefined') {
-            dia = {
-              "fecha": fecha.toISOString(),
-              "fecha_completa": $filter('date')(Date.parse(fecha), 'fullDate', 'es_AR'),
-              "eventos":[]
-            };
-            $rootScope.eventList.push(dia);
-          }
-          dia.eventos.push(data);
-          $scope.$parent.methods.toastMessage('Se creó el evento.');
-        });
+        if($scope.methods.checkData(data)) {
+          eventsAPI.addEvent($scope.data).then(function(response) {
+            var fecha = (new Date(data.FechaHoraInicio)).clearTime();
+            var dia = _.find($rootScope.eventList, { fecha: fecha });
+            if(typeof dia === 'undefined') {
+              dia = {
+                "fecha": fecha.toISOString(),
+                "fecha_completa": $filter('date')(Date.parse(fecha), 'fullDate', 'es_AR'),
+                "eventos":[]
+              };
+              $rootScope.eventList.push(dia);
+            }
+            dia.eventos.push(data);
+            $scope.$parent.methods.toastMessage('Se creó el evento.');
+          });
+        } else {
+          $scope.$parent.methods.toastMessage('Faltan datos!.');
+        }
       }
     };
     user.checkLogged();
@@ -233,11 +248,15 @@ angular.module('view', ['ngMaterial', 'users'])
           item.active = !item.active;
         },
         "addAlert": function(text) {
-          $scope.data.alerts.push({
-            id: $scope.data.alerts.lenght +1,
-            search: text,
-            active: true
-          });
+          if(text.length > 0) {
+            $scope.data.alerts.push({
+              id: $scope.data.alerts.lenght +1,
+              search: text,
+              active: true
+            });
+          } else {
+            $scope.$parent.methods.toastMessage('Falta el criterio de búsqueda!');
+          }
         }
       };
       $scope.data = {

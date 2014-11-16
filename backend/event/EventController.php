@@ -49,14 +49,26 @@ class EventController {
                         $user = $_SESSION["user"]->getUserData();
                         $return = $this->newEvent($user['id'], $postData);
                     } else {
-                        $return = '{ "status": "error", "message": "Error obteniendo los usuarios" }';
+                        $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
                     }
                     break;
                 case 'remove_favorite':
-
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
+                        $postData = json_decode(file_get_contents("php://input"));
+                        $user = $_SESSION["user"]->getUserData();
+                        $return = $this->removeFavorite($user['id'], $postData);
+                    } else {
+                        $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
+                    }
                     break;
                 case 'add_favorite':
-
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
+                        $postData = json_decode(file_get_contents("php://input"));
+                        $user = $_SESSION["user"]->getUserData();
+                        $return = $this->addFavorite($user['id'], $postData);
+                    } else {
+                        $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
+                    }
                     break;
 
             }
@@ -68,6 +80,14 @@ class EventController {
     {
         $eq = $this->eventQueries;
         $rows = $eq->getEvents($from, $to);
+        $result = $eq->fetch_all($rows);
+        return json_encode($result);
+    }
+
+    public function getFavorites()
+    {
+        $eq = $this->eventQueries;
+        $rows = $eq->getFavorites();
         $result = $eq->fetch_all($rows);
         return json_encode($result);
     }
@@ -95,6 +115,27 @@ class EventController {
             return "{\"status\": \"".successfull."\" , \"message\": \"Evento agregado\"}";
         } else {
             return "{\"status\": \"".error."\" , \"message\": \"Error al agregar evento\"}";
+        }
+    }
+
+    public function addFavorite($user, $event) {
+        $idEvento = $event->IdEvento ? $event->IdEvento : $event->Id;
+        $fromAPI = $event->IdEvento;
+        $result = $this->eventQueries->addFavorite($user, $idEvento, $fromAPI);
+        if ($result) {
+            return "{\"status\": \"".successfull."\" , \"message\": \"Se agregó a favoritos\"}";
+        } else {
+            return "{\"status\": \"".error."\" , \"message\": \"Error al agregar favorito\"}";
+        }
+    }
+
+    public function removeFavorite($user, $event) {
+        $idEvento = $event->IdEvento ? $event->IdEvento : $event->Id;
+        $result = $this->eventQueries->removeFavorite($user, $idEvento);
+        if ($result) {
+            return "{\"status\": \"".successfull."\" , \"message\": \"Se eliminó de favoritos\"}";
+        } else {
+            return "{\"status\": \"".error."\" , \"message\": \"Error al eliminar favorito\"}";
         }
     }
 

@@ -102,13 +102,17 @@ angular.module('events', [])
         },
         addFavorite: function(event) {
           var defer = $q.defer();
-          delete event.fecha;
-          delete event.fecha_real;
 
           $http({
             method:'get',
             url: 'backend/event/eventAPI.php',
-            params: angular.extend(event, { method: 'add_favorite' })
+            params: {
+              method: 'add_favorite'
+            },
+            data: {
+              Id: event.Id,
+              IdEvento: event.IdEvento
+            }
           }).success(function(response) {
             defer.resolve(response);
           }).error(function(error) {
@@ -118,13 +122,17 @@ angular.module('events', [])
         },
         removeFavorite: function(event) {
           var defer = $q.defer();
-          delete event.fecha;
-          delete event.fecha_real;
 
           $http({
             method:'get',
             url: 'backend/event/eventAPI.php',
-            params: angular.extend(event, { method: 'remove_favorite' })
+            params: {
+              method: 'remove_favorite'
+            },
+            data: {
+              Id: event.Id,
+              IdEvento: event.IdEvento
+            }
           }).success(function(response) {
             defer.resolve(response);
           }).error(function(error) {

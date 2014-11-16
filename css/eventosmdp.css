@@ -25,6 +25,10 @@ html, body {
     width:100%;
 }
 
+.emdp-event-text {
+    width:100%;
+}
+
 .emdp-event-controls input {
     width:100%;
 }
@@ -120,9 +124,9 @@ html, body {
     color: #03a9f4;
 }
 
-.emdp-card-place input {
+/*.emdp-card-place input {
     width:400px;
-}
+}*/
 
 .emdp-subheader-calendar {
     padding:10px 0 10px 20px;
