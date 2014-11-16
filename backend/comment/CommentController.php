@@ -32,15 +32,12 @@ class CommentController {
 
             switch($_GET['method']) {
                 case 'add_review':
-//                    event:int, fromAPI:bool, comment: string, rating: int
-                    if (!isset($_GET['event']) || !isset($_GET['comment']) || !isset($_GET['fromAPI']))
-                    {
-                        $return = '{ "error": "Parametros incorrectos" }';
-                    }
-                    else
-                    {
-                        $rating = isset($_GET['rating'])?($_GET['rating']):0;
-                        $return = addReview($_GET['event'], $_GET['comment'], $_GET['fromAPI'], $rating);
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
+                        $postData = json_decode(file_get_contents("php://input"));
+                        $user = $_SESSION["user"]->getUserData();
+                        $return = $this->addReview($user['id'], $postData);
+                    } else {
+                        $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
                     }
                     break;
                 case 'edit':
@@ -62,13 +59,9 @@ class CommentController {
 
                     break;
                 case 'get_reviews':
-                    if (!isset($_GET['event']) || !isset($_GET['fromAPI']))
                     {
-                        $return = '{ "error": "Parametros incorrectos" }';
-                    }
-                    else
-                    {
-                        $return = getReviewsByEvent($_GET['event'], $_GET['fromAPI']);
+                        $postData = json_decode(file_get_contents("php://input"));
+                        $return = getReviewsByEvent($postData);
                     }
                     break;
             }
@@ -77,18 +70,18 @@ class CommentController {
     }
 
 
-    public function getReviewsByEvent($eventId, $eventFromApi)
+    public function getReviewsByEvent($event)
     {
         $cq = $this->commentQueries;
-        $rows= $cq->getCommentListForEvent($eventId, $eventFromApi);
+        $rows= $cq->getCommentListForEvent($event->EventId, $event->EventFromApi);
         //$result = $rows->fetch_all(MYSQLI_ASSOC);
         $result = $cq->fetch_all($rows);
         return json_encode($result);
     }
 
-    public function addReview($eventId, $comment, $fromApi, $rating)
+    public function addReview($userId, $review)
     {
-        $result= $this->commentQueries->addComment(UserFactory::getInstance()->getId(),$eventId, $comment, CommentStatusEnum::Pendiente,$fromApi, $rating);
+        $result= $this->commentQueries->addComment($userId, $review->EventId, $review->Comment, CommentStatusEnum::Pendiente, $review->FromApi, $review->Rating);
         if ($result)
         {
             return "{\"status\": \"".sucessfull."\" , \"message\": \"Comentario agregado\"}";
