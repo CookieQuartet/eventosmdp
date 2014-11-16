@@ -66,7 +66,8 @@ angular.module('events', [])
               event.fecha = Date.parse(event.FechaHoraInicio.split('T')[0]).toString('yyyy/MM/dd');
               event.fecha_real = Date.parse(event.FechaHoraInicio.split('T')[0]);
               event.stars = 0;
-              event.favorite = false; // eliminar cuando forme parte de los datos devueltos por la consulta
+              //event.favorite = false; // eliminar cuando forme parte de los datos devueltos por la consulta
+              event.favorite = event.favorite === '1'; // eliminar cuando forme parte de los datos devueltos por la consulta
               return event;
             }).groupBy('fecha_real').map(function(item, key) {
               return {
@@ -104,7 +105,7 @@ angular.module('events', [])
           var defer = $q.defer();
 
           $http({
-            method:'get',
+            method:'post',
             url: 'backend/event/eventAPI.php',
             params: {
               method: 'add_favorite'
@@ -124,7 +125,7 @@ angular.module('events', [])
           var defer = $q.defer();
 
           $http({
-            method:'get',
+            method:'post',
             url: 'backend/event/eventAPI.php',
             params: {
               method: 'remove_favorite'

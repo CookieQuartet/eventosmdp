@@ -137,7 +137,7 @@
         templateUrl: 'frontend/view/partials/emdpLoginForm2.html'
       };
     })
-    .directive('emdpEvent', function($rootScope, $q) {
+    .directive('emdpEvent', function($rootScope, $q, eventsAPI) {
       return {
         restrict: 'E',
         replace: true,
@@ -183,7 +183,21 @@
           };
           scope.methods = {
             favorite: function(item) {
-              item.favorite = !item.favorite || false;
+              if(item.favorite) {
+                eventsAPI.removeFavorite(item).then(function(response) {
+                  $rootScope.$broadcast('toastMessage', response.message);
+                  item.favorite = !item.favorite;
+                }, function(error) {
+                  $rootScope.$broadcast('toastMessage', error.message);
+                });
+              } else {
+                eventsAPI.addFavorite(item).then(function(response) {
+                  $rootScope.$broadcast('toastMessage', response.message);
+                  item.favorite = !item.favorite;
+                }, function(error) {
+                  $rootScope.$broadcast('toastMessage', error.message);
+                });
+              }
             },
             report: function(item) {
               item.visible = false;

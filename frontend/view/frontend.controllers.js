@@ -23,6 +23,10 @@ angular.module('view', ['ngMaterial', 'users'])
       }
     };
 
+    $scope.$on('toastMessage', function(event, data) {
+      $scope.methods.toastMessage(data);
+    });
+
     $scope.filterActions = function (action) {
       return action.type >= $rootScope.persona.type;
     };
