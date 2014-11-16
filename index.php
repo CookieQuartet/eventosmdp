@@ -10,7 +10,7 @@
         <div layout="vertical" layout-fill>
             <material-toolbar
                 scroll-shrink
-                class="material-theme-dark"
+                class="emdp-toolbar material-theme-dark"
                 ng-class="{ 'material-medium-tall': data.search.visible  }">
                 <div class="material-toolbar-tools" layout-arrange="center center" layout="horizontal">
                     <material-button ng-click="methods.toggleMenu()" hide-md style="margin:0;">

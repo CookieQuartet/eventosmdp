@@ -31,8 +31,9 @@ angular.module('view', ['ngMaterial', 'users'])
     $rootScope.lastState = 'events';
     $scope.data.search.visible = true;
     eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
-      $rootScope.eventList = _.merge(response, $rootScope.eventList);
-      //$rootScope.eventList = _.merge($rootScope.eventList, response);
+      //$rootScope.eventList = _.merge(response, $rootScope.eventList);
+      //$rootScope.eventList = _.chain(response).merge($rootScope.eventList).sortBy('fecha').value();
+      $rootScope.eventList = response;
     });
     $scope.$on('$destroy', function() {
       $scope.data.search.visible = false;
@@ -54,7 +55,6 @@ angular.module('view', ['ngMaterial', 'users'])
       Precio: null,
       RutaImagen: null,
       ZonaHoraria: "America/Argentina/Buenos_Aires",
-      favorite: false,
       fecha: null,
       fecha_real: null
     };
@@ -62,7 +62,7 @@ angular.module('view', ['ngMaterial', 'users'])
       saveEvent: function(data) {
         console.log(data);
         //var fecha = Date.parse(data.FechaHoraInicio.split(' ')[0]);
-        var fecha = data.FechaHoraInicio.clearTime();
+        var fecha = (new Date(data.FechaHoraInicio)).clearTime();
         var dia = _.find($rootScope.eventList, { fecha: fecha });
         if(typeof dia === 'undefined') {
           dia = {

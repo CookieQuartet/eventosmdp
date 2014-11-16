@@ -2,6 +2,11 @@ material-toolbar.material-medium-tall {
     height: 100px;
 }
 
+.emdp-toolbar {
+    background: url(../img/mar-del-plata-5.jpg) no-repeat 0px;
+    background-size: cover;
+}
+
 .material-sticky-clone {
     z-index: 3;
 }
@@ -171,21 +176,18 @@ material-whiteframe {
     margin-bottom:100px;
 }
 
-/*.emdp-alertlist-search,
-.emdp-alertlist {
-    width:100%;
-}*/
-
 .emdp-alertlist-list {
     padding:0;
 }
 
-.emdp-alertlist-scroll {
+.emdp-alertlist-section {
     width:100%;
 }
-/*.emdp-alertlist-item {
-    height:54px;
-}*/
+
+.emdp-alertlist-scroll {
+    max-height: 80%;
+    overflow-y: auto;
+}
 
 .emdp-alertlist-input {
     width:100%;

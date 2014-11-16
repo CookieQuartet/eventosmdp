@@ -78,6 +78,22 @@ angular.module('events', [])
             defer.resolve(days);
           });
           return defer.promise;
+        },
+        addEvent: function(event) {
+          var defer = $q.defer();
+          delete event.fecha;
+          delete event.fecha_real;
+
+          $http({
+            method:'get',
+            url: 'backend/event/eventAPI.php',
+            params: angular.extend(event, { method: 'add_event' })
+          }).success(function(response) {
+            defer.resolve(response);
+          }).error(function(error) {
+            defer.reject(error);
+          });
+          return defer.promise;
         }
       };
     });

@@ -33,6 +33,9 @@ class EventController {
                         $to = isset($_GET['to'])? $_GET['to']:null;
                         $return = $this->getEvents($from, $to);
                     break;
+                case 'add_event':
+                    $return = $this->newEvent($from, $to);
+                    break;
                 case 'get_reviews':
 
                     break;
