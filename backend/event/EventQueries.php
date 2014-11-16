@@ -134,6 +134,43 @@ class EventQueries {
         return $this->dataBase->query($query);
     }
 
+    public final function getMyEvents($user)
+    {
+        $query = "
+                SELECT
+                    E.Id,
+                    E.IdUser,
+                    E.Active,
+                    E.DescripcionEvento,
+                    E.DetalleTexto,
+                    E.DireccionEvento,
+                    E.FechaHoraFin,
+                    E.FechaHoraInicio,
+                    E.IdArea,
+                    E.IdCalendario,
+                    E.IdEvento,
+                    E.IdSubarea,
+                    E.Lugar,
+                    E.NombreEvento,
+                    E.Precio,
+                    E.RutaImagen,
+                    E.ZonaHoraria,
+                    CS.stars,
+                    CASE WHEN FEU.idEvento IS NOT NULL AND FEU.idUser IS NOT NULL THEN 1 ELSE 0 END AS favorite
+                FROM   EVENT  E
+                LEFT JOIN
+                    (SELECT * FROM FAVORITE_EVENT_USER FE WHERE FE.eventFromApi = 2 AND idUser = '$user') as FEU ON E.id = FEU.idEvento
+                LEFT JOIN
+                    (SELECT AVG (C.stars) AS stars, C.idEvent
+                        FROM COMMENT C
+                        LEFT JOIN COMMENT_STATUS S ON C.idCommentStatus = S.id
+                        WHERE C.eventFromApi = 0 AND S.description LIKE 'Aprobado'
+                        GROUP BY idEvent) as CS ON E.id = CS.idEvent
+            WHERE E.Active = 1 AND E.idUser = '$user' ORDER BY E.FechaHoraInicio";
+
+        return $this->dataBase->query($query);
+    }
+
     public final function addEvent(
         $userId
         , $eventStatus

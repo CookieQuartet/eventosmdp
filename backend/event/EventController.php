@@ -46,8 +46,22 @@ class EventController {
                     }
                     $return = $this->getEvents($idUser, $from, $to);
                     break;
-                case 'get_reviews':
-
+                case 'get_my_events':
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
+                        $user = $_SESSION["user"]->getUserData();
+                        if ($user['userType']==UserAdminType || $user['userType']==UserPublisherType)
+                        {
+                            $postData = json_decode(file_get_contents("php://input"));
+                            $return = $this->getMyEvents($user['id'], $postData);
+                        }
+                        else
+                        {
+                            $return = '{ "status": "error", "message": "Debe ser usuario publicador o administrador" }';
+                        }
+                    } else {
+                        $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
+                    }
+                    $return = $this->getEvents($idUser, $from, $to);
                     break;
                 case 'add_event':
                     if(isset($_SESSION["user"]) && $_SESSION["user"]) {
@@ -86,6 +100,14 @@ class EventController {
     {
         $eq = $this->eventQueries;
         $rows = $eq->getEvents($user, $from, $to);
+        $result = $eq->fetch_all($rows);
+        return json_encode($result);
+    }
+
+    public function getMyEvents($user)
+    {
+        $eq = $this->eventQueries;
+        $rows = $eq->getMyEvents($user);
         $result = $eq->fetch_all($rows);
         return json_encode($result);
     }
