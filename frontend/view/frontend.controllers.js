@@ -35,8 +35,6 @@ angular.module('view', ['ngMaterial', 'users'])
     $rootScope.lastState = 'events';
     $scope.data.search.visible = true;
     eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
-      //$rootScope.eventList = _.merge(response, $rootScope.eventList);
-      //$rootScope.eventList = _.chain(response).merge($rootScope.eventList).sortBy('fecha').value();
       $rootScope.eventList = response;
     });
     $scope.$on('$destroy', function() {
@@ -95,7 +93,7 @@ angular.module('view', ['ngMaterial', 'users'])
     };
     user.checkLogged();
   })
-  .controller('emdpFavoritesController', function($rootScope, $scope, $state, user, action, $filter) {
+  .controller('emdpFavoritesController', function($rootScope, $scope, $state, user, eventsAPI, action, $filter) {
     $rootScope.lastState = 'favorites';
     $scope.data.search.visible = true;
     $scope.eventList = $rootScope.eventList;
@@ -107,6 +105,9 @@ angular.module('view', ['ngMaterial', 'users'])
       $scope.checkFavorites();
     }, true);
     user.checkLogged(function() {
+      eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
+        $rootScope.eventList = response;
+      });
       $scope.checkFavorites();
     });
     $scope.$on('$destroy', function() {

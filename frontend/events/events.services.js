@@ -65,7 +65,7 @@ angular.module('events', [])
             var days = _.chain(response).map(function(event) {
               event.fecha = Date.parse(event.FechaHoraInicio.split('T')[0]).toString('yyyy/MM/dd');
               event.fecha_real = Date.parse(event.FechaHoraInicio.split('T')[0]);
-              event.stars = 0;
+              //event.stars = 0;
               //event.favorite = false; // eliminar cuando forme parte de los datos devueltos por la consulta
               event.favorite = event.favorite === '1'; // eliminar cuando forme parte de los datos devueltos por la consulta
               return event;
@@ -112,7 +112,8 @@ angular.module('events', [])
             },
             data: {
               Id: event.Id,
-              IdEvento: event.IdEvento
+              IdEvento: event.IdEvento,
+              fromAPI: _.isNull(event.Id) ? 1 : 2
             }
           }).success(function(response) {
             defer.resolve(response);

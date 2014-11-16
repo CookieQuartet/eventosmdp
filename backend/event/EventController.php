@@ -120,7 +120,8 @@ class EventController {
 
     public function addFavorite($user, $event) {
         $idEvento = $event->IdEvento ? $event->IdEvento : $event->Id;
-        $fromAPI = $event->IdEvento;
+        $fromAPI = $event->fromAPI;
+
         $result = $this->eventQueries->addFavorite($user, $idEvento, $fromAPI);
         if ($result) {
             return "{\"status\": \"".successfull."\" , \"message\": \"Se agregó a favoritos\"}";
