@@ -109,7 +109,7 @@ angular.module('view', ['ngMaterial', 'users'])
     $scope.data.search.visible = true;
     $scope.eventList = $rootScope.eventList;
     $scope.checkFavorites = function() {
-      $scope.onlyFavorites = $filter('onlyFavorites')($scope.eventList);
+      $scope.onlyFavorites = $filter('onlyFavorites')($rootScope.eventList);
       $scope.favoriteWarning = $scope.onlyFavorites.length === 0;
     };
     $scope.$watch('eventList', function() {
@@ -118,8 +118,9 @@ angular.module('view', ['ngMaterial', 'users'])
     user.checkLogged(function() {
       eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
         $rootScope.eventList = response;
+        $scope.checkFavorites();
       });
-      $scope.checkFavorites();
+      //$scope.checkFavorites();
     });
     $scope.$on('$destroy', function() {
       $scope.data.search.visible = false;
