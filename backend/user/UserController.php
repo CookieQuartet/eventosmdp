@@ -58,7 +58,7 @@ class UserController {
 
                         //$result = $rows->fetch_all(MYSQLI_ASSOC);
                         $return = json_encode($result);
-                        $rows->free();
+                        //$rows->free();
                     } else {
                         $return = '{ "logged": false, "error": "Error obteniendo los usuarios" }';
                     }
