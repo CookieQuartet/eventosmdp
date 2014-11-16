@@ -6,8 +6,15 @@
  * Time: 05:30 PM
  */
 
-include_once('EventQueries.php');
+include_once('../user/User.php');
+include_once('../user/userAdmin/UserAdmin.php');
+include_once('../user/userGeneral/UserGeneral.php');
+include_once('../user/userPublisher/UserPublisher.php');
+include_once('../user/userType/UserTypeEnum.php');
 include_once('../user/UserFactory.php');
+
+include_once('EventQueries.php');
+//include_once('../user/UserFactory.php');
 include_once('../utils/Strings.php');
 
 class EventController {
@@ -33,28 +40,16 @@ class EventController {
                         $to = isset($_GET['to'])? $_GET['to']:null;
                         $return = $this->getEvents($from, $to);
                     break;
-                case 'add_event':
-                    //$return = $this->newEvent($from, $to);
-                    break;
                 case 'get_reviews':
 
                     break;
                 case 'add_event':
-                    if (!isset($_GET['DescripcionEvento']) || !isset($_GET['DetalleTexto']) || !isset($_GET['DireccionEvento'])
-                        || !isset($_GET['FechaHoraFin']) || !isset($_GET['FechaHoraInicio']) || !isset($_GET['IdArea'])
-                        || !isset($_GET['IdCalendario']) || !isset($_GET['IdSubarea']) || !isset($_GET['Lugar'])
-                        || !isset($_GET['NombreEvento']) || !isset($_GET['Precio']) || !isset($_GET['RutaImagen'])
-                        || !isset($_GET['ZonaHoraria']))
-                    {
-                        $return = '{ "error": "Parametros incorrectos" }';
-                    }
-                    else
-                    {
-                        $return = newEvent($_GET['DescripcionEvento'], $_GET['DetalleTexto'], $_GET['DireccionEvento'],
-                                           $_GET['FechaHoraFin'], $_GET['FechaHoraInicio'], $_GET['IdArea'],
-                                           $_GET['IdCalendario'], $_GET['IdSubarea'], $_GET['Lugar'],
-                                           $_GET['NombreEvento'], $_GET['Precio'], $_GET['RutaImagen'],
-                                           $_GET['ZonaHoraria']);
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
+                        $postData = json_decode(file_get_contents("php://input"));
+                        $user = $_SESSION["user"]->getUserData();
+                        $return = $this->newEvent($user['id'], $postData);
+                    } else {
+                        $return = '{ "status": "error", "message": "Error obteniendo los usuarios" }';
                     }
                     break;
                 case 'remove_favorite':
@@ -73,23 +68,34 @@ class EventController {
     {
         $eq = $this->eventQueries;
         $rows = $eq->getEvents($from, $to);
-        //$result = $rows->fetch_all(MYSQLI_ASSOC);
         $result = $eq->fetch_all($rows);
         return json_encode($result);
     }
 
-    public function newEvent($descripcionEvento, $detalleTexto, $direccionEvento, $fechaHoraFin, $fechaHoraInicio, $idArea, $idCalendario, $idSubarea, $lugar, $nombreEvento, $precio, $rutaImagen, $zonaHoraria)
+    public function newEvent($user, $data)
     {
-        $result= $this->eventQueries->addEvent(UserFactory::getInstance()->getId(), true, $descripcionEvento, $detalleTexto, $direccionEvento, $fechaHoraFin, $fechaHoraInicio, $idArea, $idCalendario, $idSubarea, $lugar, $nombreEvento, $precio, $rutaImagen, $zonaHoraria);
-        if ($result)
-        {
-            return "{\"status\": \"".sucessfull."\" , \"message\": \"Evento agregado\"}";
-        }
-        else
-        {
+        $result= $this->eventQueries->addEvent(
+            $user,
+            true,
+            $data->DescripcionEvento,
+            $data->DetalleTexto,
+            $data->DireccionEvento,
+            $data->FechaHoraFin,
+            $data->FechaHoraInicio,
+            //$data->IdArea,
+            $data->IdCalendario,
+            $data->IdSubarea,
+            $data->Lugar,
+            $data->NombreEvento,
+            $data->Precio,
+            $data->RutaImagen,
+            $data->ZonaHoraria
+        );
+        if ($result) {
+            return "{\"status\": \"".successfull."\" , \"message\": \"Evento agregado\"}";
+        } else {
             return "{\"status\": \"".error."\" , \"message\": \"Error al agregar evento\"}";
         }
-
     }
 
     public function updateEvent()

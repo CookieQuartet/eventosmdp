@@ -54,26 +54,24 @@ angular.module('view', ['ngMaterial', 'users'])
       NombreEvento: null,
       Precio: null,
       RutaImagen: null,
-      ZonaHoraria: "America/Argentina/Buenos_Aires",
-      fecha: null,
-      fecha_real: null
+      ZonaHoraria: "America/Argentina/Buenos_Aires"
     };
     $scope.methods = {
       saveEvent: function(data) {
-        console.log(data);
-        //var fecha = Date.parse(data.FechaHoraInicio.split(' ')[0]);
-        var fecha = (new Date(data.FechaHoraInicio)).clearTime();
-        var dia = _.find($rootScope.eventList, { fecha: fecha });
-        if(typeof dia === 'undefined') {
-          dia = {
-            "fecha": fecha.toISOString(),
-            "fecha_completa": $filter('date')(Date.parse(fecha), 'fullDate', 'es_AR'),
-            "eventos":[]
-          };
-          $rootScope.eventList.push(dia);
-        }
-        dia.eventos.push(data);
-        $scope.$parent.methods.toastMessage('Se creó el evento.');
+        eventsAPI.addEvent($scope.data).then(function(response) {
+          var fecha = (new Date(data.FechaHoraInicio)).clearTime();
+          var dia = _.find($rootScope.eventList, { fecha: fecha });
+          if(typeof dia === 'undefined') {
+            dia = {
+              "fecha": fecha.toISOString(),
+              "fecha_completa": $filter('date')(Date.parse(fecha), 'fullDate', 'es_AR'),
+              "eventos":[]
+            };
+            $rootScope.eventList.push(dia);
+          }
+          dia.eventos.push(data);
+          $scope.$parent.methods.toastMessage('Se creó el evento.');
+        });
       }
     };
     user.checkLogged();

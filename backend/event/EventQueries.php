@@ -155,10 +155,61 @@ class EventQueries {
         return $this->dataBase->query($query);
     }
 
-    public final function addEvent($userId, $eventStatus, $descripcionEvento, $detalleTexto, $direccionEvento, $fechaHoraFin, $fechaHoraInicio, $idCalendario, $idSubarea, $lugar, $nombreEvento, $precio, $rutaImagen, $zonaHoraria)
-    {
-        return $this->dataBase->query("insert into EVENT (IdUser, Active, DescripcionEvento, DetalleTexto, DireccionEvento, FechaHoraFin, FechaHoraInicio, IdArea, IdCalendario, IdEvento, IdSubarea, Lugar, NombreEvento, Precio, RutaImagen, ZonaHoraria )
-                                    values ('$userId', '$eventStatus', '$descripcionEvento', '$detalleTexto', '$direccionEvento', '$fechaHoraFin', '$fechaHoraInicio', '2', '$idCalendario', null, '$idSubarea', '$lugar', '$nombreEvento', '$precio', '$rutaImagen', '$zonaHoraria')");
+    public final function addEvent(
+        $userId
+        , $eventStatus
+        , $descripcionEvento
+        , $detalleTexto
+        , $direccionEvento
+        , $fechaHoraFin
+        , $fechaHoraInicio
+        //, $idArea
+        , $idCalendario
+        , $idSubarea
+        , $lugar
+        , $nombreEvento
+        , $precio
+        , $rutaImagen
+        , $zonaHoraria
+    ) {
+        $query = "
+            insert into EVENT(
+              IdUser
+              , Active
+              , DescripcionEvento
+              , DetalleTexto
+              , DireccionEvento
+              , FechaHoraFin
+              , FechaHoraInicio
+              , IdArea
+              , IdCalendario
+              , IdEvento
+              , IdSubarea
+              , Lugar
+              , NombreEvento
+              , Precio
+              , RutaImagen
+              , ZonaHoraria
+            )
+            values (
+              '$userId'
+              , '$eventStatus'
+              , '$descripcionEvento'
+              , '$detalleTexto'
+              , '$direccionEvento'
+              , '$fechaHoraFin'
+              , '$fechaHoraInicio'
+              , '2'
+              , '$idCalendario'
+              , null
+              , '$idSubarea'
+              , '$lugar'
+              , '$nombreEvento'
+              , '$precio'
+              , '$rutaImagen'
+              , '$zonaHoraria'
+            )";
+        return $this->dataBase->query($query);
     }
 
     public final function getEventById($id)

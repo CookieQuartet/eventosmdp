@@ -1,7 +1,7 @@
 <?php
 
     /*JSON Result Status*/
-    define ("sucessfull","Ok");
+    define ("successfull","Ok");
     define ("warning","Advertencia");
     define ("error","Error");
 

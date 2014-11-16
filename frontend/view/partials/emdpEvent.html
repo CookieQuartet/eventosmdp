@@ -69,10 +69,10 @@
                     </div>
                     <emdp-rating max="5" value="{{ comment.rating }}" editable="true"></emdp-rating>
                     <material-button
-                        class="material-button-fab emdp-fab emdp-fab-ok"
+                            class="material-button-fab emdp-fab emdp-fab-profile"
                         aria-label="New document"
                         ng-click="methods.comment(comment)">
-                        <material-icon icon="img/svg/check_wht.svg" style="width: 24px; height: 24px;"></material-icon>
+                        <material-icon icon="img/svg/arrow-right_wht.svg" style="width: 24px; height: 24px;"></material-icon>
                         <material-tooltip>Enviar comentario</material-tooltip>
                     </material-button>
                 </material-item-content>
@@ -81,7 +81,7 @@
     </div>
     <material-divider class="emdp-divider"></material-divider>
     <div layout="horizontal" layout-sm="horizontal" layout-padding>
-        <div flex="33" layout="vertical" layout-align="start center">
+        <div flex="33" layout="vertical" layout-align="center center">
             <div style="width:48px;">
                 <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_place_48dp.png" height=40 width=40 alt=""/>
             </div>

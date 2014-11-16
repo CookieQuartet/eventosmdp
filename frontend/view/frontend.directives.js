@@ -203,7 +203,6 @@
                 scope.event.comments = _.merge(scope.event.comments, comments);
               });
               scope.config.showComments = !scope.config.showComments;
-              document.getElementById('emdp-textarea-comment-' + scope.event.IdEvento).focus();
             }
           }
         },

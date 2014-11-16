@@ -82,6 +82,25 @@ angular.module('events', [])
           return defer.promise;
         },
         addEvent: function(event) {
+          var defer = $q.defer(),
+              fecha = toAPIDate(new Date(event.FechaHoraInicio)),
+              _event = angular.copy(event);
+
+          $http({
+            method:'post',
+            url: 'backend/event/eventAPI.php',
+            params: {
+              method: 'add_event'
+            },
+            data: angular.extend(_event, { FechaHoraInicio: fecha })
+          }).success(function(response) {
+            defer.resolve(response);
+          }).error(function(error) {
+            defer.reject(error);
+          });
+          return defer.promise;
+        },
+        addFavorite: function(event) {
           var defer = $q.defer();
           delete event.fecha;
           delete event.fecha_real;
@@ -89,7 +108,23 @@ angular.module('events', [])
           $http({
             method:'get',
             url: 'backend/event/eventAPI.php',
-            params: angular.extend(event, { method: 'add_event' })
+            params: angular.extend(event, { method: 'add_favorite' })
+          }).success(function(response) {
+            defer.resolve(response);
+          }).error(function(error) {
+            defer.reject(error);
+          });
+          return defer.promise;
+        },
+        removeFavorite: function(event) {
+          var defer = $q.defer();
+          delete event.fecha;
+          delete event.fecha_real;
+
+          $http({
+            method:'get',
+            url: 'backend/event/eventAPI.php',
+            params: angular.extend(event, { method: 'remove_favorite' })
           }).success(function(response) {
             defer.resolve(response);
           }).error(function(error) {
