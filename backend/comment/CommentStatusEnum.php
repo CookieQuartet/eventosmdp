@@ -12,5 +12,5 @@ class CommentStatusEnum {
     const Pendiente = 1;
     const Aprobado = 2;
     const Denunciado = 3;
-    const Eliminado = 3;
+    const Eliminado = 4;
 } 
