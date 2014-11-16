@@ -44,7 +44,6 @@ class EventController {
             }
         }
         echo $return;
-        //echo 'wtf';
     }
 
     public function getEvents($fechaDesde, $fechaHasta)
