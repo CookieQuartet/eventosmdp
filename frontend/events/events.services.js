@@ -76,7 +76,9 @@ angular.module('events', [])
               }
             }).value();
             defer.resolve(days);
-          });
+          }).error(function(error) {
+            defer.reject(error);
+          });;
           return defer.promise;
         },
         addEvent: function(event) {
