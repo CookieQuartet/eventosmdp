@@ -43,7 +43,7 @@ class DataBase {
             $this->openConnection();
             $queryResult = $this->connection->query($query);
             if (!$queryResult) {
-                printf("Errormessage: %s\n", $this->connection->error);
+                printf("Error message: %s\n", $this->connection->error);
             }
 
             $this->closeConnection();
@@ -86,6 +86,20 @@ class DataBase {
         }
     }
 
+    public function fetch_all($rows)
+    {
+     //   for ($res = array(); $tmp = $rows->fetch_assoc();) $res[] = $tmp;
+     //   return $res;
+
+        $result = array();
+        while ($row = $rows->fetch_assoc()) {
+            array_push($result, $row);
+        }
+        $rows->free();
+        return $result;
+    }
+
+
     public function fetchArray($result)
     {
         try {
@@ -121,7 +135,7 @@ class DataBase {
 
     public static function fetchQueryResultToJson($rows)
     {
-        $result = $rows->fetch_all(MYSQLI_ASSOC);
+        /*$result = $rows->fetch_all(MYSQLI_ASSOC);
         $json_array = array();
         $length = count($result);
         $i = 0;
@@ -134,7 +148,7 @@ class DataBase {
             $i++;
         }
         $rows->free();
-        return '['.implode(',', $json_array).']';
+        return '['.implode(',', $json_array).']';*/
 
 //        try {
 //            $result = array();

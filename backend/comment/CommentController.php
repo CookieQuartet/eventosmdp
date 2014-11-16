@@ -79,8 +79,10 @@ class CommentController {
 
     public function getReviewsByEvent($eventId, $eventFromApi)
     {
-        $rows= $this->commentQueries->getCommentListForEvent($eventId, $eventFromApi);
-        $result = $rows->fetch_all(MYSQLI_ASSOC);
+        $cq = $this->commentQueries;
+        $rows= $cq->getCommentListForEvent($eventId, $eventFromApi);
+        //$result = $rows->fetch_all(MYSQLI_ASSOC);
+        $result = $cq->fetch_all($rows);
         return json_encode($result);
     }
 

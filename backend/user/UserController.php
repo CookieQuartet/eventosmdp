@@ -47,14 +47,16 @@ class UserController {
                     break;
                 case 'users':
                     if(isset($_SESSION["user"]) && $_SESSION["user"]) {
-                        $rows = $_SESSION["user"]->getUserQueries()->getUserList();
+                        $uq = $_SESSION["user"]->getUserQueries();
+                        $rows = $uq->getUserList();
+                        $result = $uq->fetch_all(MYSQLI_ASSOC);
                         /*$result = array();
                         while ($row = $rows->fetch_assoc()) {
                             array_push($result, $row);
                         }
                         $rows->free();*/
 
-                        $result = $rows->fetch_all(MYSQLI_ASSOC);
+                        //$result = $rows->fetch_all(MYSQLI_ASSOC);
                         $return = json_encode($result);
                         $rows->free();
                     } else {

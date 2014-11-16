@@ -34,7 +34,7 @@ class EventController {
                         $return = $this->getEvents($from, $to);
                     break;
                 case 'add_event':
-                    $return = $this->newEvent($from, $to);
+                    //$return = $this->newEvent($from, $to);
                     break;
                 case 'get_reviews':
 
@@ -71,8 +71,10 @@ class EventController {
 
     public function getEvents($from, $to)
     {
-        $rows = $this->eventQueries->getEvents($from, $to);
-        $result = $rows->fetch_all(MYSQLI_ASSOC);
+        $eq = $this->eventQueries;
+        $rows = $eq->getEvents($from, $to);
+        //$result = $rows->fetch_all(MYSQLI_ASSOC);
+        $result = $eq->fetch_all($rows);
         return json_encode($result);
     }
 

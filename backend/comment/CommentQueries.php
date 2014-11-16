@@ -17,6 +17,10 @@ class CommentQueries {
         $this->dataBase = new DataBase();
     }
 
+    public function fetch_all($rows) {
+        return $this->dataBase->fetch_all($rows);
+    }
+
     //Lista de Comentarios Completa
     public final function getCommentList()
     {

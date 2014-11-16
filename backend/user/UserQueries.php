@@ -17,6 +17,10 @@ class UserQueries {
         $this->dataBase = new DataBase();
     }
 
+    public function fetch_all($rows) {
+        return $this->dataBase->fetch_all($rows);
+    }
+
     public final function getUserList() //Lista de Usuarios
     {
         //$userQuery = "select UR.*,UT.description from USER UR, USER_TYPE UT where UR.id_user_type = UT.id";
