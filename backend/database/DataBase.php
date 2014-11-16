@@ -15,6 +15,7 @@ class DataBase {
     {
         try {
             $this->connection = new mysqli(host, user, password, database);
+            $this->connection->set_charset("utf8");
             if ($this->connection->connect_errno) {
                 printf("Falló la conexión: %s\n", $this->connection->connect_error);
                 exit();

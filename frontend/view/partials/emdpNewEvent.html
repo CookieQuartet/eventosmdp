@@ -30,25 +30,25 @@
                 <material-divider class="emdp-divider"></material-divider>
                 <div layout="horizontal" layout-sm="horizontal" layout-padding>
                     <div flex="33" layout="vertical" layout-align="center center">
-                        <div style="width:48px;">
-                            <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_place_48dp.png" height=40 width=40 alt=""/>
-                        </div>
-                        <p block-sm hide class="emdp-card-text"><input class="emdp-newEvent-direccion" type="text" ng-model="data.DireccionEvento" placeholder="Dirección del evento"/></p>
-                        <p hide-sm class="emdp-card-text-small"><input class="emdp-newEvent-direccion" type="text" ng-model="data.DireccionEvento" placeholder="Dirección del evento"/></p>
-                    </div>
-                    <div flex="33" layout="vertical" layout-align="center center">
-                        <div style="width:48px;">
+                        <div>
                             <img class="emdp-card-icon" src="img/system_icons/device/res/2x_web/ic_access_time_48dp.png" height=40 width=40 alt=""/>
                         </div>
-                        <p block-sm hide class="emdp-card-text"><input class="emdp-newEvent-hora" ng-model="data.FechaHoraInicio" placeholder="Hora"/>hs</p>
-                        <p hide-sm class="emdp-card-text-small"><input class="emdp-newEvent-hora" ng-model="data.FechaHoraInicio" placeholder="Hora"/>hs</p>
+                        <div block-sm hide class="emdp-card-text"><input class="emdp-newEvent-hora" ng-model="data.FechaHoraInicio" type="datetime-local" placeholder="Hora"/></div>
+                        <div hide-sm class="emdp-card-text-small"><input class="emdp-newEvent-hora" ng-model="data.FechaHoraInicio" type="datetime-local" placeholder="Hora"/></div>
                     </div>
                     <div flex="33" layout="vertical" layout-align="center center">
-                        <div style="width:48px;">
+                        <div>
+                            <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_place_48dp.png" height=40 width=40 alt=""/>
+                        </div>
+                        <div block-sm hide class="emdp-card-text"><input class="emdp-newEvent-direccion" type="text" ng-model="data.DireccionEvento" placeholder="Dirección del evento"/></div>
+                        <div hide-sm class="emdp-card-text-small"><input class="emdp-newEvent-direccion" type="text" ng-model="data.DireccionEvento" placeholder="Dirección del evento"/></div>
+                    </div>
+                    <div flex="33" layout="vertical" layout-align="center center">
+                        <div>
                             <img class="emdp-card-icon" src="img/system_icons/maps/res/2x_web/ic_local_offer_48dp.png" height=40 width=40 alt=""/>
                         </div>
-                        <p block-sm hide class="emdp-card-text"><input class="emdp-newEvent-precio" type="text" ng-model="data.Precio" placeholder="Precio"/></p>
-                        <p hide-sm class="emdp-card-text-small"><input class="emdp-newEvent-precio" type="text" ng-model="data.Precio" placeholder="Precio"/></p>
+                        <div block-sm hide class="emdp-card-text"><input class="emdp-newEvent-precio" type="text" ng-model="data.Precio" placeholder="Precio"/></div>
+                        <div hide-sm class="emdp-card-text-small"><input class="emdp-newEvent-precio" type="text" ng-model="data.Precio" placeholder="Precio"/></div>
                     </div>
                 </div>
                 <material-divider class="emdp-divider"></material-divider>

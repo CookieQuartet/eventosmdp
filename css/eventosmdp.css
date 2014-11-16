@@ -99,10 +99,11 @@ html, body {
 
 .emdp-card-text {
     text-align: center;
+    width: 100%;
 }
 
 .emdp-card-text input {
-    width:150px;
+    width: 100%;
 }
 
 .emdp-card-text-small {
@@ -645,4 +646,8 @@ material-button.emdp-fab-profile:not([disabled]):hover, material-button.emdp-fab
 .emdp-alert-searchtext {
     /*width:300px;*/
     width:100%;
+}
+
+input.emdp-newEvent-hora {
+    width: 190px;
 }

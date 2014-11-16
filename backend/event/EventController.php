@@ -28,7 +28,7 @@ class EventController {
             {
                 case 'get_events':
                         $from = isset($_GET['from'])? $_GET['from']:null;
-                        $to = isset($_GET['to'])? $_GET['from']:null;
+                        $to = isset($_GET['to'])? $_GET['to']:null;
                         $return = $this->getEvents($from, $to);
                     break;
                 case 'get_reviews':
@@ -53,19 +53,18 @@ class EventController {
     {
         $rows = $this->eventQueries->getEvents($from, $to);
         $result = $rows->fetch_all(MYSQLI_ASSOC);
-        $json_array = array();
+
+        return json_encode($result);
+        /*$json_array = array();
         $length = count($result);
         $i = 0;
 
         while($i < $length) {
-            $row = json_encode($result[$i]);
-            if(strlen($row) > 0) {
-                array_push($json_array, $row);
-            }
+            array_push($json_array, json_encode($result[$i]));
             $i++;
         }
         $rows->free();
-        return '['.implode(',', $json_array).']';
+        return '['.implode(',', $json_array).']';*/
     }
 
     public function newEvent()

@@ -17,14 +17,6 @@ class EventQueries {
         $this->dataBase = new DataBase();
     }
 
-    /*public final function getOwnEventsList()
-    {
-        $result=$this->dataBase->query("select * from EVENT");
-        $result=$this->dataBase->fetchQueryResultToAssocArray($result);
-
-        return $result;
-    }*/
-
     public final function getApiEventList() //Lista de Usuarios
     {
         $query = "SELECT `Altura`, `Calle`, `DescripcionCalendario`, `DescripcionEvento`, `Destacado`, `DetalleTexto`, `DireccionEvento`, `FechaHoraFin`, `FechaHoraInicio`, `Frecuencia`, `IdArea`, `IdCalendario`, `IdEvento`, `IdSubarea`, `Latitud`, `Longitud`, `Lugar`, `NombreArea`, `NombreCalendario`, `NombreEvento`, `NombreSubAreaFormat`, `NombreSubarea`, `Precio`, `Repetir`, `RutaImagen`, `RutaImagenMiniatura`, `TodoDia`, `ZonaHoraria` FROM `EVENT_API` limit 28";
@@ -34,22 +26,40 @@ class EventQueries {
     public final function getEvents($from, $to)
     {
         $dateConstraint="";
+        /*if ($from && $to)
+        {
+            $dateConstraint =  " WHERE
+                                EVENTS.FechaHoraInicio >= '".$from."T000000'
+                                AND
+                                EVENTS.FechaHoraFin <= '".$to."T000000'";
+        }
+        elseif ($from)
+        {
+            $dateConstraint =  " WHERE
+                                EVENTS.FechaHoraInicio >= '".$from."T000000'";
+        }
+        elseif ($to)
+        {
+            $dateConstraint =  " WHERE
+                                EVENTS.FechaHoraFin <= '".$to."T000000'";
+        }*/
+
         if ($from && $to)
         {
             $dateConstraint =  " WHERE
                                 EVENTS.FechaHoraInicio >= '$from'
                                 AND
-                                EVENTS.FechaHoraFin <= '$to' ";
+                                EVENTS.FechaHoraFin <= '$to'";
         }
         elseif ($from)
         {
             $dateConstraint =  " WHERE
-                                EVENTS.FechaHoraInicio >= '$from' ";
+                                EVENTS.FechaHoraInicio >= '$from'";
         }
         elseif ($to)
         {
             $dateConstraint =  " WHERE
-                                EVENTS.FechaHoraFin <= '$to' ";
+                                EVENTS.FechaHoraFin <= '$to'";
         }
 
         $query = "SELECT *
@@ -83,7 +93,8 @@ class EventQueries {
                                     EA.RutaImagenMiniatura,
                                     EA.TodoDia,
                                     EA.ZonaHoraria,
-                                    CS.stars
+                                    CS.stars,
+                                    CASE WHEN FEU.idEvento IS NOT NULL THEN 1 ELSE 0 END AS favorite
                                 FROM EVENT_API EA
                                 LEFT JOIN
                                     (SELECT * FROM FAVORITE_EVENT_USER FE WHERE FE.eventFromApi = 1) as FEU ON EA.idEvento = FEU.idEvento
@@ -124,8 +135,9 @@ class EventQueries {
                                     E.RutaImagenMiniatura,
                                     E.TodoDia,
                                     E.ZonaHoraria,
-                                    CS.stars
-                                FROM   EVENT E
+                                    CS.stars,
+                                    CASE WHEN FEU.idEvento IS NOT NULL THEN 1 ELSE 0 END AS favorite
+                                FROM   EVENT  E
                                 LEFT JOIN
                                     (SELECT * FROM FAVORITE_EVENT_USER FE WHERE FE.eventFromApi = 0) as FEU ON E.id = FEU.idEvento
                                 LEFT JOIN
@@ -135,8 +147,6 @@ class EventQueries {
                                         WHERE C.eventFromApi = 0 AND S.description LIKE 'Aprobado'
                                         GROUP BY idEvent) as CS ON E.id = CS.idEvent
                                 WHERE E.Active = 1) EVENTS ".$dateConstraint." ORDER BY EVENTS.FechaHoraInicio";
-
-
 
         return $this->dataBase->query($query);
     }
