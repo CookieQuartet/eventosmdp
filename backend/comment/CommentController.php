@@ -7,6 +7,7 @@
  */
 
 include_once('CommentQueries.php');
+include_once('../database/DataBase.php');
 
 class CommentController {
 
@@ -70,7 +71,6 @@ class CommentController {
                         $return = getReviewsByEvent($_GET['event'], $_GET['fromAPI']);
                     }
                     break;
-
             }
         }
         echo $return;
@@ -80,8 +80,7 @@ class CommentController {
     public function getReviewsByEvent($eventId, $eventFromApi)
     {
         $comments= $this->commentQueries->getCommentListForEvent($eventId, $eventFromApi);
-
-
+        return DataBase::fetchQueryResultToJson($comments);
     }
 
-} 
+}

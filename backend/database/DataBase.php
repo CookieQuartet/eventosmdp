@@ -117,29 +117,41 @@ class DataBase {
         $return = json_encode($result);
         echo($return);
     }
-    public function fetchQueryResultToJson($rows)
+
+    public static function fetchQueryResultToJson($rows)
     {
-        /*try {
-            $result = array();
-            $cont=0;
-            while ($row = $rows->fetch_assoc() && $cont!=2) {
-                array_push($result, $row);
-                $cont++;
+        $result = $rows->fetch_all(MYSQLI_ASSOC);
+        $json_array = array();
+        $length = count($result);
+        $i = 0;
+
+        while($i < $length) {
+            $row = json_encode($result[$i]);
+            if(strlen($row) > 0) {
+                array_push($json_array, $row);
             }
-            $rows->free();
-            echo json_encode($result);
-            echo ("dasdsad");
-            return json_encode($result);
-        } catch(exception $e) {
-            return $e;
-        }*/
-        $result = array();
-        while ($row = $rows->fetch_assoc()) {
-            array_push($result, $row);
+            $i++;
         }
         $rows->free();
-        $return = json_encode($result);
-        echo($return);
+        return '['.implode(',', $json_array).']';
+
+//        try {
+//            $result = array();
+//            while ($row =  mysqli_fetch_assoc($rows)) {
+//                array_push($result, $row);
+//            }
+//            $rows->free();
+//            return json_encode($result);
+//        } catch(exception $e) {
+//            return $e;
+//        }
+//        $result = array();
+//        while ($row = $rows->fetch_assoc()) {
+//            array_push($result, $row);
+//        }
+//        $rows->free();
+//        $return = json_encode($result);
+//        echo($return);
 
     }
 
