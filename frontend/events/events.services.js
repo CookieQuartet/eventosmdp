@@ -82,6 +82,22 @@ angular.module('events', [])
           });
           return defer.promise;
         },
+        getMyEvents: function() {
+          var defer = $q.defer();
+
+          $http({
+            method:'get',
+            url: 'backend/event/EventAPI.php',
+            params: {
+              method: 'get_my_events'
+            }
+          }).success(function(response) {
+            defer.resolve(response);
+          }).error(function(error) {
+            defer.reject(error);
+          });
+          return defer.promise;
+        },
         addEvent: function(event) {
           var defer = $q.defer(),
               fecha = toAPIDate(new Date(event.FechaHoraInicio)),
@@ -89,7 +105,7 @@ angular.module('events', [])
 
           $http({
             method:'post',
-            url: 'backend/event/eventAPI.php',
+            url: 'backend/event/EventAPI.php',
             params: {
               method: 'add_event'
             },
@@ -106,7 +122,7 @@ angular.module('events', [])
 
           $http({
             method:'post',
-            url: 'backend/event/eventAPI.php',
+            url: 'backend/event/EventAPI.php',
             params: {
               method: 'add_favorite'
             },
@@ -127,7 +143,7 @@ angular.module('events', [])
 
           $http({
             method:'post',
-            url: 'backend/event/eventAPI.php',
+            url: 'backend/event/EventAPI.php',
             params: {
               method: 'remove_favorite'
             },

@@ -52,6 +52,21 @@ angular.module('view', ['ngMaterial', 'users'])
       $scope.data.search.visible = false;
     });
   })
+  .controller('emdpMyEventsController', function($rootScope, $scope, $state, user, eventsAPI, action) {
+    $rootScope.lastState = 'my_events';
+
+    $scope.data = {
+      myevents: []
+    };
+    user.checkLogged(function() {
+      eventsAPI.getMyEvents().then(function(response) {
+        $scope.data.events = response;
+      });
+    });
+    $scope.$on('$destroy', function() {
+
+    });
+  })
   .controller('emdpNewEventController', function($rootScope, $scope, $state, user, eventsAPI, action, $filter) {
     $rootScope.lastState = 'new_event';
     var _data = {
@@ -166,20 +181,31 @@ angular.module('view', ['ngMaterial', 'users'])
     $rootScope.lastState = 'user';
     var data = userHolder.get();
     $scope.methods = {
+      checkData: function(data) {
+        return data.email &&
+            data.id &&
+            data.name &&
+            data.password &&
+            data.active &&
+            data.type;
+      },
       saveProfile: function(data) {
-        userAPI.updateUser({
-          email: data.email,
-          id: data.id,
-          name: data.name,
-          password: data.password,
-          active: data.active ? '1' : '0',
-          type: data.type
-        }).then(function(response) {
-          //angular.extend({}, data, { type: parseInt(data.type)});
-          $scope.$parent.methods.toastMessage('Se modificó el usuario.');
-        }, function(message) {
-          $scope.$parent.methods.toastMessage(message.error);
-        });
+        if($scope.methods.checkData(data)) {
+          userAPI.updateUser({
+            email: data.email,
+            id: data.id,
+            name: data.name,
+            password: data.password,
+            active: data.active ? '1' : '0',
+            type: data.type
+          }).then(function(response) {
+            $scope.$parent.methods.toastMessage('Se modificó el usuario.');
+          }, function(message) {
+            $scope.$parent.methods.toastMessage(message.error);
+          });
+        } else {
+          $scope.$parent.methods.toastMessage('Faltan datos!');
+        }
         // diferentes tipos de datos entre lo que se guarda y lo que se muestra
       }
     };

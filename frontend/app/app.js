@@ -5,6 +5,7 @@ angular.module('app', ['users', 'view', 'events', 'ui.router', 'ngSanitize'])
       list: [
         { id: 'events', name: 'Eventos', icon: "img/svg/map-marker.svg", action: 'state.go("events")', type: 3 },
         { id: 'new_event', name: 'Nuevo evento', icon: "img/svg/plus.svg", action: 'state.go("new_event")', type: 2 },
+        { id: 'my_events', name: 'Mis eventos', icon: "img/svg/bookmark.svg", action: 'state.go("my_events")', type: 2 },
         { id: 'favorites', name: 'Favoritos', icon: "img/svg/heart.svg", action: 'state.go("favorites")', type: 3 },
         { id: 'profile', name: 'Mi perfil', icon: "img/svg/account.svg", action: 'state.go("profile")', type: 3 },
         { id: 'new_user', name: 'Nuevo usuario', icon: "img/svg/person-plus.svg", action: 'state.go("new_user")', type: 1 },
@@ -42,6 +43,20 @@ angular.module('app', ['users', 'view', 'events', 'ui.router', 'ngSanitize'])
           "resolve" : {
             "action": function() {
               return _.find(actions, { id: 'new_event' });
+            }
+          }
+        })
+        .state('my_events', {
+          "url": "/my_events",
+          "views": {
+            "content": {
+              "templateUrl": "frontend/view/partials/emdpMyEvents.html",
+              "controller": 'emdpMyEventsController'
+            }
+          },
+          "resolve" : {
+            "action": function() {
+              return _.find(actions, { id: 'my_events' });
             }
           }
         })
