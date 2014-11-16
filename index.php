@@ -60,9 +60,9 @@
                 </material-sidenav>
                 <material-content flex class="emdp-cardlist-background">
                     <div class="eventosmdp-content"
-                         layout="horizontal"
+                         layout="vertical"
                          layout-fill
-                         layout-align="center start"
+                         layout-align="start center"
                          ui-view="content"></div>
                 </material-content>
             </material-content>

@@ -9,6 +9,13 @@ include('Event.php');
 
 class EventController {
 
+    private $event;
+
+    function __construct()
+    {
+        $this->eventQueries = new EventQueries();
+    }
+
     public function invoke()
     {
         $return = "";
@@ -19,11 +26,7 @@ class EventController {
             switch($_GET['method'])
             {
                 case 'get_events':
-                    $fechaDesde = isset($_GET['from'])?$_GET['from']:null;
-                    $fechaHasta = isset($_GET['to'])?$_GET['to']:null;
-
-                    $return = getEvents($fechaDesde, $fechaHasta);
-
+                    $return = $this->getEvents(null, null);
                     break;
                 case 'get_reviews':
 
@@ -41,34 +44,25 @@ class EventController {
             }
         }
         echo $return;
+        //echo 'wtf';
     }
 
     public function getEvents($fechaDesde, $fechaHasta)
     {
-        $ownEvents= Event::getEventQueries()->getOwnEventsList();
-        if ($ownEvents==null)
-        {
-            $ownEvents = array();
+        $rows = $this->eventQueries->getApiEventList();
+        $result = $rows->fetch_all(MYSQLI_ASSOC);
+        $json_array = array();
+        $length = count($result);
+        $i = 0;
+        while($i < $length) {
+            $row = json_encode($result[$i]);
+            if(strlen($row) > 0) {
+                array_push($json_array, $row);
+            }
+            $i++;
         }
-
-        $apiEvents = Event::getEventQueries()->getApiEventsList();
-        echo json_encode($apiEvents);
-
-        if ($apiEvents==null)
-        {
-            $apiEvents = array();
-        }
-        echo json_encode($apiEvents);
-//        foreach (array_merge($ownEvents,$apiEvents) as $e)
-//        {
-//            echo $e["Calle"];
-//            echo ("</br>");
-//        }
-//        die;
-
-        $pepe=array_merge($ownEvents,$apiEvents);
-        echo (json_encode($apiEvents)); die;
-
+        $rows->free();
+        return '['.implode(',', $json_array).']';
     }
 
     public function newEvent()
@@ -84,7 +78,3 @@ class EventController {
 
 
 }
-
-$pepe = new EventController();
-
-$pepe->getEvents(null,null);

@@ -45,7 +45,12 @@
             $scope.$parent.action.selected = true;
             $scope.$eval($scope.action);
             $materialSidenav('left').toggle();
-          }
+          };
+          $scope.$on('$destroy', function() {
+            $scope.user = null;
+            $scope.state = null;
+            $scope.call = null;
+          });
         },
         scope: {
           action: '@',

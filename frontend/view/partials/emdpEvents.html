@@ -1,6 +1,9 @@
 <div layout="vertical" flex layout-fill>
+    <section ng-hide="eventList.length">
+        <material-linear-progress mode="indeterminate"></material-linear-progress>
+    </section>
     <material-content >
-        <section ng-repeat="day in eventList | orderBy:'fecha' | filter:{ $: data.search.text }">
+       <section ng-repeat="day in eventList | orderBy:'fecha' | filter:{ $: data.search.text }">
             <material-subheader class="material-subheader-colored emdp-subheader-calendar">
                 <material-icon flex icon="img/svg/calendar.svg" class="emdp-subheader-calendar-icon"></material-icon>
                 <span flex>{{ day.fecha_completa }}</span>

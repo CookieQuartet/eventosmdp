@@ -20,7 +20,7 @@ angular.module('events', [])
 
           $http({
             method:'get',
-            url: 'backend/event/EventAPI.php',
+            url: 'backend/apiConnect/testData.php',
             params: {
               from: toAPIDate(from),
               to: toAPIDate(to)

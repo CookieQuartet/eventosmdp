@@ -166,8 +166,29 @@ material-whiteframe {
     height: 100%;
 }
 
+.emdp-alertlist,
 .emdp-userlist {
     margin-bottom:100px;
+}
+
+/*.emdp-alertlist-search,
+.emdp-alertlist {
+    width:100%;
+}*/
+
+.emdp-alertlist-list {
+    padding:0;
+}
+
+.emdp-alertlist-scroll {
+    width:100%;
+}
+/*.emdp-alertlist-item {
+    height:54px;
+}*/
+
+.emdp-alertlist-input {
+    width:100%;
 }
 
 .emdp-cardlist {
@@ -385,12 +406,12 @@ material-button:not([disabled]).eventosmdp-btn-nav:hover, material-button:not([d
 }
 
 .eventosmdp-login section material-button:not(.material-button-fab) {
-    width: 12em;
+    width: 180px;
 }
 
 .eventosmdp-login section material-button {
     display: block;
-    margin: 1em;
+    margin: 30px 4px 4px 4px;
     line-height: 25px;
 }
 
@@ -601,11 +622,13 @@ material-button.emdp-fab-ok:not([disabled]):hover, material-button.emdp-fab-ok:n
     background-color: rgba(0, 158, 0, 0.72);
 }
 
+.emdp-fab-delete,
 .emdp-fab-disabled,
 .emdp-fab-report {
     background-color: rgba(220, 13, 30, 0.87);
 }
 
+material-button.emdp-fab-delete:not([disabled]):hover, material-button.emdp-fab-delete:not([disabled]).focus,
 material-button.emdp-fab-disabled:not([disabled]):hover, material-button.emdp-fab-disabled:not([disabled]).focus,
 material-button.emdp-fab-report:not([disabled]):hover, material-button.emdp-fab-report:not([disabled]).focus {
     background-color: rgba(220, 13, 30, 1);
@@ -617,4 +640,9 @@ material-button.emdp-fab-report:not([disabled]):hover, material-button.emdp-fab-
 
 material-button.emdp-fab-profile:not([disabled]):hover, material-button.emdp-fab-profile:not([disabled]).focus {
     background-color: rgba(20, 23, 242, 1);
+}
+
+.emdp-alert-searchtext {
+    /*width:300px;*/
+    width:100%;
 }

@@ -25,6 +25,15 @@ class UserQueries {
         return $this->dataBase->query($userQuery);
     }
 
+    public final function getEventList() //Lista de Usuarios
+    {
+        //$userQuery = "select UR.*,UT.description from USER UR, USER_TYPE UT where UR.id_user_type = UT.id";
+        $query = "SELECT `Altura`, `Calle`, `DescripcionCalendario`, `DescripcionEvento`, `Destacado`, `DetalleTexto`, `DireccionEvento`, `FechaHoraFin`, `FechaHoraInicio`, `Frecuencia`, `IdArea`, `IdCalendario`, `IdEvento`, `IdSubarea`, `Latitud`, `Longitud`, `Lugar`, `NombreArea`, `NombreCalendario`, `NombreEvento`, `NombreSubAreaFormat`, `NombreSubarea`, `Precio`, `Repetir`, `RutaImagen`, `RutaImagenMiniatura`, `TodoDia`, `ZonaHoraria` FROM `EVENT_API` limit 28";
+        //$query = "select UR.*,UT.description from USER UR join USER_TYPE UT on UR.id_user_type = UT.id";
+        //$userQuery = "select * from USER";
+        return $this->dataBase->query($query);
+    }
+
     /*public final function addUser($user)
     {
         $userQuery = "insert into USER (name, email, password, id_user_type) values ('$user->getName()' , '$user->getEmail()' , '$user->getPassword()', '$user->getUserType()' )";

@@ -94,9 +94,11 @@ class DataBase {
         }
     }
 
-    public function fetchQueryResultToAssocArray($result)
+    //public function fetchQueryResultToAssocArray($result)
+    public function fetchQueryResultToAssocArray($rows)
     {
-        try {
+       // echo($result);
+        /*try {
             $assocArray=array();
             while ($fila = mysqli_fetch_assoc($result)) {
                 $assocArray[]=$fila;
@@ -106,10 +108,18 @@ class DataBase {
         } catch(exception $e) {
             return $e;
         }
+        */
+        $result = array();
+        while ($row = $rows->fetch_assoc()) {
+            array_push($result, $row);
+        }
+        $rows->free();
+        $return = json_encode($result);
+        echo($return);
     }
     public function fetchQueryResultToJson($rows)
     {
-        try {
+        /*try {
             $result = array();
             $cont=0;
             while ($row = $rows->fetch_assoc() && $cont!=2) {
@@ -122,7 +132,15 @@ class DataBase {
             return json_encode($result);
         } catch(exception $e) {
             return $e;
+        }*/
+        $result = array();
+        while ($row = $rows->fetch_assoc()) {
+            array_push($result, $row);
         }
+        $rows->free();
+        $return = json_encode($result);
+        echo($return);
+
     }
 
 

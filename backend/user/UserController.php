@@ -48,12 +48,15 @@ class UserController {
                 case 'users':
                     if(isset($_SESSION["user"]) && $_SESSION["user"]) {
                         $rows = $_SESSION["user"]->getUserQueries()->getUserList();
-                        $result = array();
+                        /*$result = array();
                         while ($row = $rows->fetch_assoc()) {
                             array_push($result, $row);
                         }
-                        $rows->free();
+                        $rows->free();*/
+
+                        $result = $rows->fetch_all(MYSQLI_ASSOC);
                         $return = json_encode($result);
+                        $rows->free();
                     } else {
                         $return = '{ "logged": false, "error": "Error obteniendo los usuarios" }';
                     }
@@ -61,12 +64,18 @@ class UserController {
                 case 'user':
                     if(isset($_SESSION["user"]) && $_SESSION["user"] && isset($_GET["id"])) {
                         $rows = $_SESSION["user"]->getUserQueries()->getUserById($_GET["id"]);
-                        $result = array();
+                        /*$result = array();
                         while ($row = $rows->fetch_assoc()) {
                             array_push($result, $row);
                         }
                         $rows->free();
+                        $return = json_encode($result);*/
+
+                        $result = $rows->fetch_object(MYSQLI_ASSOC);
                         $return = json_encode($result);
+                        $rows->free();
+
+
                     } else {
                         $return = '{ "logged": false, "error": "Error obteniendo el usuario" }';
                     }

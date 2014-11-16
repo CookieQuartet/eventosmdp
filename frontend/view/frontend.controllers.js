@@ -39,53 +39,54 @@ angular.module('view', ['ngMaterial', 'users'])
     });
   })
   .controller('emdpNewEventController', function($rootScope, $scope, $state, user, eventsAPI, action, $filter) {
-      $rootScope.lastState = 'new_event';
-      $scope.data = {
-        Altura: null,
-        Calle: null,
-        DescripcionCalendario: null,
-        DescripcionEvento: null,
-        Destacado: null,
-        DetalleTexto: null,
-        DireccionEvento: null,
-        FechaHoraFin: null,
-        FechaHoraInicio: '2013/12/14 13:00',
-        Frecuencia: null,
-        IdArea: 2,
-        IdCalendario: 1,
-        IdEvento: null,
-        IdSubarea: 2,
-        Latitud: null,
-        Longitud: null,
-        Lugar: null,
-        NombreEvento: null,
-        Precio: null,
-        Repetir: null,
-        RutaImagen: null,
-        RutaImagenMiniatura: null,
-        TodoDia: null,
-        ZonaHoraria: null,
-        favorite: false,
-        fecha: null,
-        fecha_real: null
-      };
-      $scope.methods = {
-        saveEvent: function(data) {
-          console.log(data);
-          var fecha = Date.parse(data.FechaHoraInicio.split(' ')[0]);
-          var dia = _.find($rootScope.eventList, { fecha: fecha });
-          if(typeof dia === 'undefined') {
-            dia = {
-              "fecha": fecha.toISOString(),
-              "fecha_completa": $filter('date')(Date.parse(fecha), 'fullDate', 'es_AR'),
-              "eventos":[]
-            };
-            $rootScope.eventList.push(dia);
-          }
-          dia.eventos.push(data);
-          $scope.$parent.methods.toastMessage('Se creó el evento.');
+    $rootScope.lastState = 'new_event';
+    $scope.data = {
+      Altura: null,
+      Calle: null,
+      DescripcionCalendario: null,
+      DescripcionEvento: null,
+      Destacado: null,
+      DetalleTexto: null,
+      DireccionEvento: null,
+      FechaHoraFin: null,
+      FechaHoraInicio: '2013/12/14 13:00',
+      Frecuencia: null,
+      IdArea: 2,
+      IdCalendario: 1,
+      IdEvento: null,
+      IdSubarea: 2,
+      Latitud: null,
+      Longitud: null,
+      Lugar: null,
+      NombreEvento: null,
+      Precio: null,
+      Repetir: null,
+      RutaImagen: null,
+      RutaImagenMiniatura: null,
+      TodoDia: null,
+      ZonaHoraria: null,
+      favorite: false,
+      fecha: null,
+      fecha_real: null
+    };
+    $scope.methods = {
+      saveEvent: function(data) {
+        console.log(data);
+        var fecha = Date.parse(data.FechaHoraInicio.split(' ')[0]);
+        var dia = _.find($rootScope.eventList, { fecha: fecha });
+        if(typeof dia === 'undefined') {
+          dia = {
+            "fecha": fecha.toISOString(),
+            "fecha_completa": $filter('date')(Date.parse(fecha), 'fullDate', 'es_AR'),
+            "eventos":[]
+          };
+          $rootScope.eventList.push(dia);
         }
-      };
+        dia.eventos.push(data);
+        $scope.$parent.methods.toastMessage('Se creó el evento.');
+      }
+    };
+    user.checkLogged();
   })
   .controller('emdpFavoritesController', function($rootScope, $scope, $state, user, action, $filter) {
     $rootScope.lastState = 'favorites';
@@ -194,7 +195,8 @@ angular.module('view', ['ngMaterial', 'users'])
           $scope.$parent.methods.toastMessage('Se creó el usuario.');*/
         }
       };
-  })
+      user.checkLogged();
+    })
   .controller('emdpUsersController', function($rootScope, $scope, $state, userAPI, user, action, userHolder) {
       $scope.data = {
         users: []
@@ -223,8 +225,10 @@ angular.module('view', ['ngMaterial', 'users'])
           $state.go('user', { id: user.id });
         }
       };
-      userAPI.getUsers().then(function(response) {
-        $scope.data.users = _.merge(response, $scope.data.users);
+      user.checkLogged(function() {
+        userAPI.getUsers().then(function(response) {
+          $scope.data.users = _.merge(response, $scope.data.users);
+        });
       });
       $scope.$on('$destroy', function() {
         $scope.data.users = [];
@@ -233,7 +237,36 @@ angular.module('view', ['ngMaterial', 'users'])
   .controller('emdpAlertsController', function($rootScope, $scope, $state, user, action) {
     $rootScope.lastState = 'alerts';
     user.checkLogged(function() {
-
+      $scope.methods = {
+        "delete": function(item) {
+          _.remove($scope.data.alerts, { id: item.id });
+        },
+        "toggleActive": function(item) {
+          item.active = !item.active;
+        },
+        "addAlert": function(text) {
+          $scope.data.alerts.push({
+            id: $scope.data.alerts.lenght +1,
+            search: text,
+            active: true
+          });
+        }
+      };
+      $scope.data = {
+        text: '',
+        alerts: [
+          {
+            id: 1,
+            search: 'fileteado',
+            active: true
+          },
+          {
+            id: 2,
+            search: 'soriano',
+            active: true
+          }
+        ]
+      }
     });
   });
 

@@ -33,9 +33,9 @@
                 </section>
                 <section>
                     <material-radio-group ng-model="data.type">
-                        <material-radio-button ng-disabled="persona.type > 1" value="1" aria-label="Admin">Admin</material-radio-button>
-                        <material-radio-button ng-disabled="persona.type > 2" value="2" aria-label="Publicador"> Publicador </material-radio-button>
-                        <material-radio-button ng-disabled="persona.type > 3" value="3" aria-label="Usuario">Usuario</material-radio-button>
+                        <material-radio-button ng-disabled="persona.type !== 1" value="1" aria-label="Admin">Admin</material-radio-button>
+                        <material-radio-button ng-disabled="persona.type !== 1" value="2" aria-label="Publicador"> Publicador </material-radio-button>
+                        <material-radio-button ng-disabled="persona.type !== 1" value="3" aria-label="Usuario">Usuario</material-radio-button>
                     </material-radio-group>
                 </section>
             </div>

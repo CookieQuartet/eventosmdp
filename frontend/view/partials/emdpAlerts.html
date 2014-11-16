@@ -1,3 +1,54 @@
-<div class="emdp-alerts">
-    Alertas
-</div>
+<section class="emdp-alertlist-scroll" layout-align="start">
+    <material-whiteframe class="material-whiteframe-z1" layout="vertical">
+        <material-list class="emdp-alertlist-list">
+            <material-item class="emdp-alert-item">
+                <material-item-content class="emdp-alertlist-item" layout="horizontal">
+                    <input class="emdp-alertlist-input" ng-model="data.text" type="text"/>
+                    <material-button
+                            class="material-button-fab emdp-fab emdp-fab-profile"
+                            aria-label="New document"
+                            ng-click="methods.addAlert(data.text)">
+                        <material-icon icon="img/svg/arrow-right_wht.svg" style="width: 24px; height: 24px;"></material-icon>
+                        <material-tooltip>Agregar alerta</material-tooltip>
+                    </material-button>
+                </material-item-content>
+            </material-item>
+        </material-list>
+    </material-whiteframe>
+</section>
+<section class="emdp-alertlist-scroll">
+    <material-whiteframe class="material-whiteframe-z1 emdp-alertlist" layout="vertical" layout-sm="vertical">
+        <material-list class="emdp-alertlist-list">
+            <material-item ng-repeat="item in data.alerts" class="emdp-alert-item">
+                <material-item-content class="emdp-alertlist-item" layout="vertical" layout-sm="horizontal">
+                    <div class="material-tile-content emdp-alert-searchtext">
+                        <h4>{{item.search}}</h4>
+                    </div>
+                    <section layout="horizontal">
+                        <material-button
+                                class="material-button-fab emdp-fab emdp-fab-enabled"
+                                ng-class="{ 'emdp-fab-disabled' : !item.active }"
+                                aria-label="New document"
+                                ng-click="methods.toggleActive(item)">
+                            <material-icon ng-show="item.active" icon="img/svg/bell_wht.svg" style="width: 24px; height: 24px;"></material-icon>
+                            <material-icon ng-show="!item.active" icon="img/svg/bell-off_wht.svg" style="width: 24px; height: 24px;"></material-icon>
+                            <material-tooltip>{{ item.active ? 'Deshabilitar' : 'Habilitar'}}</material-tooltip>
+                        </material-button>
+                        <material-button
+                                class="material-button-fab emdp-fab emdp-fab-delete"
+                                aria-label="New document"
+                                ng-click="methods.delete(item)">
+                            <material-icon icon="img/svg/close_wht.svg" style="width: 24px; height: 24px;"></material-icon>
+                            <material-tooltip>Eliminar</material-tooltip>
+                        </material-button>
+                    </section>
+                </material-item-content>
+                <material-divider class="emdp-divider" ng-hide="$last"></material-divider>
+            </material-item>
+        </material-list>
+    </material-whiteframe>
+</section>
+
+
+
+
