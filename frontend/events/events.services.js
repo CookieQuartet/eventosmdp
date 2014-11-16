@@ -55,7 +55,7 @@ angular.module('events', [])
 
           $http({
             method:'get',
-            url: 'backend/event/eventAPI.php',
+            url: 'backend/event/EventAPI.php',
             params: {
               method: 'get_events',
               from: toAPIDate(from),
@@ -78,7 +78,7 @@ angular.module('events', [])
             defer.resolve(days);
           }).error(function(error) {
             defer.reject(error);
-          });;
+          });
           return defer.promise;
         },
         addEvent: function(event) {
