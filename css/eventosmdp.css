@@ -175,6 +175,7 @@ material-whiteframe {
     height: 100%;
 }
 
+.emdp-myeventlist,
 .emdp-alertlist,
 .emdp-userlist {
     margin-bottom:100px;
@@ -561,7 +562,7 @@ img.emdp-event-comment.pic {
     }
 }
 
-
+.emdp-myevent-item,
 .emdp-user-item {
     display: block;
 }
