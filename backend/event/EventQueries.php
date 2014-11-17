@@ -248,9 +248,32 @@ class EventQueries {
         return $this->dataBase->query("select * from `EVENT` WHERE Id = $id");
     }
 
-    public function updateEvent($event)
+    public function updateEvent(
+        $idEvent
+        ,  $descripcionEvento
+        , $detalleTexto
+        , $direccionEvento
+        , $fechaHoraFin
+        , $fechaHoraInicio
+        , $lugar
+        , $nombreEvento
+        , $precio
+        , $rutaImagen
+        , $zonaHoraria
+    )
     {
-        $query = "update EVENT set 'IdUser'='$event->getIdUser()', 'Active'='$event->getActive()', 'Altura'='$event->getHeight()', 'Calle'='$event->getStreet()', 'DescripcionCalendario'='$event->getDescriptionCalendar()', 'DescripcionEvento'='$event->getDescriptionEvent()', 'Destacado'='$event->getStar()', 'DetalleTexto'='$event->getDetailText()', 'DireccionEvento'='$event->getEventAddress()', 'FechaHoraFin'='$event->getDateEnd()', 'FechaHoraInicio'='$event->getDateStart()', 'Frecuencia'='$event->getFrecuency()', 'IdArea'='$event->getIdArea()', 'IdCalendario'='$event->getIdCalendar()', 'IdEvento'='$event->getIdEvent()', 'IdSubarea'='$event->getIdSubarea()', 'Latitud'='$event->getLatitude()', 'Longitud'='$event->getLength()', 'Lugar'='$event->getPlace()', 'NombreArea'='$event->getNameArea()', 'NombreCalendario'='$event->getNameCalendar()', 'NombreEvento'='$event->getNameEvent()', 'NombreSubAreaFormat'='$event->getNameSubAreaFormat()', 'NombreSubArea'='$event->getNameSubarea()', 'Precio'='$event->getPrice()', 'Repetir'='$event->getRepeat()', 'RutaImagen'='$event->getImageUrl()', 'RutaImagenMiniatura'='$event->getImageUrlSmall()', 'TodoDia'='$event->getAllDay()', 'ZonaHoraria'='$event->getTimeZone()',  where 'Id'='$event->getId()'";
+        $query = "update EVENT set
+                                  'DescripcionEvento'='$descripcionEvento',
+                                  'DetalleTexto'='$detalleTexto',
+                                  'DireccionEvento'='$direccionEvento',
+                                  'FechaHoraFin'='$fechaHoraFin',
+                                  'FechaHoraInicio'='$fechaHoraInicio',
+                                  'Lugar'='$lugar',
+                                  'NombreEvento'='$nombreEvento',
+                                  'Precio'='$precio',
+                                  'RutaImagen'='$rutaImagen',
+                                  'ZonaHoraria'='$zonaHoraria'
+                  where 'Id'='$idEvent'";
         return $this->dataBase->query($query);
     }
 

@@ -49,7 +49,7 @@ class EventController {
                 case 'get_my_events':
                     if(isset($_SESSION["user"]) && $_SESSION["user"]) {
                         $user = $_SESSION["user"]->getUserData();
-                        if ($user['type'] == UserTypeEnum::UserAdminType || $user['type'] == UserTypeEnum::UserPublisherType)
+                        if ($user['userType']==UserTypeEnum::UserAdminType || $user['userType']==UserTypeEnum::UserPublisherType)
                         {
                             $postData = json_decode(file_get_contents("php://input"));
                             $return = $this->getMyEvents($user['id'], $postData);
@@ -66,7 +66,47 @@ class EventController {
                     if(isset($_SESSION["user"]) && $_SESSION["user"]) {
                         $postData = json_decode(file_get_contents("php://input"));
                         $user = $_SESSION["user"]->getUserData();
-                        $return = $this->newEvent($user['id'], $postData);
+                        if ($user['type']==UserTypeEnum::UserAdminType || $user['type']==UserTypeEnum::UserPublisherType)
+                        {
+                            $postData = json_decode(file_get_contents("php://input"));
+                            $return = $this->newEvent($user['id'], $postData);
+                        }
+                        else
+                        {
+                            $return = '{ "status": "error", "message": "Debe ser usuario publicador o administrador" }';
+                        }
+                    } else {
+                        $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
+                    }
+                    break;
+                case 'edit_event':
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
+                        $user = $_SESSION["user"]->getUserData();
+                        if ($user['userType']==UserAdminType || $user['userType']==UserPublisherType)
+                        {
+                            $postData = json_decode(file_get_contents("php://input"));
+                            $return = $this->editEvent($postData);
+                        }
+                        else
+                        {
+                            $return = '{ "status": "error", "message": "Debe ser usuario publicador o administrador" }';
+                        }
+                    } else {
+                        $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
+                    }
+                    break;
+                case 'remove_event':
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
+                        $user = $_SESSION["user"]->getUserData();
+                        if ($user['userType']==UserAdminType || $user['userType']==UserPublisherType)
+                        {
+                            $postData = json_decode(file_get_contents("php://input"));
+                            $return = $this->removeEvent($postData);
+                        }
+                        else
+                        {
+                            $return = '{ "status": "error", "message": "Debe ser usuario publicador o administrador" }';
+                        }
                     } else {
                         $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
                     }
@@ -89,7 +129,6 @@ class EventController {
                         $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
                     }
                     break;
-
             }
         }
         echo $return;
@@ -145,6 +184,40 @@ class EventController {
         }
     }
 
+    public function editEvent($event)
+    {
+        $result= $this->eventQueries->updateEvent(
+            $event->Id,
+            $event->DescripcionEvento,
+            $event->DetalleTexto,
+            $event->DireccionEvento,
+            $event->FechaHoraFin,
+            $event->FechaHoraInicio,
+            $event->Lugar,
+            $event->NombreEvento,
+            $event->Precio,
+            $event->RutaImagen,
+            $event->ZonaHoraria
+        );
+        if ($result) {
+            return "{\"status\": \"".successfull."\" , \"message\": \"Evento modificado\"}";
+        } else {
+            return "{\"status\": \"".error."\" , \"message\": \"Error al modificar evento\"}";
+        }
+    }
+
+    public function removeEvent($event)
+    {
+        $result= $this->eventQueries->deleteEvent(
+            $event->Id
+        );
+        if ($result) {
+            return "{\"status\": \"".successfull."\" , \"message\": \"Evento eliminado\"}";
+        } else {
+            return "{\"status\": \"".error."\" , \"message\": \"Error al eliminar evento\"}";
+        }
+    }
+
     public function addFavorite($user, $event) {
         $idEvento = $event->IdEvento ? $event->IdEvento : $event->Id;
         $fromAPI = $event->fromAPI;
@@ -167,8 +240,4 @@ class EventController {
         }
     }
 
-    public function updateEvent()
-    {
-
-    }
 }
