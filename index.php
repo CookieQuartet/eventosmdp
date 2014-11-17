@@ -83,9 +83,8 @@
         <script src="frontend/app/app.js"></script>
         <script src="frontend/view/frontend.controllers.js"></script>
         <script src="frontend/view/frontend.directives.js"></script>
-        <script src="frontend/view/frontend.services.js"></script>
         <script src="frontend/users/user.services.js"></script>
         <script src="frontend/events/events.services.js"></script>
-
+        <script src="frontend/comments/comments.services.js"></script>
     </body>
 </html>

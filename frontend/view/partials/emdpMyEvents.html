@@ -1,7 +1,7 @@
 <section class="emdp-alertlist-section " layout-fill>
     <material-whiteframe class="material-whiteframe-z1 emdp-alertlist" layout="vertical" layout-sm="vertical">
         <material-list class="emdp-alertlist-list">
-            <material-item ng-repeat="item in data.myevents" class="emdp-myevent-item">
+            <material-item ng-repeat="item in data.myevents " class="emdp-myevent-item">
                 <material-item-content layout="vertical" layout-sm="horizontal">
                     <div class="material-tile-left">
                         <img ng-src="{{ item.RutaImagen }}" class="emdp-myevent pic" alt="{{item.NombreEvento}}">
@@ -9,6 +9,7 @@
                     <div class="material-tile-content">
                         <h4>{{item.NombreEvento}}</h4>
                         <p style="text-align: justify;">{{item.DescripcionEvento}}</p>
+                        <p style="text-align: justify;">{{item.fecha}}</p>
                         <emdp-rating max="5" value="{{ item.stars }}" editable="false"></emdp-rating>
                     </div>
                     <div class="material-tile-content">
@@ -21,6 +22,13 @@
                             ng-click="methods.delete(item)">
                             <material-icon icon="img/svg/close_wht.svg" style="width: 24px; height: 24px;"></material-icon>
                             <material-tooltip>Eliminar</material-tooltip>
+                        </material-button>
+                        <material-button
+                                class="material-button-fab emdp-fab emdp-fab-profile"
+                                aria-label="New document"
+                                ng-click="methods.getEvent(item)">
+                            <material-icon icon="img/svg/arrow-right_wht.svg" style="width: 24px; height: 24px;"></material-icon>
+                            <material-tooltip>Editar</material-tooltip>
                         </material-button>
                     </section>
                 </material-item-content>

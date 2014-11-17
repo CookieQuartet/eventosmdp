@@ -1,79 +1,46 @@
-angular.module('events', [])
-    .filter('onlyFavorites', function() {
-      return function(items) {
-        var _items = [];
-        angular.forEach(items, function(item) {
-          if(_.where(item.eventos, 'favorite').length > 0) {
-            _items.push(item);
-          }
-        });
-        return _items;
-      }
-    })
-    .factory('eventHolder', function() {
-      var holder = null;
-      return {
-        set: function(item) {
-          holder = item;
-        },
-        get: function() {
-          return holder;
-        }
-      }
-    })
-    /*.factory('eventsAPI', function($q, $http, $filter) {
-      var toAPIDate = function(date) {
-        return Date.parse(date).toString('yyyyMMddTHHmmss')
-      };
-      return {
-        getEvents: function(from, to) {
-          var defer = $q.defer();
-
-          $http({
-            method:'get',
-            url: 'backend/apiConnect/testData.php',
-            params: {
-              from: toAPIDate(from),
-              to: toAPIDate(to)
-            }
-          }).success(function(response) {
-            var days = _.chain(response).map(function(event) {
-              event.fecha = Date.parse(event.FechaHoraInicio.split('T')[0]).toString('yyyy/MM/dd');
-              event.fecha_real = Date.parse(event.FechaHoraInicio.split('T')[0]);
-              event.rating = 0;
-              event.favorite = false; // eliminar cuando forme parte de los datos devueltos por la consulta
-              return event;
-            }).groupBy('fecha_real').map(function(item, key) {
-              return {
-                fecha: Date.parse(key),
-                fecha_completa: $filter('date')(Date.parse(key), 'fullDate', 'es_AR'),
-                eventos: item
-              }
-            }).value();
-            defer.resolve(days);
-          });
-          return defer.promise;
-        }
-      };
-    })*/
-    .factory('eventsAPI', function($q, $http, $filter) {
+angular.module('comments', [])
+    .factory('commentsAPI', function($q, $http, $filter) {
       var toAPIDate = function(date) {
             return Date.parse(date).toString('yyyyMMddTHHmmss')
           };
       return {
-        getEvent: function(event) {
+        addComment: function(event, comment) {
           var defer = $q.defer();
 
           $http({
-            method:'get',
-            url: 'backend/event/EventAPI.php',
+            method:'post',
+            url: 'backend/comment/CommentAPI.php',
             params: {
-              method: 'get_event',
-              id: event
+              method: 'add_review'
+            },
+            data: {
+              event: angular.copy(event),
+              comment: comment
             }
-          }).success(function(event) {
-            event.FechaHoraInicio = Date.parse(event.FechaHoraInicio, 'yyyyMMddTHHmmss');
-            defer.resolve(event);
+          }).success(function(response) {
+            defer.resolve(response);
+          }).error(function(error) {
+            defer.reject(error);
+          });
+          return defer.promise;
+        },
+        getComments: function(event) {
+          var defer = $q.defer();
+
+          $http({
+            method:'post',
+            url: 'backend/comment/CommentAPI.php',
+            params: {
+              method: 'get_reviews'
+            },
+            data: angular.copy(event)
+          }).success(function(comments) {
+            var data = _.map(comments, function(comment) {
+                  comment.visible = true;
+                  comment.pic = 'img/svg/account-circle_wht.svg';
+                  return comment;
+                });
+            defer.resolve(data);
           }).error(function(error) {
             defer.reject(error);
           });
@@ -94,8 +61,9 @@ angular.module('events', [])
             var days = _.chain(response).map(function(event) {
               event.fecha = Date.parse(event.FechaHoraInicio.split('T')[0]).toString('yyyy/MM/dd');
               event.fecha_real = Date.parse(event.FechaHoraInicio.split('T')[0]);
-              event.favorite = event.favorite === '1';
-              event.stars = parseInt(event.stars);
+              //event.stars = 0;
+              //event.favorite = false; // eliminar cuando forme parte de los datos devueltos por la consulta
+              event.favorite = event.favorite === '1'; // eliminar cuando forme parte de los datos devueltos por la consulta
               return event;
             }).groupBy('fecha_real').map(function(item, key) {
               return {

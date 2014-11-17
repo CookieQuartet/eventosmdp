@@ -142,50 +142,25 @@
         templateUrl: 'frontend/view/partials/emdpLoginForm2.html'
       };
     })
-    .directive('emdpEvent', function($rootScope, $q, eventsAPI) {
+    .directive('emdpEvent', function($rootScope, $q, eventsAPI, commentsAPI, $timeout) {
       return {
         restrict: 'E',
         replace: true,
+        priority: 500,
         link: function(scope, element) {
           scope.config = {
             showComments: false
           };
           scope.comment = {
-            usuario: $rootScope.persona.name,
+            name: $rootScope.persona.name,
+            id: $rootScope.persona.id,
             pic: $rootScope.persona.pic,
-            comentario: '',
-            rating: 0,
+            text: '',
+            stars: 0,
             visible: true
           };
           scope.event.comments = [];
 
-          var mockComments = function() {
-            var defer = $q.defer();
-            defer.resolve([
-              {
-                usuario: 'un usuario',
-                pic: 'img/svg/account-circle.svg',
-                comentario: 'esto es un comentario',
-                rating: 4,
-                visible: true
-              },
-              {
-                usuario: 'un usuario',
-                pic: 'img/svg/account-circle.svg',
-                comentario: 'esto es un comentario',
-                rating: 4,
-                visible: true
-              },
-              {
-                usuario: 'un usuario',
-                pic: 'img/svg/account-circle.svg',
-                comentario: 'esto es un comentario',
-                rating: 4,
-                visible: true
-              }
-            ]);
-            return defer.promise;
-          };
           scope.methods = {
             favorite: function(item) {
               if(item.favorite) {
@@ -207,20 +182,38 @@
             report: function(item) {
               item.visible = false;
             },
-            comment: function(data) {
-              scope.event.comments.push({
-                usuario: $rootScope.persona.name,
-                pic: $rootScope.persona.pic,
-                comentario: data.comentario,
-                rating: scope.event.rating,
-                visible: true
-              });
-              document.getElementById('emdp-comment-area-' + scope.event.IdEvento).remove();
+            comment: function(event, comment) {
+              if(comment.text.length > 0) {
+                commentsAPI.addComment(event, comment).then(function(response) {
+                  scope.event.comments.push({
+                    name: $rootScope.persona.name,
+                    id: $rootScope.persona.id,
+                    pic: $rootScope.persona.pic,
+                    text: comment.text,
+                    stars: scope.event.stars,
+                    visible: true
+                  });
+                  var comment_area = document.getElementById('emdp-comment-area-' + scope.event.IdEvento);
+                  if(comment_area) {
+                    comment_area.remove();
+                  }
+                });
+              } else {
+                $rootScope.$broadcast('toastMessage', 'Falta el comentario!');
+              }
             },
-            comments: function() {
-              mockComments().then(function(comments) {
+            comments: function(event) {
+              /*mockComments().then(function(comments) {
                 scope.event.comments = _.merge(scope.event.comments, comments);
-              });
+              });*/
+              if(!scope.config.showComments) {
+                commentsAPI.getComments(event).then(function(comments) {
+                  $timeout(function() {
+                    //scope.event.comments = _.merge(scope.event.comments, comments);
+                    scope.event.comments = comments;
+                  });
+                });
+              }
               scope.config.showComments = !scope.config.showComments;
             }
           }
@@ -248,12 +241,14 @@
     .directive('emdpRating', function() {
       return {
         restrict: 'E',
-        replace: true,
+        //replace: true,
+        priority: 450,
         scope: {
           max: '@',
           value: '@',
           event: '=',
-          editable: '@'
+          editable: '@'//,
+          //rating: '=rating'
         },
         link: function(scope, element, attrs) {
 
@@ -286,6 +281,10 @@
                   scope.data.stars[i].on = true;
                 }
                 //scope.$parent.event.rating = node.index + 1;
+                //scope.rating = node.index + 1;
+                if(typeof scope.$parent.comment !== 'undefined') {
+                  scope.$parent.comment.stars = node.index + 1;
+                }
               }
             }
           };

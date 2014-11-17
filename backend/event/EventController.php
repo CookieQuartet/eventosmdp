@@ -35,6 +35,18 @@ class EventController {
         } else {
             switch($_GET['method'])
             {
+                case 'get_event':
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
+                        $user = $_SESSION["user"]->getUserData();
+                        if ($user['type'] == UserTypeEnum::UserAdminType || $user['type'] == UserTypeEnum::UserPublisherType) {
+                            $return = $this->getEvent($user['id'], $_GET['id']);
+                        } else {
+                            $return = '{ "status": "error", "message": "No tiene permisos sobre este evento" }';
+                        }
+                    } else {
+                        $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
+                    }
+                    break;
                 case 'get_events':
                     $from = isset($_GET['from'])? $_GET['from']:null;
                     $to = isset($_GET['to'])? $_GET['to']:null;
@@ -49,7 +61,7 @@ class EventController {
                 case 'get_my_events':
                     if(isset($_SESSION["user"]) && $_SESSION["user"]) {
                         $user = $_SESSION["user"]->getUserData();
-                        if ($user['userType']==UserTypeEnum::UserAdminType || $user['userType']==UserTypeEnum::UserPublisherType)
+                        if ($user['type']==UserTypeEnum::UserAdminType || $user['type']==UserTypeEnum::UserPublisherType)
                         {
                             $postData = json_decode(file_get_contents("php://input"));
                             $return = $this->getMyEvents($user['id'], $postData);
@@ -82,7 +94,7 @@ class EventController {
                 case 'edit_event':
                     if(isset($_SESSION["user"]) && $_SESSION["user"]) {
                         $user = $_SESSION["user"]->getUserData();
-                        if ($user['userType']==UserAdminType || $user['userType']==UserPublisherType)
+                        if ($user['type'] == UserTypeEnum::UserAdminType || $user['type'] == UserTypeEnum::UserPublisherType)
                         {
                             $postData = json_decode(file_get_contents("php://input"));
                             $return = $this->editEvent($postData);
@@ -98,13 +110,10 @@ class EventController {
                 case 'remove_event':
                     if(isset($_SESSION["user"]) && $_SESSION["user"]) {
                         $user = $_SESSION["user"]->getUserData();
-                        if ($user['userType']==UserAdminType || $user['userType']==UserPublisherType)
-                        {
+                        if ($user['type'] == UserTypeEnum::UserAdminType || $user['type'] == UserTypeEnum::UserPublisherType) {
                             $postData = json_decode(file_get_contents("php://input"));
-                            $return = $this->removeEvent($postData);
-                        }
-                        else
-                        {
+                            $return = $this->removeEvent($user, $postData);
+                        } else {
                             $return = '{ "status": "error", "message": "Debe ser usuario publicador o administrador" }';
                         }
                     } else {
@@ -134,6 +143,14 @@ class EventController {
         echo $return;
     }
 
+    public function getEvent($idUser, $idEvento)
+    {
+        $eq = $this->eventQueries;
+        $rows = $eq->getEvent($idUser, $idEvento);
+        $result = $rows->fetch_assoc();
+        return json_encode($result);
+    }
+
     public function getEvents($user, $from, $to)
     {
         $eq = $this->eventQueries;
@@ -146,14 +163,6 @@ class EventController {
     {
         $eq = $this->eventQueries;
         $rows = $eq->getMyEvents($user);
-        $result = $eq->fetch_all($rows);
-        return json_encode($result);
-    }
-
-    public function getFavorites()
-    {
-        $eq = $this->eventQueries;
-        $rows = $eq->getFavorites();
         $result = $eq->fetch_all($rows);
         return json_encode($result);
     }
@@ -206,13 +215,11 @@ class EventController {
         }
     }
 
-    public function removeEvent($event)
+    public function removeEvent($user, $event)
     {
-        $result= $this->eventQueries->deleteEvent(
-            $event->Id
-        );
-        if ($result) {
-            return "{\"status\": \"".successfull."\" , \"message\": \"Evento eliminado\"}";
+        $result= $this->eventQueries->deleteEvent($event->Id);
+        if($result) {
+            return $this->getMyEvents($user['id']);
         } else {
             return "{\"status\": \"".error."\" , \"message\": \"Error al eliminar evento\"}";
         }

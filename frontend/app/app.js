@@ -1,6 +1,6 @@
 
 //angular.module('app', ['users', 'view', 'events', 'ui.router', 'angular.filter'])
-angular.module('app', ['users', 'view', 'events', 'ui.router', 'ngSanitize'])
+angular.module('app', ['users', 'view', 'events', 'comments', 'ui.router', 'ngSanitize'])
     .value('emdpActions', {
       list: [
         { id: 'events', name: 'Eventos', icon: "img/svg/map-marker.svg", action: 'state.go("events")', type: 3 },
@@ -58,6 +58,18 @@ angular.module('app', ['users', 'view', 'events', 'ui.router', 'ngSanitize'])
             "action": function() {
               return _.find(actions, { id: 'my_events' });
             }
+          }
+        })
+        .state('event', {
+          "url": "/event/:id",
+          "views": {
+            "content": {
+              "templateUrl": "frontend/view/partials/emdpNewEvent.html",
+              "controller": 'emdpMyEventController'
+            }
+          },
+          "resolve" : {
+
           }
         })
         .state('favorites', {

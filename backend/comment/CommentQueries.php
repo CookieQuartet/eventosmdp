@@ -5,7 +5,7 @@
  * Date: 04/10/2014
  * Time: 05:30 PM
  */
-include('../database/DataBase.php');
+include_once('../database/DataBase.php');
 
 
 class CommentQueries {
@@ -43,16 +43,39 @@ class CommentQueries {
     }
 
     //Lista de Comentarios Aprobados para un Evento, por usuarios activos Activo
-    public final function getCommentListForEvent($idEvent, $eventFromApi)
+    //public final function getCommentListForEvent($idEvent, $eventFromApi)
+    public final function getCommentListForEvent($idEvent)
     {
-        $commentQuery = "select CO.*,CS.description,UR.name from COMMENT CO, COMMENT_STATUS CS, USER UR where CO.idCommentStatus = CS.id and CO.eventFromApi = '$eventFromApi' and CS.id = '2' and CO.idEvent = '$idEvent' and CO.idUser = UR.id and UR.active = '1'";
+        $commentQuery = "
+          select
+            CO.*
+            , CS.description
+            , UR.name
+          from
+            COMMENT CO,
+            COMMENT_STATUS CS,
+            USER UR
+          where
+            CO.idCommentStatus = CS.id
+            and CO.idEvent = $idEvent
+            and CO.idUser = UR.id
+            and UR.active = '1'";
         return $this->dataBase->query($commentQuery);
     }
 
     //Insertar Comentario. Si 'idCommentStatus' pasa null, por defecto se marca Pendiente. Si es ADMIN, idCommentStatus = Aprobado 2
     public final function addComment($user, $eventId, $commentText, $commentStatus, $fromApi, $rating)
     {
-        $commentQuery = "insert into COMMENT (idUser, text, idCommentStatus, idEvent, eventFromApi, stars) values ('$user', '$commentText', '$commentStatus','$eventId', '$fromApi', '$rating')";
+        $commentQuery = "
+            insert into COMMENT (
+                idUser,
+                text,
+                idCommentStatus,
+                idEvent,
+                eventFromApi,
+                stars
+            )
+            values ($user, '$commentText', $commentStatus, $eventId, $fromApi, $rating)";
         return $this->dataBase->query($commentQuery);
     }
 

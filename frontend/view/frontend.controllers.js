@@ -52,75 +52,140 @@ angular.module('view', ['ngMaterial', 'users'])
       $scope.data.search.visible = false;
     });
   })
-  .controller('emdpMyEventsController', function($rootScope, $scope, $state, user, eventsAPI, action) {
+  .controller('emdpMyEventsController', function($rootScope, $scope, $state, user, eventsAPI, eventHolder, action) {
     $rootScope.lastState = 'my_events';
 
     $scope.data = {
       myevents: []
+    };
+    $scope.methods = {
+      "getEvent": function(event) {
+        eventHolder.set(event);
+        $state.go('event', { id: event.Id });
+      },
+      "delete": function(event) {
+        eventsAPI.deleteEvent(event).then(function(response) {
+          $scope.data.myevents = response;
+        });
+      }
     };
     user.checkLogged(function() {
       eventsAPI.getMyEvents().then(function(response) {
         $scope.data.myevents = response;
       });
     });
-    $scope.$on('$destroy', function() {
-
-    });
   })
-  .controller('emdpNewEventController', function($rootScope, $scope, $state, user, eventsAPI, action, $filter) {
+  .controller('emdpNewEventController', function($rootScope, $scope, $state, user, eventsAPI, $filter) {
     $rootScope.lastState = 'new_event';
+
     var _data = {
-      DescripcionEvento: null,
-      DetalleTexto: null,
-      DireccionEvento: null,
-      FechaHoraFin: null,
-      FechaHoraInicio: null,
-      IdArea: 2,
-      IdCalendario: 1,
-      IdSubarea: 2,
-      Lugar: null,
-      NombreEvento: null,
-      Precio: null,
-      RutaImagen: null,
-      ZonaHoraria: "America/Argentina/Buenos_Aires"
-    };
-    $scope.data = angular.copy(_data);
+          DescripcionEvento: null,
+          DetalleTexto: null,
+          DireccionEvento: null,
+          FechaHoraFin: null,
+          FechaHoraInicio: null,
+          IdArea: 2,
+          IdCalendario: 1,
+          IdSubarea: 2,
+          Lugar: null,
+          NombreEvento: null,
+          Precio: null,
+          RutaImagen: null,
+          ZonaHoraria: "America/Argentina/Buenos_Aires"
+        };
     $scope.methods = {
       checkData: function(data) {
         return data.DescripcionEvento &&
-            data.DetalleTexto &&
-            data.DireccionEvento &&
-            //data.FechaHoraFin &&
-            data.FechaHoraInicio &&
-            data.Lugar &&
-            data.NombreEvento &&
-            data.Precio &&
-            data.RutaImagen;
+        data.DetalleTexto &&
+        data.DireccionEvento &&
+          //data.FechaHoraFin &&
+        data.FechaHoraInicio &&
+        data.Lugar &&
+        data.NombreEvento &&
+        data.Precio &&
+        data.RutaImagen;
       },
       saveEvent: function(data) {
         if($scope.methods.checkData(data)) {
           eventsAPI.addEvent($scope.data).then(function(response) {
-            var fecha = (new Date(data.FechaHoraInicio)).clearTime();
-            var dia = _.find($rootScope.eventList, { fecha: fecha });
-            if(typeof dia === 'undefined') {
-              dia = {
-                "fecha": fecha.toISOString(),
-                "fecha_completa": $filter('date')(Date.parse(fecha), 'fullDate', 'es_AR'),
-                "eventos":[]
-              };
-              $rootScope.eventList.push(dia);
-            }
-            dia.eventos.push(data);
             $scope.$parent.methods.toastMessage('Se creó el evento.');
             $scope.data = angular.copy(_data);
             document.getElementById('emdp-newEvent-picture').src = "";
+            //$scope.$parent.methods.toastMessage('Se creó el evento.');
+            $rootScope.$broadcast('toastMessage', 'Se creó el evento');
+          });
+        } else {
+          //$scope.$parent.methods.toastMessage('Faltan datos!.');
+          $rootScope.$broadcast('toastMessage', 'Faltan datos!');
+        }
+      }
+    };
+
+    user.checkLogged(function () {
+      $scope.data = angular.copy(_data);
+    });
+  })
+  .controller('emdpMyEventController', function($rootScope, $scope, $state, user, eventsAPI, eventHolder, $filter) {
+    $rootScope.lastState = 'event';
+
+    var _id = $state.params.id,
+        _data = {
+          DescripcionEvento: null,
+          DetalleTexto: null,
+          DireccionEvento: null,
+          FechaHoraFin: null,
+          FechaHoraInicio: null,
+          IdArea: 2,
+          IdCalendario: 1,
+          IdSubarea: 2,
+          Lugar: null,
+          NombreEvento: null,
+          Precio: null,
+          RutaImagen: null,
+          ZonaHoraria: "America/Argentina/Buenos_Aires"
+        };
+    $scope.methods = {
+      checkData: function(data) {
+        return data.DescripcionEvento &&
+        data.DetalleTexto &&
+        data.DireccionEvento &&
+          //data.FechaHoraFin &&
+        data.FechaHoraInicio &&
+        data.Lugar &&
+        data.NombreEvento &&
+        data.Precio &&
+        data.RutaImagen;
+    },
+      saveEvent: function(data) {
+        if($scope.methods.checkData(data)) {
+          eventsAPI.updateEvent($scope.data).then(function(response) {
+
+            $scope.$parent.methods.toastMessage('Se modificó el evento.');
+            //$scope.data = angular.copy(_data);
+            //document.getElementById('emdp-newEvent-picture').src = "";
           });
         } else {
           $scope.$parent.methods.toastMessage('Faltan datos!.');
         }
       }
     };
-    user.checkLogged();
+
+    if(typeof $state.params.id !== 'undefined') {
+      // viene por parametro desde afuera
+      user.checkLogged(function() {
+        eventsAPI.getEvent($state.params.id).then(function(response) {
+          _data = response;
+          $scope.methods.save = $scope.methods.saveEvent;
+          $scope.data = angular.copy(_data);
+        });
+      });
+    } else {
+      // viene desde otra parte de la app
+      user.checkLogged(function () {
+        _data = eventHolder.get();
+        $scope.data = angular.copy(_data);
+      });
+    }
   })
   .controller('emdpFavoritesController', function($rootScope, $scope, $state, user, eventsAPI, action, $filter) {
     $rootScope.lastState = 'favorites';

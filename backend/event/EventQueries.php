@@ -82,7 +82,7 @@ class EventQueries {
                 LEFT JOIN
                     (SELECT * FROM FAVORITE_EVENT_USER FE WHERE FE.eventFromApi = 1 ".$andUser.") as FEU ON EA.idEvento = FEU.idEvento
                 LEFT JOIN
-                    (SELECT AVG (C.stars) AS stars, C.idEvent
+                    (SELECT FLOOR(AVG (C.stars))  AS stars, C.idEvent
                         FROM COMMENT C
                         LEFT JOIN COMMENT_STATUS S ON C.idCommentStatus = S.id
                         WHERE C.eventFromApi = 1 AND S.description LIKE 'Aprobado'
@@ -248,6 +248,16 @@ class EventQueries {
         return $this->dataBase->query("select * from `EVENT` WHERE Id = $id");
     }
 
+    public function getEvent($idUser, $idEvento)
+    {
+        $query = "
+            SELECT * FROM EVENT
+            WHERE Id = $idEvento
+            AND IdUser = $idUser
+        ";
+        return $this->dataBase->query($query);
+    }
+
     public function updateEvent(
         $idEvent
         ,  $descripcionEvento
@@ -262,24 +272,25 @@ class EventQueries {
         , $zonaHoraria
     )
     {
-        $query = "update EVENT set
-                                  'DescripcionEvento'='$descripcionEvento',
-                                  'DetalleTexto'='$detalleTexto',
-                                  'DireccionEvento'='$direccionEvento',
-                                  'FechaHoraFin'='$fechaHoraFin',
-                                  'FechaHoraInicio'='$fechaHoraInicio',
-                                  'Lugar'='$lugar',
-                                  'NombreEvento'='$nombreEvento',
-                                  'Precio'='$precio',
-                                  'RutaImagen'='$rutaImagen',
-                                  'ZonaHoraria'='$zonaHoraria'
-                  where 'Id'='$idEvent'";
+        $query = "
+          UPDATE EVENT SET
+              DescripcionEvento = '$descripcionEvento',
+              DetalleTexto = '$detalleTexto',
+              DireccionEvento = '$direccionEvento',
+              FechaHoraFin ='$fechaHoraFin',
+              FechaHoraInicio = '$fechaHoraInicio',
+              Lugar = '$lugar',
+              NombreEvento = '$nombreEvento',
+              Precio = $precio,
+              RutaImagen = '$rutaImagen',
+              ZonaHoraria = '$zonaHoraria'
+          WHERE Id = $idEvent";
         return $this->dataBase->query($query);
     }
 
     public function deleteEvent($id)
     {
-        return $this->dataBase->query("update EVENT set Active = '0' where Id = '$id'");
+        return $this->dataBase->query("update EVENT set Active = '0' where Id = $id");
     }
 
 }

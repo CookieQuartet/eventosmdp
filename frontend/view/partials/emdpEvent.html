@@ -12,11 +12,11 @@
                     </i>
                     <i class="emdp-icon emdp-icon-medium emdp-icon-comment"
                        ng-class="{ 'emdp-icon-comment-show': config.showComments }"
-                       ng-click="methods.comments()">
+                       ng-click="methods.comments(event)">
                         <material-tooltip>Comentarios</material-tooltip>
                     </i>
                 </div>
-                <emdp-rating max="5" value="event.rating" editable="false"></emdp-rating>
+                <emdp-rating max="5" value="{{ event.stars }}" editable="false"></emdp-rating>
             </div>
         </div>
         <div class="material-tile-content emdp-material-whiteframe-content">
@@ -40,13 +40,13 @@
                 <material-item ng-repeat="item in event.comments | filter:{ 'visible': true }">
                     <material-item-content layout="vertical" layout-sm="horizontal">
                         <div class="material-tile-left">
-                            <img ng-src="{{ item.pic }}" class="emdp-event-comment pic" alt="{{item.usuario}}">
+                            <img ng-src="{{ item.pic }}" class="emdp-event-comment pic" alt="{{item.name}}">
                         </div>
                         <div class="material-tile-content">
-                            <h4>{{item.usuario}}</h4>
-                            <p style="text-align: justify;">{{item.comentario}}</p>
+                            <h4>{{item.name}}</h4>
+                            <p style="text-align: justify;">{{item.text}}</p>
                         </div>
-                        <emdp-rating max="5" value="{{ item.rating }}" editable="false"></emdp-rating>
+                        <emdp-rating max="5" value="{{ item.stars }}" editable="false"></emdp-rating>
                         <material-button
                             class="material-button-fab emdp-fab emdp-fab-report"
                             aria-label="New document"
@@ -65,13 +65,13 @@
                         <img ng-src="{{ persona.pic }}" class="emdp-event-comment pic" alt="{{ persona.name }}">
                     </div>
                     <div class="material-tile-content">
-                        <textarea ng-attr-id="emdp-textarea-comment-{{ event.IdEvento }}" class="emdp-event-comment-textarea" ng-model="comment.comentario"></textarea>
+                        <textarea ng-attr-id="emdp-textarea-comment-{{ event.IdEvento }}" class="emdp-event-comment-textarea" ng-model="comment.text"></textarea>
                     </div>
-                    <emdp-rating max="5" value="{{ comment.rating }}" editable="true"></emdp-rating>
+                    <emdp-rating max="5" editable="true"></emdp-rating>
                     <material-button
-                            class="material-button-fab emdp-fab emdp-fab-profile"
-                        aria-label="New document"
-                        ng-click="methods.comment(comment)">
+                        class="material-button-fab emdp-fab emdp-fab-profile"
+                        aria-label="Comentar"
+                        ng-click="methods.comment(event, comment)">
                         <material-icon icon="img/svg/arrow-right_wht.svg" style="width: 24px; height: 24px;"></material-icon>
                         <material-tooltip>Enviar comentario</material-tooltip>
                     </material-button>

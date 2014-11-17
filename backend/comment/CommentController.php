@@ -6,9 +6,16 @@
  * Time: 05:30 PM
  */
 
+include_once('../user/User.php');
+include_once('../user/userAdmin/UserAdmin.php');
+include_once('../user/userGeneral/UserGeneral.php');
+include_once('../user/userPublisher/UserPublisher.php');
+include_once('../user/userType/UserTypeEnum.php');
+include_once('../user/UserFactory.php');
+
 include_once('CommentQueries.php');
 include_once('CommentStatusEnum.php');
-include_once('../user/UserFactory.php');
+//include_once('../user/UserFactory.php');
 include_once('../utils/Strings.php');
 
 class CommentController {
@@ -27,9 +34,6 @@ class CommentController {
         if (!isset($_GET['method'])) {
             $return = '{ "error": "No se envió un método" }';
         } else {
-
-            $ownEvents= Event::getEventQueries()->getOwnEventsList();
-
             switch($_GET['method']) {
                 case 'add_review':
                     if(isset($_SESSION["user"]) && $_SESSION["user"]) {
@@ -59,10 +63,8 @@ class CommentController {
 
                     break;
                 case 'get_reviews':
-                    {
-                        $postData = json_decode(file_get_contents("php://input"));
-                        $return = getReviewsByEvent($postData);
-                    }
+                    $postData = json_decode(file_get_contents("php://input"));
+                    $return = $this->getReviewsByEvent($postData);
                     break;
             }
         }
@@ -73,7 +75,8 @@ class CommentController {
     public function getReviewsByEvent($event)
     {
         $cq = $this->commentQueries;
-        $rows= $cq->getCommentListForEvent($event->EventId, $event->EventFromApi);
+        //$rows= $cq->getCommentListForEvent($event->EventId, $event->EventFromApi);
+        $rows= $cq->getCommentListForEvent($event->IdEvento);
         //$result = $rows->fetch_all(MYSQLI_ASSOC);
         $result = $cq->fetch_all($rows);
         return json_encode($result);
@@ -81,13 +84,17 @@ class CommentController {
 
     public function addReview($userId, $review)
     {
-        $result= $this->commentQueries->addComment($userId, $review->EventId, $review->Comment, CommentStatusEnum::Pendiente, $review->FromApi, $review->Rating);
-        if ($result)
-        {
-            return "{\"status\": \"".sucessfull."\" , \"message\": \"Comentario agregado\"}";
-        }
-        else
-        {
+        $result= $this->commentQueries->addComment(
+            $userId
+            , $review->event->IdEvento
+            , $review->comment->text
+            , CommentStatusEnum::Pendiente
+            , 1
+            , $review->comment->stars
+        );
+        if ($result) {
+            return "{\"status\": \"".successfull."\" , \"message\": \"Comentario agregado\"}";
+        } else {
             return "{\"status\": \"".error."\" , \"message\": \"Error al agregar comentario\"}";
         }
     }
