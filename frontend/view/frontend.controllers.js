@@ -60,7 +60,7 @@ angular.module('view', ['ngMaterial', 'users'])
     };
     user.checkLogged(function() {
       eventsAPI.getMyEvents().then(function(response) {
-        $scope.data.events = response;
+        $scope.data.myevents = response;
       });
     });
     $scope.$on('$destroy', function() {

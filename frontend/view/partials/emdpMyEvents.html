@@ -1,34 +1,26 @@
-<material-content>
-    <material-whiteframe class="material-whiteframe-z1 emdp-myeventlist" layout="vertical" layout-sm="vertical">
-        <material-list>
+<section class="emdp-alertlist-section " layout-fill>
+    <material-whiteframe class="material-whiteframe-z1 emdp-alertlist" layout="vertical" layout-sm="vertical">
+        <material-list class="emdp-alertlist-list">
             <material-item ng-repeat="item in data.myevents" class="emdp-myevent-item">
                 <material-item-content layout="vertical" layout-sm="horizontal">
                     <div class="material-tile-left">
-                        <img ng-src="{{ item.pic }}" class="emdp-event-comment pic" alt="{{item.name}}">
+                        <img ng-src="{{ item.RutaImagen }}" class="emdp-myevent pic" alt="{{item.NombreEvento}}">
                     </div>
                     <div class="material-tile-content">
-                        <h4>{{item.name}}</h4>
-                        <p style="text-align: justify;">{{item.email}}</p>
+                        <h4>{{item.NombreEvento}}</h4>
+                        <p style="text-align: justify;">{{item.DescripcionEvento}}</p>
+                        <emdp-rating max="5" value="{{ item.stars }}" editable="false"></emdp-rating>
                     </div>
                     <div class="material-tile-content">
-                        <h4>{{item.description}}</h4>
+                        <h4>{{item.DetalleTexto}}</h4>
                     </div>
                     <section layout="horizontal">
                         <material-button
-                                class="material-button-fab emdp-fab emdp-fab-enabled"
-                                ng-class="{ 'emdp-fab-disabled' : !item.active }"
-                                aria-label="New document"
-                                ng-click="methods.toggleActive(item)">
-                            <material-icon ng-show="item.active" icon="img/svg/account_wht.svg" style="width: 24px; height: 24px;"></material-icon>
-                            <material-icon ng-show="!item.active" icon="img/svg/no_wht.svg" style="width: 24px; height: 24px;"></material-icon>
-                            <material-tooltip>{{ item.active ? 'Deshabilitar' : 'Habilitar'}}</material-tooltip>
-                        </material-button>
-                        <material-button
-                                class="material-button-fab emdp-fab emdp-fab-profile"
-                                aria-label="New document"
-                                ng-click="methods.getProfileData(item)">
-                            <material-icon icon="img/svg/arrow-right_wht.svg" style="width: 24px; height: 24px;"></material-icon>
-                            <material-tooltip>Ir al perfil</material-tooltip>
+                            class="material-button-fab emdp-fab emdp-fab-delete"
+                            aria-label="Delete"
+                            ng-click="methods.delete(item)">
+                            <material-icon icon="img/svg/close_wht.svg" style="width: 24px; height: 24px;"></material-icon>
+                            <material-tooltip>Eliminar</material-tooltip>
                         </material-button>
                     </section>
                 </material-item-content>
@@ -36,4 +28,4 @@
             </material-item>
         </material-list>
     </material-whiteframe>
-</material-content>
+</section>

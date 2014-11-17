@@ -285,7 +285,7 @@
                   }
                   scope.data.stars[i].on = true;
                 }
-                scope.$parent.event.rating = node.index + 1;
+                //scope.$parent.event.rating = node.index + 1;
               }
             }
           };
@@ -300,8 +300,8 @@
           });
 
           attrs.$observe('editable', function(value) {
-            var editable = value === 'true' ? true : false;
-            scope.config.editable = editable;
+            //var editable = value === 'true';
+            scope.config.editable = value === 'true';
           });
         },
         templateUrl: 'frontend/view/partials/emdpRating.html'

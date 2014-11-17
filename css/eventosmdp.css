@@ -448,6 +448,15 @@ img.emdp-event-comment.pic {
     background: #4285f4;
 }
 
+
+img.emdp-myevent.pic {
+    border: 1px solid #ddd;
+    max-width: 150px;
+    height:150px;
+    margin: 8px;
+    background: #4285f4;
+}
+
 .emdp-event-comment-textarea {
     width: 100%;
     resize: none;

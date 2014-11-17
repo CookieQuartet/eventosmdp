@@ -49,7 +49,7 @@ class EventController {
                 case 'get_my_events':
                     if(isset($_SESSION["user"]) && $_SESSION["user"]) {
                         $user = $_SESSION["user"]->getUserData();
-                        if ($user['userType']==UserAdminType || $user['userType']==UserPublisherType)
+                        if ($user['type'] == UserTypeEnum::UserAdminType || $user['type'] == UserTypeEnum::UserPublisherType)
                         {
                             $postData = json_decode(file_get_contents("php://input"));
                             $return = $this->getMyEvents($user['id'], $postData);
