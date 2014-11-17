@@ -203,15 +203,17 @@
               }
             },
             comments: function(event) {
-              /*mockComments().then(function(comments) {
-                scope.event.comments = _.merge(scope.event.comments, comments);
-              });*/
               if(!scope.config.showComments) {
                 commentsAPI.getComments(event).then(function(comments) {
-                  $timeout(function() {
-                    //scope.event.comments = _.merge(scope.event.comments, comments);
-                    scope.event.comments = comments;
-                  });
+                  // busco si ya se comentó
+                  var user = _.find(comments, { idUser: String($rootScope.persona.id) });
+                  if(typeof user !== 'undefined') {
+                    var comment_area = document.getElementById('emdp-comment-area-' + scope.event.IdEvento);
+                    if(comment_area) {
+                      comment_area.remove();
+                    }
+                  }
+                  scope.event.comments = comments;
                 });
               }
               scope.config.showComments = !scope.config.showComments;
