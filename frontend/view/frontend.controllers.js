@@ -46,7 +46,8 @@ angular.module('view', ['ngMaterial', 'users'])
     $rootScope.lastState = 'events';
     $scope.data.search.visible = true;
     eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
-      $rootScope.eventList = response;
+      $rootScope.cacheEventList = response;
+      $rootScope.eventList = _.slice($rootScope.cacheEventList, 10);
     });
     $scope.$on('$destroy', function() {
       $scope.data.search.visible = false;
