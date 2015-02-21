@@ -1,5 +1,19 @@
-angular.module('view', ['ngMaterial', 'users'])
-  .controller('AppController', function($scope, $timeout, $materialSidenav, $materialToast, $rootScope, eventsAPI) {
+angular.module('view', ['ngMaterial', 'infinite-scroll', 'users'])
+  .factory('insertEvents', function($rootScope, eventsAPI, $q) {
+      return function() {
+        var defer = $q.defer();
+        eventsAPI
+            .getEvents(Date.today(), Date.today().add(10).days())
+            .then(function(response) {
+              $rootScope.cacheEventList = response;
+              $rootScope.eventList = _.slice($rootScope.cacheEventList, 0, 1);
+              defer.resolve($rootScope.eventList);
+            }, function(error) {
+              defer.reject(error);
+            });
+      }
+  })
+  .controller('AppController', function($scope, $timeout, $materialSidenav, $materialToast, $rootScope, eventsAPI, insertEvents) {
     $rootScope.lastState = '';
     $rootScope.eventList = [];
 
@@ -28,27 +42,30 @@ angular.module('view', ['ngMaterial', 'users'])
     });
 
     $scope.$on('logout', function(event, data) {
-      eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
+      /*eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
         $rootScope.eventList = response;
-      });
+      });*/
+      insertEvents();
     });
 
     $scope.$on('login', function(event, data) {
-      eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
+      /*eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
         $rootScope.eventList = response;
-      });
+      });*/
+      insertEvents();
     });
     $scope.filterActions = function (action) {
       return action.type >= $rootScope.persona.type;
     };
   })
-  .controller('emdpEventsController', function($rootScope, $scope, $state, user, eventsAPI, action) {
+  .controller('emdpEventsController', function($rootScope, $scope, $state, user, eventsAPI, action, insertEvents) {
     $rootScope.lastState = 'events';
     $scope.data.search.visible = true;
-    eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
+    /*eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
       $rootScope.cacheEventList = response;
-      $rootScope.eventList = _.slice($rootScope.cacheEventList, 10);
-    });
+      $rootScope.eventList = _.slice($rootScope.cacheEventList, 0, 1);
+    });*/
+    insertEvents();
     $scope.$on('$destroy', function() {
       $scope.data.search.visible = false;
     });
@@ -188,7 +205,7 @@ angular.module('view', ['ngMaterial', 'users'])
       });
     }
   })
-  .controller('emdpFavoritesController', function($rootScope, $scope, $state, user, eventsAPI, action, $filter) {
+  .controller('emdpFavoritesController', function($rootScope, $scope, $state, user, eventsAPI, action, $filter, insertEvents) {
     $rootScope.lastState = 'favorites';
     $scope.data.search.visible = true;
     $scope.eventList = $rootScope.eventList;
@@ -200,11 +217,16 @@ angular.module('view', ['ngMaterial', 'users'])
       $scope.checkFavorites();
     }, true);
     user.checkLogged(function() {
-      eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
+      /*eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
         $rootScope.eventList = response;
         $scope.checkFavorites();
-      });
+      });*/
       //$scope.checkFavorites();
+
+      insertEvents().then(function() {
+        $scope.checkFavorites();
+      })
+
     });
     $scope.$on('$destroy', function() {
       $scope.data.search.visible = false;
