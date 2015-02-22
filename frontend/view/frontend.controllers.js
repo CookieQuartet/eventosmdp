@@ -10,9 +10,8 @@ angular.module('view', ['ngMaterial', 'users'])
               .getEvents(Date.today(), Date.today().add(10).days())
               .then(function(response) {
                 $rootScope.cacheEventList = response;
-                //$rootScope.eventList = response;
-                var first = $rootScope.cacheEventList.shift();
-                $rootScope.eventList.push(first);
+                $rootScope.eventList = response;
+                //$rootScope.eventList.push($rootScope.cacheEventList.shift());
                 defer.resolve();
               }, function(error) {
                 defer.reject(error);
@@ -73,16 +72,10 @@ angular.module('view', ['ngMaterial', 'users'])
     });
 
     $scope.$on('logout', function(event, data) {
-      /*eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
-        $rootScope.eventList = response;
-      });*/
       insertEvents();
     });
 
     $scope.$on('login', function(event, data) {
-      /*eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
-        $rootScope.eventList = response;
-      });*/
       insertEvents();
     });
     $scope.filterActions = function (action) {
@@ -92,12 +85,8 @@ angular.module('view', ['ngMaterial', 'users'])
   .controller('emdpEventsController', function($rootScope, $scope, $state, user, eventsAPI, action, insertEvents) {
     $rootScope.lastState = 'events';
     $scope.data.search.visible = true;
-    /*eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
-      $rootScope.cacheEventList = response;
-      $rootScope.eventList = _.slice($rootScope.cacheEventList, 0, 1);
-    });*/
     insertEvents().then(function() {
-      //insertEvents();
+
     });
     $scope.$on('$destroy', function() {
       $scope.data.search.visible = false;
@@ -162,11 +151,9 @@ angular.module('view', ['ngMaterial', 'users'])
             $scope.$parent.methods.toastMessage('Se creó el evento.');
             $scope.data = angular.copy(_data);
             document.getElementById('emdp-newEvent-picture').src = "";
-            //$scope.$parent.methods.toastMessage('Se creó el evento.');
             $rootScope.$broadcast('toastMessage', 'Se creó el evento');
           });
         } else {
-          //$scope.$parent.methods.toastMessage('Faltan datos!.');
           $rootScope.$broadcast('toastMessage', 'Faltan datos!');
         }
       }
@@ -210,10 +197,7 @@ angular.module('view', ['ngMaterial', 'users'])
       saveEvent: function(data) {
         if($scope.methods.checkData(data)) {
           eventsAPI.updateEvent($scope.data).then(function(response) {
-
             $scope.$parent.methods.toastMessage('Se modificó el evento.');
-            //$scope.data = angular.copy(_data);
-            //document.getElementById('emdp-newEvent-picture').src = "";
           });
         } else {
           $scope.$parent.methods.toastMessage('Faltan datos!.');
@@ -252,16 +236,9 @@ angular.module('view', ['ngMaterial', 'users'])
       $scope.checkFavorites();
     }, true);
     user.checkLogged(function() {
-      /*eventsAPI.getEvents(Date.today(), Date.today().add(10).days()).then(function(response) {
-        $rootScope.eventList = response;
-        $scope.checkFavorites();
-      });*/
-      //$scope.checkFavorites();
-
       insertEvents().then(function() {
         $scope.checkFavorites();
       })
-
     });
     $scope.$on('$destroy', function() {
       $scope.data.search.visible = false;

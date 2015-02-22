@@ -38,6 +38,12 @@ angular.module('comments', [])
             var data = _.map(comments, function(comment) {
                   comment.visible = true;
                   comment.pic = 'img/svg/account-circle_wht.svg';
+                  comment.idCommentStatus = parseInt(comment.idCommentStatus);
+                  comment.eventFromApi = parseInt(comment.eventFromApi);
+                  comment.id = parseInt(comment.id);
+                  comment.idEvent = parseInt(comment.idEvent);
+                  comment.idUser = parseInt(comment.idUser);
+                  comment.stars = parseInt(comment.stars);
                   return comment;
                 });
             defer.resolve(data);

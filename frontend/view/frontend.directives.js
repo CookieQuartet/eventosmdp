@@ -1,5 +1,20 @@
 
   angular.module('view')
+    .factory('updateRating', function($timeout) {
+      return function(scope) {
+        // recalcular el rating
+        var items = _.where(scope.event.comments, { 'idCommentStatus': 1 }),
+            total = items.length,
+            ratings = _.pluck(_.where(scope.event.comments, { 'idCommentStatus': 1 }), 'stars'),
+            suma = _.reduce(ratings, function(stars, n) {
+              return parseInt(stars) + n;
+            }),
+            avg = Math.floor(suma / total);
+        $timeout(function() {
+          scope.event.stars = avg;
+        });
+      }
+    })
     .directive('emdpMaterialInput', function() {
       return {
         restrict: 'E',
@@ -142,7 +157,7 @@
         templateUrl: 'frontend/view/partials/emdpLoginForm2.html'
       };
     })
-    .directive('emdpEvent', function($rootScope, $q, eventsAPI, commentsAPI, $timeout) {
+    .directive('emdpEvent', function($rootScope, $q, eventsAPI, commentsAPI, $timeout, updateRating) {
       return {
         restrict: 'E',
         replace: true,
@@ -155,6 +170,7 @@
             name: $rootScope.persona.name,
             id: $rootScope.persona.id,
             pic: $rootScope.persona.pic,
+            //idCommentStatus: 1,
             text: '',
             stars: 0,
             visible: true
@@ -181,14 +197,14 @@
             },
             report: function(item) {
               commentsAPI.reportComment(item).then(function(response) {
-                //item.visible = false;
                 item.idCommentStatus = 3;
+                updateRating(scope);
               });
             },
             reactivate: function(item) {
               commentsAPI.reactivateComment(item).then(function(response) {
-                //item.visible = false;
                 item.idCommentStatus = 1;
+                updateRating(scope);
               });
             },
             comment: function(event, comment) {
@@ -197,6 +213,7 @@
                   scope.event.comments.push({
                     name: $rootScope.persona.name,
                     id: $rootScope.persona.id,
+                    idCommentStatus: 1,
                     pic: $rootScope.persona.pic,
                     text: comment.text,
                     stars: comment.stars,
@@ -207,16 +224,7 @@
                   if(comment_area) {
                     comment_area.remove();
                   }
-
-                  // recalcular el rating
-                  var total = scope.event.comments.length,
-                      suma = _.reduce(_.pluck(scope.event.comments, 'stars'), function(stars, n) {
-                        return parseInt(stars) + n;
-                      }),
-                      avg = Math.floor(suma / total);
-                  $timeout(function() {
-                    scope.event.stars = avg;
-                  });
+                  updateRating(scope);
                 });
               } else {
                 $rootScope.$broadcast('toastMessage', 'Falta el comentario!');
@@ -226,7 +234,7 @@
               if(!scope.config.showComments) {
                 commentsAPI.getComments(event).then(function(comments) {
                   // busco si ya se comentó
-                  var user = _.find(comments, { idUser: String($rootScope.persona.id) });
+                  var user = _.find(comments, { idUser: $rootScope.persona.id });
                   if(typeof user !== 'undefined') {
                     var id = scope.event.IdEvento ? scope.event.IdEvento : scope.event.Id,
                         comment_area = document.getElementById('emdp-comment-area-' + id);
@@ -235,6 +243,7 @@
                     }
                   }
                   scope.event.comments = comments;
+                  updateRating(scope);
                 });
               }
               scope.config.showComments = !scope.config.showComments;
