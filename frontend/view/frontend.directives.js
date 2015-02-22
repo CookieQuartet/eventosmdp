@@ -190,13 +190,25 @@
                     id: $rootScope.persona.id,
                     pic: $rootScope.persona.pic,
                     text: comment.text,
-                    stars: scope.event.stars,
+                    //stars: scope.event.stars,
+                    stars: comment.stars,
                     visible: true
                   });
-                  var comment_area = document.getElementById('emdp-comment-area-' + scope.event.IdEvento);
+                  var id = scope.event.IdEvento ? scope.event.IdEvento : scope.event.Id,
+                      comment_area = document.getElementById('emdp-comment-area-' + id);
                   if(comment_area) {
                     comment_area.remove();
                   }
+
+                  // recalcular el rating
+                  var total = scope.event.comments.length,
+                      suma = _.reduce(_.pluck(scope.event.comments, 'stars'), function(stars, n) {
+                        return parseInt(stars) + n;
+                      }),
+                      avg = Math.floor(suma / total);
+                  $timeout(function() {
+                    scope.event.stars = avg;
+                  });
                 });
               } else {
                 $rootScope.$broadcast('toastMessage', 'Falta el comentario!');
@@ -208,7 +220,8 @@
                   // busco si ya se comentó
                   var user = _.find(comments, { idUser: String($rootScope.persona.id) });
                   if(typeof user !== 'undefined') {
-                    var comment_area = document.getElementById('emdp-comment-area-' + scope.event.IdEvento);
+                    var id = scope.event.IdEvento ? scope.event.IdEvento : scope.event.Id,
+                        comment_area = document.getElementById('emdp-comment-area-' + id);
                     if(comment_area) {
                       comment_area.remove();
                     }
@@ -243,12 +256,13 @@
     .directive('emdpRating', function() {
       return {
         restrict: 'E',
-        //replace: true,
-        priority: 450,
+        replace: true,
+        //priority: 0,
         scope: {
           max: '@',
           value: '@',
           event: '=',
+          changeable: '@',
           editable: '@'//,
           //rating: '=rating'
         },
@@ -268,8 +282,8 @@
           }
 
           scope.methods = {
-            select: function(node) {
-              if(scope.config.editable) {
+            select: function(node, override) {
+              if(scope.config.editable || override) {
                 var i;
 
                 angular.forEach(scope.data.stars, function(star) {
@@ -282,22 +296,19 @@
                   }
                   scope.data.stars[i].on = true;
                 }
-                //scope.$parent.event.rating = node.index + 1;
-                //scope.rating = node.index + 1;
                 if(typeof scope.$parent.comment !== 'undefined') {
                   scope.$parent.comment.stars = node.index + 1;
                 }
               }
             }
           };
-
           attrs.$observe('value', function(value) {
             var _value = parseInt(value),
                 node = {
                   index: _value - 1,
                   on: false
                 };
-            scope.methods.select(node);
+            scope.methods.select(node, true);
           });
 
           attrs.$observe('editable', function(value) {

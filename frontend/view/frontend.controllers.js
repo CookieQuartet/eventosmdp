@@ -1,22 +1,27 @@
 angular.module('view', ['ngMaterial', 'users'])
   .factory('insertEvents', function($rootScope, eventsAPI, $q) {
-      return function() {
+      return _.once(function() {
         var defer = $q.defer();
         $rootScope.cacheEventList = [];
         $rootScope.eventList = [];
         $rootScope.showProgress = true;
-        eventsAPI
-            .getEvents(Date.today(), Date.today().add(10).days())
-            .then(function(response) {
-              $rootScope.cacheEventList = response;
-              //$rootScope.eventList = response;
-              $rootScope.eventList.push($rootScope.cacheEventList.shift());
-              defer.resolve($rootScope.eventList);
-            }, function(error) {
-              defer.reject(error);
-            });
+        if($rootScope.cacheEventList.length === 0) {
+          eventsAPI
+              .getEvents(Date.today(), Date.today().add(10).days())
+              .then(function(response) {
+                $rootScope.cacheEventList = response;
+                //$rootScope.eventList = response;
+                var first = $rootScope.cacheEventList.shift();
+                $rootScope.eventList.push(first);
+                defer.resolve();
+              }, function(error) {
+                defer.reject(error);
+              });
+        } else {
+          defer.resolve();
+        }
         return defer.promise;
-      }
+      })
   })
     .factory('addEventsToList', function($rootScope, $q, $timeout) {
       return function() {
@@ -91,7 +96,9 @@ angular.module('view', ['ngMaterial', 'users'])
       $rootScope.cacheEventList = response;
       $rootScope.eventList = _.slice($rootScope.cacheEventList, 0, 1);
     });*/
-    insertEvents();
+    insertEvents().then(function() {
+      //insertEvents();
+    });
     $scope.$on('$destroy', function() {
       $scope.data.search.visible = false;
     });

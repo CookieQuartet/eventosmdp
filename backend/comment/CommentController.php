@@ -76,7 +76,8 @@ class CommentController {
     {
         $cq = $this->commentQueries;
         //$rows= $cq->getCommentListForEvent($event->EventId, $event->EventFromApi);
-        $rows= $cq->getCommentListForEvent($event->IdEvento);
+        $id = $event->IdEvento ? $event->IdEvento : $event->Id;
+        $rows= $cq->getCommentListForEvent($id);
         //$result = $rows->fetch_all(MYSQLI_ASSOC);
         $result = $cq->fetch_all($rows);
         return json_encode($result);
@@ -84,14 +85,22 @@ class CommentController {
 
     public function addReview($userId, $review)
     {
+        if(!$review->event->IdEvento) {
+            $id = $review->event->Id;
+            $fromAPI = 0;
+        } else {
+            $id = $review->event->IdEvento;
+            $fromAPI = 1;
+        }
         $result= $this->commentQueries->addComment(
             $userId
-            , $review->event->IdEvento
+            , $id
             , $review->comment->text
             , CommentStatusEnum::Pendiente
-            , 1
+            , $fromAPI
             , $review->comment->stars
         );
+
         if ($result) {
             return "{\"status\": \"".successfull."\" , \"message\": \"Comentario agregado\"}";
         } else {

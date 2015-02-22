@@ -1,4 +1,4 @@
-<material-whiteframe ng-attr-id="evento-{{ event.IdEvento }}" class="material-whiteframe-z1" layout="vertical" layout-sm="vertical">
+<material-whiteframe ng-attr-id="evento-{{ event.IdEvento || event.Id }}" class="material-whiteframe-z1" layout="vertical" layout-sm="vertical">
     <div layout="vertical" layout-sm="horizontal" layout-align="center center">
         <div class="material-tile-left emdp-material-tile" layout="vertical" layout-align="center start">
             <img ng-src="{{ ::(event.RutaImagen ? event.RutaImagen : event.RutaImagenMiniatura) }}" class="face" width="220" height="220">
@@ -16,7 +16,7 @@
                         <material-tooltip>Comentarios</material-tooltip>
                     </i>
                 </div>
-                <emdp-rating max="5" value="{{ event.stars }}" editable="false"></emdp-rating>
+                <emdp-rating max="5" value="{{ event.stars }}" editable="false" changeable="true"></emdp-rating>
             </div>
         </div>
         <div class="material-tile-content emdp-material-whiteframe-content">
@@ -58,14 +58,14 @@
                     <material-divider class="emdp-divider" ng-hide="$last"></material-divider>
                 </material-item>
             </material-list>
-            <section ng-show="persona.logged" ng-attr-id="emdp-comment-area-{{ event.IdEvento }}">
+            <section ng-show="persona.logged" ng-attr-id="emdp-comment-area-{{ event.IdEvento || event.Id }}">
                 <material-divider class="emdp-divider"></material-divider>
                 <material-item-content layout="vertical" layout-sm="horizontal">
                     <div class="material-tile-left">
                         <img ng-src="{{ persona.pic }}" class="emdp-event-comment pic" alt="{{ persona.name }}">
                     </div>
                     <div class="material-tile-content">
-                        <textarea ng-attr-id="emdp-textarea-comment-{{ event.IdEvento }}" class="emdp-event-comment-textarea" ng-model="comment.text"></textarea>
+                        <textarea ng-attr-id="emdp-textarea-comment-{{ event.IdEvento || event.Id }}" class="emdp-event-comment-textarea" ng-model="comment.text"></textarea>
                     </div>
                     <emdp-rating max="5" editable="true"></emdp-rating>
                     <material-button

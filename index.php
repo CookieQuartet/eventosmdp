@@ -29,7 +29,7 @@
                     </emdp-material-input>
                 </div>
             </material-toolbar>
-            
+            <emdp-rating style="display: none;"></emdp-rating>
             <material-content class="emdp-body" layout="horizontal" flex data-ng-cloak>
                 <material-sidenav class="material-sidenav-left material-whiteframe-z2" component-id="left">
                     <material-toolbar class="material-theme-light" ng-show="persona.logged">

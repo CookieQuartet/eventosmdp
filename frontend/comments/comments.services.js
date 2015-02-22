@@ -45,7 +45,8 @@ angular.module('comments', [])
             defer.reject(error);
           });
           return defer.promise;
-        },
+        }
+        /*,
         getEvents: function(from, to) {
           var defer = $q.defer();
 
@@ -198,6 +199,6 @@ angular.module('comments', [])
             defer.reject(error);
           });
           return defer.promise;
-        }
+        }*/
       };
     });
