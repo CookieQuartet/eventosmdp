@@ -2,15 +2,25 @@
     <section ng-hide="eventList.length">
         <material-linear-progress mode="indeterminate"></material-linear-progress>
     </section>
-    <material-content >
+    <material-content class="emdp-infinite-scroll" >
        <section ng-repeat="day in eventList | orderBy:'fecha' | filter:{ $: data.search.text }">
             <material-subheader class="material-subheader-colored emdp-subheader-calendar">
                 <material-icon flex icon="img/svg/calendar.svg" class="emdp-subheader-calendar-icon"></material-icon>
                 <span flex>{{ day.fecha_completa }}</span>
             </material-subheader>
-            <material-list ng-class="{'emdp-cardlist':$last}">
+           <material-list ng-class="{'emdp-cardlist':$last}">
                 <emdp-event ng-repeat="event in day.eventos | filter:{ $: data.search.text }"></emdp-event>
             </material-list>
         </section>
     </material-content>
+    <div class="emdp-material-bottom-sheet material-grid" ng-show="$parent.$parent.$root.cacheEventList.length > 0">
+        <material-list>
+            <material-button style="height:35px;" layout-align="center center" layout="vertical" class="material-grid-item-content" ng-click="methods.addEventsToList()">
+                <div class="material-icon-container">
+                    <material-icon class="emdp-material-bottom-sheet-icon" icon="img/svg/plus.svg" style="width: 24px; height: 24px; float:left;"></material-icon>
+                    <span style="float:left; margin: 2px 0 0 5px;">Cargar más</span>
+                </div>
+            </material-button>
+        </material-list>
+    </div>
 </div>

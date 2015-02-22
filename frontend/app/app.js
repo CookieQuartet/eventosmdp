@@ -1,6 +1,6 @@
 
 //angular.module('app', ['users', 'view', 'events', 'ui.router', 'angular.filter'])
-angular.module('app', ['users', 'view', 'events', 'comments', 'ui.router', 'ngSanitize'])
+angular.module('app', ['users', 'view', 'events', 'comments', /*'infinite-scroll',*/ 'ui.router', 'ngSanitize'])
     .value('emdpActions', {
       list: [
         { id: 'events', name: 'Eventos', icon: "img/svg/map-marker.svg", action: 'state.go("events")', type: 3 },

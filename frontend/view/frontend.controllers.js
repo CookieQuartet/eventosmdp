@@ -1,27 +1,47 @@
-angular.module('view', ['ngMaterial', 'infinite-scroll', 'users'])
+angular.module('view', ['ngMaterial', 'users'])
   .factory('insertEvents', function($rootScope, eventsAPI, $q) {
       return function() {
         var defer = $q.defer();
+        $rootScope.cacheEventList = [];
+        $rootScope.eventList = [];
+        $rootScope.showProgress = true;
         eventsAPI
             .getEvents(Date.today(), Date.today().add(10).days())
             .then(function(response) {
               $rootScope.cacheEventList = response;
-              $rootScope.eventList = _.slice($rootScope.cacheEventList, 0, 1);
+              //$rootScope.eventList = response;
+              $rootScope.eventList.push($rootScope.cacheEventList.shift());
               defer.resolve($rootScope.eventList);
             }, function(error) {
               defer.reject(error);
             });
+        return defer.promise;
       }
   })
-  .controller('AppController', function($scope, $timeout, $materialSidenav, $materialToast, $rootScope, eventsAPI, insertEvents) {
+    .factory('addEventsToList', function($rootScope, $q, $timeout) {
+      return function() {
+        var defer = $q.defer();
+        $timeout(function() {
+          if($rootScope.cacheEventList.length > 0) {
+            $rootScope.eventList.push($rootScope.cacheEventList.shift());
+          }
+          defer.resolve();
+        }, 100);
+        return defer.promise;
+      }
+    })
+  .controller('AppController', function($scope, $timeout, $materialSidenav, $materialToast,
+                                        $rootScope, eventsAPI, insertEvents, addEventsToList) {
     $rootScope.lastState = '';
+    $rootScope.cacheEventList = [];
     $rootScope.eventList = [];
 
     $scope.data = {
       search: {
         text: '',
         visible: false
-      }
+      },
+      showProgress: true
     };
 
     $scope.methods = {
@@ -33,6 +53,12 @@ angular.module('view', ['ngMaterial', 'infinite-scroll', 'users'])
           template: '<material-toast>' + message + '</material-toast>',
           duration: 1000,
           position: 'bottom top left right'
+        });
+      },
+      addEventsToList: function() {
+        $rootScope.showProgress = true;
+        addEventsToList().then(function() {
+          $rootScope.showProgress = false;
         });
       }
     };
@@ -210,7 +236,9 @@ angular.module('view', ['ngMaterial', 'infinite-scroll', 'users'])
     $scope.data.search.visible = true;
     $scope.eventList = $rootScope.eventList;
     $scope.checkFavorites = function() {
-      $scope.onlyFavorites = $filter('onlyFavorites')($rootScope.eventList);
+      var eventos = _.union($rootScope.eventList, $rootScope.cacheEventList);
+      //$scope.onlyFavorites = $filter('onlyFavorites')($rootScope.eventList);
+      $scope.onlyFavorites = $filter('onlyFavorites')(eventos);
       $scope.favoriteWarning = $scope.onlyFavorites.length === 0;
     };
     $scope.$watch('eventList', function() {

@@ -3,7 +3,7 @@ angular.module('events', [])
       return function(items) {
         var _items = [];
         angular.forEach(items, function(item) {
-          if(_.where(item.eventos, 'favorite').length > 0) {
+          if(_.find(item.eventos, 'favorite')) {
             _items.push(item);
           }
         });

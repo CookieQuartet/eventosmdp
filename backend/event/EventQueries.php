@@ -84,8 +84,8 @@ class EventQueries {
                 LEFT JOIN
                     (SELECT FLOOR(AVG (C.stars))  AS stars, C.idEvent
                         FROM COMMENT C
-                        LEFT JOIN COMMENT_STATUS S ON C.idCommentStatus = S.id
-                        WHERE C.eventFromApi = 1 AND S.description LIKE 'Aprobado'
+                        /*LEFT JOIN COMMENT_STATUS S ON C.idCommentStatus = S.id
+                        WHERE C.eventFromApi = 1 AND S.description LIKE 'Aprobado'*/
                         GROUP BY idEvent) as CS ON EA.idEvento = CS.idEvent
             UNION  ALL
                 SELECT
@@ -126,8 +126,8 @@ class EventQueries {
                 LEFT JOIN
                     (SELECT AVG (C.stars) AS stars, C.idEvent
                         FROM COMMENT C
-                        LEFT JOIN COMMENT_STATUS S ON C.idCommentStatus = S.id
-                        WHERE C.eventFromApi = 0 AND S.description LIKE 'Aprobado'
+                        /*LEFT JOIN COMMENT_STATUS S ON C.idCommentStatus = S.id
+                        WHERE C.eventFromApi = 0 AND S.description LIKE 'Aprobado'*/
                         GROUP BY idEvent) as CS ON E.id = CS.idEvent
             WHERE E.Active = 1) EVENTS ".$dateConstraint." ORDER BY EVENTS.FechaHoraInicio";
 

@@ -68,6 +68,7 @@
             </material-content>
         </div>
         <script src="bower_components/lodash/lodash.js"></script>
+        <!--<script src="bower_components/jquery/dist/jquery.js"></script>-->
         <script src="bower_components/datejs/build/date-es-AR.js"></script>
         <script src="bower_components/angular/angular.js"></script>
         <!--<script src="bower_components/angular-filter/dist/angular-filter.js"></script>-->
@@ -75,7 +76,7 @@
         <script src="bower_components/angular-aria/angular-aria.js"></script>
         <script src="bower_components/angular-animate/angular-animate.js"></script>
         <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-        <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+        <!--<script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>-->
         <script src="bower_components/hammerjs/hammer.js"></script>
         <script src="bower_components/angular-material/angular-material.js"></script>
         <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
