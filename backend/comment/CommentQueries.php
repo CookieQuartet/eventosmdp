@@ -24,7 +24,10 @@ class CommentQueries {
     //Lista de Comentarios Completa
     public final function getCommentList()
     {
-        $commentQuery = "select CO.*,CS.description,UR.name,UR.email from COMMENT CO, COMMENT_STATUS CS, USER UR where CO.idCommentStatus = CS.id and CO.idUser = UR.id";
+        $commentQuery = "
+          select CO.*,CS.description,UR.name,UR.email
+          from COMMENT CO, COMMENT_STATUS CS, USER UR
+          where CO.idCommentStatus = CS.id and CO.idUser = UR.id";
         return $this->dataBase->query($commentQuery);
     }
 

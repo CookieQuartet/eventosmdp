@@ -23,18 +23,18 @@ angular.module('view', ['ngMaterial', 'users'])
         return defer.promise;
       })
   })
-    .factory('addEventsToList', function($rootScope, $q, $timeout) {
-      return function() {
-        var defer = $q.defer();
-        $timeout(function() {
-          if($rootScope.cacheEventList.length > 0) {
-            $rootScope.eventList.push($rootScope.cacheEventList.shift());
-          }
-          defer.resolve();
-        }, 100);
-        return defer.promise;
-      }
-    })
+  .factory('addEventsToList', function($rootScope, $q, $timeout) {
+    return function() {
+      var defer = $q.defer();
+      $timeout(function() {
+        if($rootScope.cacheEventList.length > 0) {
+          $rootScope.eventList.push($rootScope.cacheEventList.shift());
+        }
+        defer.resolve();
+      }, 100);
+      return defer.promise;
+    }
+  })
   .controller('AppController', function($scope, $timeout, $materialSidenav, $materialToast,
                                         $rootScope, eventsAPI, insertEvents, addEventsToList) {
     $rootScope.lastState = '';

@@ -45,7 +45,46 @@ angular.module('comments', [])
             defer.reject(error);
           });
           return defer.promise;
+        },
+        reportComment: function(comment) {
+          var defer = $q.defer();
+
+          $http({
+            method:'post',
+            url: 'backend/comment/CommentAPI.php',
+            params: {
+              method: 'report'
+            },
+            data: {
+              comment: comment
+            }
+          }).success(function(response) {
+            defer.resolve(response);
+          }).error(function(error) {
+            defer.reject(error);
+          });
+          return defer.promise;
+        },
+        reactivateComment: function(comment) {
+          var defer = $q.defer();
+
+          $http({
+            method:'post',
+            url: 'backend/comment/CommentAPI.php',
+            params: {
+              method: 'reactivate'
+            },
+            data: {
+              comment: comment
+            }
+          }).success(function(response) {
+            defer.resolve(response);
+          }).error(function(error) {
+            defer.reject(error);
+          });
+          return defer.promise;
         }
+
         /*,
         getEvents: function(from, to) {
           var defer = $q.defer();

@@ -50,11 +50,22 @@ class CommentController {
                 case 'delete':
 
                     break;
-                case 'approve':
-
+                case 'reactivate':
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
+                        $postData = json_decode(file_get_contents("php://input"));
+                        $return = $this->reactivateReview($postData);
+                    } else {
+                        $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
+                    }
                     break;
                 case 'report':
-
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
+                        $postData = json_decode(file_get_contents("php://input"));
+                        //$user = $_SESSION["user"]->getUserData();
+                        $return = $this->reportReview($postData);
+                    } else {
+                        $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
+                    }
                     break;
                 case 'pendingList':
 
@@ -105,6 +116,28 @@ class CommentController {
             return "{\"status\": \"".successfull."\" , \"message\": \"Comentario agregado\"}";
         } else {
             return "{\"status\": \"".error."\" , \"message\": \"Error al agregar comentario\"}";
+        }
+    }
+
+    public function reportReview($review)
+    {
+        $result= $this->commentQueries->updateCommentStatus($review->comment->id, 3);
+
+        if ($result) {
+            return "{\"status\": \"".successfull."\" , \"message\": \"Comentario reportado\"}";
+        } else {
+            return "{\"status\": \"".error."\" , \"message\": \"Error al reportar comentario\"}";
+        }
+    }
+
+    public function reactivateReview($review)
+    {
+        $result= $this->commentQueries->updateCommentStatus($review->comment->id, 1);
+
+        if ($result) {
+            return "{\"status\": \"".successfull."\" , \"message\": \"Comentario reactivado\"}";
+        } else {
+            return "{\"status\": \"".error."\" , \"message\": \"Error al reactivar comentario\"}";
         }
     }
 

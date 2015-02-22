@@ -180,7 +180,16 @@
               }
             },
             report: function(item) {
-              item.visible = false;
+              commentsAPI.reportComment(item).then(function(response) {
+                //item.visible = false;
+                item.idCommentStatus = 3;
+              });
+            },
+            reactivate: function(item) {
+              commentsAPI.reactivateComment(item).then(function(response) {
+                //item.visible = false;
+                item.idCommentStatus = 1;
+              });
             },
             comment: function(event, comment) {
               if(comment.text.length > 0) {
@@ -190,7 +199,6 @@
                     id: $rootScope.persona.id,
                     pic: $rootScope.persona.pic,
                     text: comment.text,
-                    //stars: scope.event.stars,
                     stars: comment.stars,
                     visible: true
                   });

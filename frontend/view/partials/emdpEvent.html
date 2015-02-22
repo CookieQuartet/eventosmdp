@@ -38,7 +38,7 @@
         <material-content>
             <material-list>
                 <material-item ng-repeat="item in event.comments | filter:{ 'visible': true }">
-                    <material-item-content layout="vertical" layout-sm="horizontal">
+                    <material-item-content ng-class="{ 'emdp-reported': item.idCommentStatus == 3, 'emdp-invisible': item.idCommentStatus == 3 && persona.type != 1 }" layout="vertical" layout-sm="horizontal">
                         <div class="material-tile-left">
                             <img ng-src="{{ item.pic }}" class="emdp-event-comment pic" alt="{{item.name}}">
                         </div>
@@ -48,11 +48,20 @@
                         </div>
                         <emdp-rating max="5" value="{{ item.stars }}" editable="false"></emdp-rating>
                         <material-button
-                            class="material-button-fab emdp-fab emdp-fab-report"
-                            aria-label="New document"
-                            ng-click="methods.report(item)">
+                                ng-hide="item.idCommentStatus == 3"
+                                class="material-button-fab emdp-fab emdp-fab-report"
+                                aria-label="Reportar"
+                                ng-click="methods.report(item)">
                             <material-icon icon="img/svg/close_wht.svg" style="width: 24px; height: 24px;"></material-icon>
                             <material-tooltip>Marcar como inapropiado</material-tooltip>
+                        </material-button>
+                        <material-button
+                            ng-show="item.idCommentStatus == 3"
+                            class="material-button-fab emdp-fab emdp-fab-report"
+                            aria-label="Habilitar"
+                            ng-click="methods.reactivate(item)">
+                            <material-icon icon="img/svg/plus_wht.svg" style="width: 24px; height: 24px;"></material-icon>
+                            <material-tooltip>Reactivar comentario</material-tooltip>
                         </material-button>
                     </material-item-content>
                     <material-divider class="emdp-divider" ng-hide="$last"></material-divider>

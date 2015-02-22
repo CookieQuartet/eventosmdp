@@ -496,6 +496,13 @@ img.emdp-myevent.pic {
     margin: 0 4px 0 4px;
 }
 
+.emdp-reported {
+    background-color: mistyrose;
+}
+
+.emdp-invisible {
+    display: none !important;
+}
 /*
 @media (min-width: 1080px) {
     .emdp-userlist {
