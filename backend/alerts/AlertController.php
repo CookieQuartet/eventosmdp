@@ -74,11 +74,22 @@ class AlertController {
     public function sendAlerts()
     {
         // obtener la lista de usuarios con alertas definidas
+        $cq = $this->alertQueries;
+        $rows= $cq->getUsersWithAlerts();
+        $result = $cq->fetch_all($rows);
         // por cada usuario:
-        //  obtener la lista de alertas para el dia siguiente (decision de implementacion)
-        //  generar el texto del mail
-        //  enviar el mail
-        echo('done');
+        foreach($result as $item => $usuario) {
+            echo($usuario['email'].'<br>');
+            //  obtener la lista de alertas para el dia siguiente (decision de implementacion)
+            $rows = $cq->getEventAlerts($usuario['id_user'], '20150220T000000', '20150225T000000');
+            $alerts = $cq->fetch_all($rows);
+            foreach($alerts as $alert => $event) {
+                echo($event['NombreEvento'].'<br>');
+            }
+            //  generar el texto del mail
+            //  enviar el mail
+        }
+        //echo('done');
     }
 
     public function getAlerts($userId)
