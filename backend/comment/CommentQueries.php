@@ -7,7 +7,6 @@
  */
 include_once('../database/DataBase.php');
 
-
 class CommentQueries {
 
     private $dataBase;

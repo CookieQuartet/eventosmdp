@@ -44,12 +44,6 @@ class CommentController {
                         $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
                     }
                     break;
-                case 'edit':
-
-                    break;
-                case 'delete':
-
-                    break;
                 case 'reactivate':
                     if(isset($_SESSION["user"]) && $_SESSION["user"]) {
                         $postData = json_decode(file_get_contents("php://input"));
@@ -67,15 +61,13 @@ class CommentController {
                         $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
                     }
                     break;
-                case 'pendingList':
-
-                    break;
-                case 'reportedList':
-
-                    break;
                 case 'get_reviews':
-                    $postData = json_decode(file_get_contents("php://input"));
-                    $return = $this->getReviewsByEvent($postData);
+                    if(isset($_SESSION["user"]) && $_SESSION["user"]) {
+                        $postData = json_decode(file_get_contents("php://input"));
+                        $return = $this->getReviewsByEvent($postData);
+                    } else {
+                        $return = '{ "status": "error", "message": "Debe iniciar sesión" }';
+                    }
                     break;
             }
         }
@@ -86,10 +78,8 @@ class CommentController {
     public function getReviewsByEvent($event)
     {
         $cq = $this->commentQueries;
-        //$rows= $cq->getCommentListForEvent($event->EventId, $event->EventFromApi);
         $id = $event->IdEvento ? $event->IdEvento : $event->Id;
         $rows= $cq->getCommentListForEvent($id);
-        //$result = $rows->fetch_all(MYSQLI_ASSOC);
         $result = $cq->fetch_all($rows);
         return json_encode($result);
     }

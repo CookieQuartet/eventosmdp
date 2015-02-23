@@ -199,12 +199,14 @@
               commentsAPI.reportComment(item).then(function(response) {
                 item.idCommentStatus = 3;
                 updateRating(scope);
+                $rootScope.$broadcast('toastMessage', 'Se reportó el comentario.');
               });
             },
             reactivate: function(item) {
               commentsAPI.reactivateComment(item).then(function(response) {
                 item.idCommentStatus = 1;
                 updateRating(scope);
+                $rootScope.$broadcast('toastMessage', 'Se habilitó el comentario.');
               });
             },
             comment: function(event, comment) {

@@ -55,6 +55,31 @@ class DataBase {
         }
     }
 
+    public function query_with_last_id($query)
+    {
+        $query = str_replace("}", "", $query);
+        try {
+            $this->openConnection();
+            $queryResult = $this->connection->query($query);
+            if (!$queryResult) {
+                printf("Error message: %s\n", $this->connection->error);
+            }
+            $last_id = $this->connection->insert_id;
+
+            $this->closeConnection();
+
+            return $last_id;
+
+        } catch(exception $e) {
+            return $e;
+        }
+    }
+
+    public function last_id()
+    {
+        return $this->connection->insert_id;
+    }
+
     public function hasRows($result)
     {
         try {
@@ -88,9 +113,6 @@ class DataBase {
 
     public function fetch_all($rows)
     {
-     //   for ($res = array(); $tmp = $rows->fetch_assoc();) $res[] = $tmp;
-     //   return $res;
-
         $result = array();
         while ($row = $rows->fetch_assoc()) {
             array_push($result, $row);
@@ -109,21 +131,8 @@ class DataBase {
         }
     }
 
-    //public function fetchQueryResultToAssocArray($result)
     public function fetchQueryResultToAssocArray($rows)
     {
-       // echo($result);
-        /*try {
-            $assocArray=array();
-            while ($fila = mysqli_fetch_assoc($result)) {
-                $assocArray[]=$fila;
-            }
-
-            return $assocArray;
-        } catch(exception $e) {
-            return $e;
-        }
-        */
         $result = array();
         while ($row = $rows->fetch_assoc()) {
             array_push($result, $row);
@@ -132,44 +141,6 @@ class DataBase {
         $return = json_encode($result);
         echo($return);
     }
-
-    public static function fetchQueryResultToJson($rows)
-    {
-        /*$result = $rows->fetch_all(MYSQLI_ASSOC);
-        $json_array = array();
-        $length = count($result);
-        $i = 0;
-
-        while($i < $length) {
-            $row = json_encode($result[$i]);
-            if(strlen($row) > 0) {
-                array_push($json_array, $row);
-            }
-            $i++;
-        }
-        $rows->free();
-        return '['.implode(',', $json_array).']';*/
-
-//        try {
-//            $result = array();
-//            while ($row =  mysqli_fetch_assoc($rows)) {
-//                array_push($result, $row);
-//            }
-//            $rows->free();
-//            return json_encode($result);
-//        } catch(exception $e) {
-//            return $e;
-//        }
-//        $result = array();
-//        while ($row = $rows->fetch_assoc()) {
-//            array_push($result, $row);
-//        }
-//        $rows->free();
-//        $return = json_encode($result);
-//        echo($return);
-
-    }
-
 
     public function insertArrayObjects($table, $arrayObjects, $limit = null) {
 

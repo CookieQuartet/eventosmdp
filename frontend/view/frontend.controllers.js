@@ -10,8 +10,8 @@ angular.module('view', ['ngMaterial', 'users'])
               .getEvents(Date.today(), Date.today().add(10).days())
               .then(function(response) {
                 $rootScope.cacheEventList = response;
-                $rootScope.eventList = response;
-                //$rootScope.eventList.push($rootScope.cacheEventList.shift());
+                //$rootScope.eventList = response;
+                $rootScope.eventList.push($rootScope.cacheEventList.shift());
                 defer.resolve();
               }, function(error) {
                 defer.reject(error);
@@ -85,14 +85,12 @@ angular.module('view', ['ngMaterial', 'users'])
   .controller('emdpEventsController', function($rootScope, $scope, $state, user, eventsAPI, action, insertEvents) {
     $rootScope.lastState = 'events';
     $scope.data.search.visible = true;
-    insertEvents().then(function() {
-
-    });
+    insertEvents();
     $scope.$on('$destroy', function() {
       $scope.data.search.visible = false;
     });
   })
-  .controller('emdpMyEventsController', function($rootScope, $scope, $state, user, eventsAPI, eventHolder, action) {
+  .controller('emdpMyEventsController', function($rootScope, $scope, $state, user, eventsAPI, eventHolder) {
     $rootScope.lastState = 'my_events';
 
     $scope.data = {
@@ -115,7 +113,7 @@ angular.module('view', ['ngMaterial', 'users'])
       });
     });
   })
-  .controller('emdpNewEventController', function($rootScope, $scope, $state, user, eventsAPI, $filter) {
+  .controller('emdpNewEventController', function($rootScope, $scope, $state, user, eventsAPI) {
     $rootScope.lastState = 'new_event';
 
     var _data = {
@@ -163,7 +161,7 @@ angular.module('view', ['ngMaterial', 'users'])
       $scope.data = angular.copy(_data);
     });
   })
-  .controller('emdpMyEventController', function($rootScope, $scope, $state, user, eventsAPI, eventHolder, $filter) {
+  .controller('emdpMyEventController', function($rootScope, $scope, $state, user, eventsAPI, eventHolder) {
     $rootScope.lastState = 'event';
 
     var _id = $state.params.id,
@@ -228,7 +226,6 @@ angular.module('view', ['ngMaterial', 'users'])
     $scope.eventList = $rootScope.eventList;
     $scope.checkFavorites = function() {
       var eventos = _.union($rootScope.eventList, $rootScope.cacheEventList);
-      //$scope.onlyFavorites = $filter('onlyFavorites')($rootScope.eventList);
       $scope.onlyFavorites = $filter('onlyFavorites')(eventos);
       $scope.favoriteWarning = $scope.onlyFavorites.length === 0;
     };
@@ -245,7 +242,7 @@ angular.module('view', ['ngMaterial', 'users'])
       $scope.onlyFavorites.length = 0;
     });
   })
-  .controller('emdpProfileController', function($rootScope, $scope, $state, user, userAPI, action) {
+  .controller('emdpProfileController', function($rootScope, $scope, $state, user, userAPI) {
     $rootScope.lastState = 'profile';
 
     $scope.methods = {
@@ -327,7 +324,7 @@ angular.module('view', ['ngMaterial', 'users'])
       });
     }
   })
-  .controller('emdpNewUserController', function($rootScope, $scope, $state, user, userAPI, action) {
+  .controller('emdpNewUserController', function($rootScope, $scope, $state, user, userAPI) {
       $rootScope.lastState = 'new_user';
       var _data = {
             email: '',
@@ -390,22 +387,35 @@ angular.module('view', ['ngMaterial', 'users'])
         $scope.data.users = [];
       });
   })
-  .controller('emdpAlertsController', function($rootScope, $scope, $state, user, action) {
+  .controller('emdpAlertsController', function($rootScope, $scope, $state, user, alertsAPI) {
     $rootScope.lastState = 'alerts';
     user.checkLogged(function() {
       $scope.methods = {
-        "delete": function(item) {
-          _.remove($scope.data.alerts, { id: item.id });
+        "getAlerts": function() {
+          alertsAPI.getAlerts().then(function(response) {
+            $scope.data.alerts = response;
+          });
         },
-        "toggleActive": function(item) {
-          item.active = !item.active;
+        "delete": function(alert) {
+          alertsAPI.deleteAlert(alert).then(function(response) {
+            _.remove($scope.data.alerts, { id: alert.id });
+          });
+        },
+        "toggleActive": function(alert) {
+          // la logica esta invertida. duh.
+          var active = alert.active ? 0 : 1;
+          alertsAPI.updateAlert(_.extend({}, alert, { active: active })).then(function(response) {
+            alert.active = !alert.active;
+          });
         },
         "addAlert": function(text) {
           if(text.length > 0) {
-            $scope.data.alerts.push({
-              id: $scope.data.alerts.lenght +1,
-              search: text,
-              active: true
+            alertsAPI.addAlert({ keyword: text }).then(function(response) {
+              $scope.data.alerts.push({
+                id: parseInt(response),
+                keyword: text,
+                active: true
+              });
             });
           } else {
             $scope.$parent.methods.toastMessage('Falta el criterio de búsqueda!');
@@ -414,19 +424,9 @@ angular.module('view', ['ngMaterial', 'users'])
       };
       $scope.data = {
         text: '',
-        alerts: [
-          {
-            id: 1,
-            search: 'fileteado',
-            active: true
-          },
-          {
-            id: 2,
-            search: 'soriano',
-            active: true
-          }
-        ]
-      }
+        alerts: []
+      };
+      $scope.methods.getAlerts();
     });
   });
 

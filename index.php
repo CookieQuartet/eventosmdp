@@ -29,7 +29,6 @@
                     </emdp-material-input>
                 </div>
             </material-toolbar>
-            <emdp-rating style="display: none;"></emdp-rating>
             <material-content class="emdp-body" layout="horizontal" flex data-ng-cloak>
                 <material-sidenav class="material-sidenav-left material-whiteframe-z2" component-id="left">
                     <material-toolbar class="material-theme-light" ng-show="persona.logged">
@@ -84,6 +83,7 @@
         <script src="frontend/app/app.js"></script>
         <script src="frontend/view/frontend.controllers.js"></script>
         <script src="frontend/view/frontend.directives.js"></script>
+        <script src="frontend/alerts/alerts.services.js"></script>
         <script src="frontend/users/user.services.js"></script>
         <script src="frontend/events/events.services.js"></script>
         <script src="frontend/comments/comments.services.js"></script>

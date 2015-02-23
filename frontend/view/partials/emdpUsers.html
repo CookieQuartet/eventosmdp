@@ -1,4 +1,7 @@
 <material-content>
+    <section ng-hide="data.users.length">
+        <material-linear-progress mode="indeterminate"></material-linear-progress>
+    </section>
     <material-whiteframe class="material-whiteframe-z1 emdp-userlist" layout="vertical" layout-sm="vertical">
         <material-list>
             <material-item ng-repeat="item in data.users" class="emdp-user-item">
