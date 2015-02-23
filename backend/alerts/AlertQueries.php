@@ -31,6 +31,65 @@ class AlertQueries {
         return $this->dataBase->query($alertQuery);
     }
 
+    public final function getUsersWithAlerts() {
+        $alertQuery = "
+          select distinct
+            A.id_user,
+            U.email
+          from
+            ALERT A, USER U
+            where
+                A.id_user = U.id
+            ORDER BY A.id_user
+            ";
+        return $this->dataBase->query($alertQuery);
+    }
+
+    public final function getEventAlerts($userId, $fechaDesde, $fechaHasta)
+    {
+        $alertQuery = "
+          select
+            A.id_user,
+            A.keyword,
+            U.email,
+            EV.NombreEvento,
+            EV.DescripcionEvento,
+            Ev.DetalleTexto,
+            EV.id,
+            EV.FechaHoraInicio,
+            EV.FechaHoraFin
+          from
+            ALERT A, USER U, (
+                select
+                    EVENT.Id,
+                    EVENT.DescripcionEvento,
+                    EVENT.DetalleTexto,
+                    EVENT.NombreEvento,
+                	EVENT.FechaHoraInicio,
+                	EVENT.FechaHoraFin,
+                    CONCAT_WS('|', EVENT.DescripcionEvento, EVENT.DetalleTexto, EVENT.NombreEvento) text
+                from EVENT
+                union all
+                SELECT
+                    EVENT_API.IdEvento AS Id,
+                    EVENT_API.DescripcionEvento,
+                    EVENT_API.DetalleTexto,
+                    EVENT_API.NombreEvento,
+                	EVENT_API.FechaHoraInicio,
+                	EVENT_API.FechaHoraFin,
+                    CONCAT_WS('|', EVENT_API.DescripcionEvento, EVENT_API.DetalleTexto, EVENT_API.NombreEvento) text
+                from EVENT_API
+            ) EV
+            where
+            	EV.text LIKE CONCAT('%', A.keyword, '%')
+                and EV.FechaHoraInicio between '$fechaDesde' and '$fechaHasta'
+                and A.id_user = U.id
+                and A.id_user = $userId
+            ORDER BY A.id_user
+            ";
+        return $this->dataBase->query($alertQuery);
+    }
+
     public final function addAlert($userId, $alert)
     {
        // var_dump($alert);

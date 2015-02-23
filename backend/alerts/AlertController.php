@@ -71,6 +71,15 @@ class AlertController {
         echo $return;
     }
 
+    public function sendAlerts()
+    {
+        // obtener la lista de usuarios con alertas definidas
+        // por cada usuario:
+        //  obtener la lista de alertas para el dia siguiente (decision de implementacion)
+        //  generar el texto del mail
+        //  enviar el mail
+        echo('done');
+    }
 
     public function getAlerts($userId)
     {
@@ -84,12 +93,6 @@ class AlertController {
     {
         $result= $this->alertQueries->addAlert($userId, $alert);
         return json_encode($result);
-
-        /*if ($result) {
-            return "{\"status\": \"".successfull."\" , \"message\": \"Alerta agregada\"}";
-        } else {
-            return "{\"status\": \"".error."\" , \"message\": \"Error al agregar alerta\"}";
-        }*/
     }
 
     public function deleteAlert($alert)
