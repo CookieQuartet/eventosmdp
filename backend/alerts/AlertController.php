@@ -194,8 +194,8 @@ class AlertController {
                     mailBody($alerts).
                     mailFooter();
                 //  enviar el mail
-                $headers = 'From: mmaestri@hotmail.com' . "\r\n" .
-                    'Reply-To: mmaestri@hotmail.com' . "\r\n" .
+                $headers = 'From: mmaestri@gmail.com' . "\r\n" .
+                    'Reply-To: mmaestri@gmail.com' . "\r\n" .
                     'X-Mailer: PHP/' . phpversion();
                 echo($mail);
                 mail($usuario['email'], 'Alertas de EventosMDP', $mail, $headers);
