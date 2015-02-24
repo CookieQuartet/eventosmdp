@@ -228,10 +228,13 @@ class AlertController {
                 $mail = mailHTMLFormat($mheader, $mbody);
 
                 //  enviar el mail
-                $headers = 'From: mmaestri@gmail.com' . "\r\n" .
-                    'Reply-To: mmaestri@gmail.com' . "\r\n" .
+                $headers =
+                    //'From: mmaestri@gmail.com' . "\r\n" .
+                    'From: EventosMDP <eventosmdp@eventosmdp.890m.com>' . "\r\n".
+                    'Reply-To: eventosmdp@eventosmdp.890m.com' . "\r\n" .
+                    'MIME-Version: 1.0' . "\r\n".
+                    'Content-type: text/html; charset=utf-8' . "\r\n".
                     'X-Mailer: PHP/' . phpversion();
-                //mail($usuario['email'], 'Alertas de EventosMDP', $mail, $headers);
                 if (mail($usuario['email'], 'Alertas de EventosMDP', $mail, $headers)) {
                     echo '<div class="mail_ok">OK</div> ';
                 } else {
