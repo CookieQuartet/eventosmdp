@@ -134,6 +134,8 @@ class AlertController {
                         border:1px solid red;
                         background: pink;
                         font-weight:bold;
+                        float:left;
+                        width:100%;
                     }
                 </style>
             ';
@@ -183,7 +185,7 @@ class AlertController {
                 $event = "
                     <div class='event'>
                         <div class='event_keyword_title' style='color:blue;
-                        padding:4px;'>[keywords=<span class='event_keyword'>$keyword</span>]</div>
+                        padding:4px;'>[keywords=<span class='event_keyword' style='color:red;'>$keyword</span>]</div>
                         <div class='event_name' style='font-weight: bold;
                         font-size: 1.2em;
                         padding:4px;'>$name</div>
@@ -254,9 +256,17 @@ class AlertController {
                     'Content-type: text/html; charset=utf-8' . "\r\n".
                     'X-Mailer: PHP/' . phpversion();
                 if (mail($usuario['email'], 'Alertas de EventosMDP', $mail, $headers)) {
-                    echo '<div class="mail_ok">OK</div> ';
+                    echo '<div class="mail_ok" style="border:1px solid green;
+                        background: lightgreen;
+                        font-weight:bold;
+                        float:left;
+                        width:100%;">OK</div> ';
                 } else {
-                    echo '<div class="mail_error">Error</div> ';
+                    echo '<div class="mail_error" style="border:1px solid red;
+                        background: pink;
+                        font-weight:bold;
+                        float:left;
+                        width:100%;">Error</div> ';
                 }
                 echo($mail);
             }
