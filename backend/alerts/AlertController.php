@@ -142,15 +142,31 @@ class AlertController {
         function mailHeader($user, $mail, $fecha) {
             $f = date_format($fecha, 'd/m/Y');
             return "
-                <div class='header_frame'>
-                    <h1>EventosMDP</h1>
-                    <h2>Resumen de las alertas de eventos para mañana</h2>
-                    <div class='header_mail'>
-                        <div class='header_mail_title'>Usuario:</div> $user
+                <div class='header_frame' style='float:left;width:100%;'>
+                    <h1 style='font-size: 1.5em;'>EventosMDP</h1>
+                    <h2 style='font-size: 1.2em;'>Resumen de las alertas de eventos para mañana</h2>
+                    <div class='header_mail' style='float: left;
+                        border:1px solid orange;
+                        background: lightyellow;
+                        padding:4px;
+                        margin-bottom:10px;'>
+                        <div class='header_mail_title' style='font-weight: bold;
+                        float: left;
+                        width: 70px;
+                        text-align: right;
+                        margin-right: 10px;'>Usuario:</div> $user
                         <br>
-                        <div class='header_mail_title'>Email:</div> $mail
+                        <div class='header_mail_title' style='font-weight: bold;
+                        float: left;
+                        width: 70px;
+                        text-align: right;
+                        margin-right: 10px;'>Email:</div> $mail
                         <br>
-                        <div class='header_mail_title'>Fecha:</div> $f
+                        <div class='header_mail_title' style='font-weight: bold;
+                        float: left;
+                        width: 70px;
+                        text-align: right;
+                        margin-right: 10px;'>Fecha:</div> $f
                         <br>
                     </div>
                 </div>
@@ -166,9 +182,12 @@ class AlertController {
 
                 $event = "
                     <div class='event'>
-                        <div class='event_keyword_title'>[keywords=<span class='event_keyword'>$keyword</span>]</div>
-                        <div class='event_name'>$name</div>
-                        <div class='event_descr'>$descr</div>
+                        <div class='event_keyword_title' style='color:blue;
+                        padding:4px;'>[keywords=<span class='event_keyword'>$keyword</span>]</div>
+                        <div class='event_name' style='font-weight: bold;
+                        font-size: 1.2em;
+                        padding:4px;'>$name</div>
+                        <div class='event_descr' style='padding:4px;'>$descr</div>
                     </div>
                     <hr>
                 ";
@@ -180,7 +199,8 @@ class AlertController {
         }
         function mailFooter() {
             return "
-                <span class='page_link'>
+                <span class='page_link' style='font-size: 0.8em;
+                        padding-left:4px;'>
                     Para más información ingresá en <a href='http://localhost/eventos'>EventosMDP</a>
                 </span>
                 <hr>
@@ -190,10 +210,8 @@ class AlertController {
             $styles = mailStyles();
             $footer = mailFooter();
             return "
-                <html>
-                    <head>
-                        $styles
-                    </head>
+                <html style='font-family: sans-serif;'>
+                    <head></head>
                     <body>
                         $header
                         $body
