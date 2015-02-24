@@ -57,7 +57,7 @@ class AlertQueries {
             U.name,
             EV.NombreEvento,
             EV.DescripcionEvento,
-            Ev.DetalleTexto,
+            EV.DetalleTexto,
             EV.id,
             EV.FechaHoraInicio,
             EV.FechaHoraFin
