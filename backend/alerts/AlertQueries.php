@@ -35,11 +35,13 @@ class AlertQueries {
         $alertQuery = "
           select distinct
             A.id_user,
-            U.email
+            U.email,
+            U.name
           from
             ALERT A, USER U
             where
                 A.id_user = U.id
+                and A.active = 1
             ORDER BY A.id_user
             ";
         return $this->dataBase->query($alertQuery);
@@ -52,6 +54,7 @@ class AlertQueries {
             A.id_user,
             A.keyword,
             U.email,
+            U.name,
             EV.NombreEvento,
             EV.DescripcionEvento,
             Ev.DetalleTexto,
@@ -85,6 +88,7 @@ class AlertQueries {
                 and EV.FechaHoraInicio between '$fechaDesde' and '$fechaHasta'
                 and A.id_user = U.id
                 and A.id_user = $userId
+                and A.active = 1
             ORDER BY A.id_user
             ";
         return $this->dataBase->query($alertQuery);
