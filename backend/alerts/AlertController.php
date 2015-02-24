@@ -122,6 +122,19 @@ class AlertController {
                         font-size: 0.8em;
                         padding-left:4px;
                     }
+                    .mail_ok {
+                        border:1px solid green;
+                        background: lightgreen;
+                        font-weight:bold;
+                        float:left;
+                        width:100%;
+
+                    }
+                    .mail_error {
+                        border:1px solid red;
+                        background: pink;
+                        font-weight:bold;
+                    }
                 </style>
             ';
         }
@@ -173,6 +186,22 @@ class AlertController {
                 <hr>
             ";
         }
+        function mailHTMLFormat($header, $body) {
+            $styles = mailStyles();
+            $footer = mailFooter();
+            return "
+                <html>
+                    <head>
+                        $styles
+                    </head>
+                    <body>
+                        $header
+                        $body
+                        $footer
+                    </body>
+                </html>
+            ";
+        }
         // obtener la lista de usuarios con alertas definidas
         $rows= $this->alertQueries->getUsersWithAlerts();
         $result = $this->alertQueries->fetch_all($rows);
@@ -188,17 +217,27 @@ class AlertController {
             $alerts = $this->alertQueries->fetch_all($rows);
             if(count($alerts)) {
                 //  generar el texto del mail
-                $mail =
+                /*$mail =
                     mailStyles().
                     mailHeader($usuario['name'], $usuario['email'], $from).
                     mailBody($alerts).
-                    mailFooter();
+                    mailFooter();*/
+
+                $mheader = mailHeader($usuario['name'], $usuario['email'], $from);
+                $mbody = mailBody($alerts);
+                $mail = mailHTMLFormat($mheader, $mbody);
+
                 //  enviar el mail
                 $headers = 'From: mmaestri@gmail.com' . "\r\n" .
                     'Reply-To: mmaestri@gmail.com' . "\r\n" .
                     'X-Mailer: PHP/' . phpversion();
+                //mail($usuario['email'], 'Alertas de EventosMDP', $mail, $headers);
+                if (mail($usuario['email'], 'Alertas de EventosMDP', $mail, $headers)) {
+                    echo '<div class="mail_ok">OK</div> ';
+                } else {
+                    echo '<div class="mail_error">Error</div> ';
+                }
                 echo($mail);
-                mail($usuario['email'], 'Alertas de EventosMDP', $mail, $headers);
             }
         }
     }
