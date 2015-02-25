@@ -1,14 +1,9 @@
 angular.module('view', ['ngMaterial', 'users'])
-  .factory('insertEvents', function($rootScope, eventsAPI, $q, $timeout) {
+  .factory('insertEvents', function($rootScope, eventsAPI, $q, $interval) {
     var xhr;
     return function() {
       var defer = $q.defer();
-      var addDay = function() {
-        if($rootScope.cacheEventList.length >= 0) {
-          $rootScope.eventList.push($rootScope.cacheEventList.shift());
-          setTimeout(addDay, 500);
-        }
-      };
+
       $rootScope.cacheEventList = [];
       $rootScope.showProgress = true;
 
@@ -19,7 +14,13 @@ angular.module('view', ['ngMaterial', 'users'])
           $rootScope.eventList = [];
           $rootScope.cacheEventList = response;
 
-          addDay();
+          var count = $rootScope.cacheEventList.length;
+          $interval(function() {
+            var item = $rootScope.cacheEventList.shift();
+            if(typeof item !== 'undefined') {
+              $rootScope.eventList.push(item);
+            }
+          }, 1000, count);
 
           defer.resolve();
         }, function(error) {
