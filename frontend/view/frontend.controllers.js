@@ -32,13 +32,13 @@ angular.module('view', ['ngMaterial', 'users'])
       return function(force) {
         var defer = $q.defer();
         $rootScope.cacheEventList = [];
-        $rootScope.eventList = [];
         $rootScope.showProgress = true;
 
         if(force) {
           if($rootScope.cacheEventList.length === 0) {
             xhr = eventsAPI.getEvents(Date.today(), Date.today().add(10).days());
             xhr.then(function(response) {
+              $rootScope.eventList = [];
               $rootScope.cacheEventList = response;
               $rootScope.eventList.push($rootScope.cacheEventList.shift());
               defer.resolve();
@@ -51,6 +51,7 @@ angular.module('view', ['ngMaterial', 'users'])
         } else {
           if($rootScope.cacheEventList.length === 0) {
             xhr.then(function (response) {
+              $rootScope.eventList = [];
               $rootScope.cacheEventList = _.clone(eventList, true);
               $rootScope.eventList.push($rootScope.cacheEventList.shift());
               defer.resolve();
