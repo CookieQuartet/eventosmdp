@@ -1,72 +1,48 @@
 angular.module('view', ['ngMaterial', 'users'])
   .factory('insertEvents', function($rootScope, eventsAPI, $q) {
-      /*return _.once(function() {
-        var defer = $q.defer();
-        $rootScope.cacheEventList = [];
-        $rootScope.eventList = [];
-        $rootScope.showProgress = true;
+    var eventList = [],
+        xhr = eventsAPI.getEvents(Date.today(), Date.today().add(10).days());
+        xhr.then(function(response) {
+          eventList = response;
+        }, function(error) {
+          eventList = [];
+        });
+
+    return function(force) {
+      var defer = $q.defer();
+      $rootScope.cacheEventList = [];
+      $rootScope.showProgress = true;
+
+      if(force) {
         if($rootScope.cacheEventList.length === 0) {
-          eventsAPI
-              .getEvents(Date.today(), Date.today().add(10).days())
-              .then(function(response) {
-                $rootScope.cacheEventList = response;
-                $rootScope.eventList.push($rootScope.cacheEventList.shift());
-                defer.resolve();
-              }, function(error) {
-                defer.reject(error);
-              });
+          xhr = eventsAPI.getEvents(Date.today(), Date.today().add(10).days());
+          xhr.then(function(response) {
+            $rootScope.eventList = [];
+            $rootScope.cacheEventList = response;
+            $rootScope.eventList.push($rootScope.cacheEventList.shift());
+            defer.resolve();
+          }, function(error) {
+            defer.reject(error);
+          });
         } else {
           defer.resolve();
         }
-        return defer.promise;
-      })*/
-      var eventList = [],
-          xhr = eventsAPI.getEvents(Date.today(), Date.today().add(10).days());
-          xhr.then(function(response) {
-            eventList = response;
-          }, function(error) {
-            eventList = [];
+      } else {
+        if($rootScope.cacheEventList.length === 0) {
+          xhr.then(function (response) {
+            $rootScope.eventList = [];
+            $rootScope.cacheEventList = _.clone(eventList, true);
+            $rootScope.eventList.push($rootScope.cacheEventList.shift());
+            defer.resolve();
+          }, function (error) {
+            defer.reject(error);
           });
-
-
-      return function(force) {
-        var defer = $q.defer();
-        $rootScope.cacheEventList = [];
-        $rootScope.showProgress = true;
-
-        if(force) {
-          if($rootScope.cacheEventList.length === 0) {
-            xhr = eventsAPI.getEvents(Date.today(), Date.today().add(10).days());
-            xhr.then(function(response) {
-              $rootScope.eventList = [];
-              $rootScope.cacheEventList = response;
-              $rootScope.eventList.push($rootScope.cacheEventList.shift());
-              defer.resolve();
-            }, function(error) {
-              defer.reject(error);
-            });
-          } else {
-            defer.resolve();
-          }
         } else {
-          if($rootScope.cacheEventList.length === 0) {
-            xhr.then(function (response) {
-              $rootScope.eventList = [];
-              $rootScope.cacheEventList = _.clone(eventList, true);
-              $rootScope.eventList.push($rootScope.cacheEventList.shift());
-              defer.resolve();
-            }, function (error) {
-              defer.reject(error);
-            });
-          } else {
-            defer.resolve();
-          }
+          defer.resolve();
         }
-        return defer.promise;
       }
-
-
-
+      return defer.promise;
+    }
   })
   .factory('addEventsToList', function($rootScope, $q, $timeout) {
     return function() {
