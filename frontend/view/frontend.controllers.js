@@ -1,45 +1,32 @@
 angular.module('view', ['ngMaterial', 'users'])
-  .factory('insertEvents', function($rootScope, eventsAPI, $q) {
-    var eventList = [],
-        xhr = eventsAPI.getEvents(Date.today(), Date.today().add(10).days());
-        xhr.then(function(response) {
-          eventList = response;
-        }, function(error) {
-          eventList = [];
-        });
-
-    return function(force) {
+  .factory('insertEvents', function($rootScope, eventsAPI, $q, $timeout) {
+    var xhr;
+    return function() {
       var defer = $q.defer();
+      var addDay = function() {
+        if($rootScope.cacheEventList.length >= 0) {
+          $rootScope.eventList.push($rootScope.cacheEventList.shift());
+          setTimeout(addDay, 500);
+        }
+      };
       $rootScope.cacheEventList = [];
       $rootScope.showProgress = true;
 
-      if(force) {
-        if($rootScope.cacheEventList.length === 0) {
-          xhr = eventsAPI.getEvents(Date.today(), Date.today().add(10).days());
-          xhr.then(function(response) {
-            $rootScope.eventList = [];
-            $rootScope.cacheEventList = response;
-            $rootScope.eventList.push($rootScope.cacheEventList.shift());
-            defer.resolve();
-          }, function(error) {
-            defer.reject(error);
-          });
-        } else {
+      // este chequeo se hace porque en algunas situaciones la funcion se llama dos veces (login, events)
+      if($rootScope.cacheEventList.length === 0) {
+        xhr = eventsAPI.getEvents(Date.today(), Date.today().add(10).days());
+        xhr.then(function(response) {
+          $rootScope.eventList = [];
+          $rootScope.cacheEventList = response;
+
+          addDay();
+
           defer.resolve();
-        }
+        }, function(error) {
+          defer.reject(error);
+        });
       } else {
-        if($rootScope.cacheEventList.length === 0) {
-          xhr.then(function (response) {
-            $rootScope.eventList = [];
-            $rootScope.cacheEventList = _.clone(eventList, true);
-            $rootScope.eventList.push($rootScope.cacheEventList.shift());
-            defer.resolve();
-          }, function (error) {
-            defer.reject(error);
-          });
-        } else {
-          defer.resolve();
-        }
+        defer.resolve();
       }
       return defer.promise;
     }
@@ -67,6 +54,8 @@ angular.module('view', ['ngMaterial', 'users'])
         text: '',
         visible: false
       },
+      triggerSearch: false,
+      swap: [],
       showProgress: true
     };
 
@@ -89,17 +78,35 @@ angular.module('view', ['ngMaterial', 'users'])
       }
     };
 
+    /*$scope.$watch('data.search.text', function(newValue, oldValue) {
+      if(newValue.length == 1) {
+        $scope.data.triggerSearch = true;
+      }
+      if(newValue.length && $scope.data.triggerSearch) {
+        $scope.data.triggerSearch = false;
+        $scope.data.swap = _.clone($rootScope.eventList);
+        $rootScope.eventList = _.union($rootScope.cacheEventList, $rootScope.eventList);
+      } else if(newValue.length == 0) {
+        $rootScope.eventList = $scope.data.swap;
+      }
+    });*/
+
     $scope.$on('toastMessage', function(event, data) {
       $scope.methods.toastMessage(data);
     });
 
     $scope.$on('logout', function(event, data) {
-      insertEvents();
+      if($rootScope.eventList.length == 0) {
+        insertEvents();
+      }
     });
 
     $scope.$on('login', function(event, data) {
-      insertEvents();
+      if($rootScope.eventList.length == 0) {
+        insertEvents();
+      }
     });
+
     $scope.filterActions = function (action) {
       return action.type >= $rootScope.persona.type;
     };
@@ -245,6 +252,7 @@ angular.module('view', ['ngMaterial', 'users'])
   .controller('emdpFavoritesController', function($rootScope, $scope, $state, user, eventsAPI, action, $filter, insertEvents) {
     $rootScope.lastState = 'favorites';
     $scope.data.search.visible = true;
+    $scope.data.search.text = '';
     $scope.eventList = $rootScope.eventList;
     $scope.checkFavorites = function() {
       var eventos = _.union($rootScope.eventList, $rootScope.cacheEventList);

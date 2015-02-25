@@ -3,13 +3,15 @@
         <material-linear-progress mode="indeterminate"></material-linear-progress>
     </section>
     <material-content>
-       <section ng-repeat="day in eventList | orderBy:'fecha' | filter:{ $: data.search.text }">
+        <section ng-repeat="day in eventList | orderBy:'fecha' | filter:{ $: data.search.text }">
+        <!--<section ng-repeat="day in eventList | orderBy:'fecha' | onlySearch: data.search.text">-->
             <material-subheader class="material-subheader-colored emdp-subheader-calendar">
                 <material-icon flex icon="img/svg/calendar.svg" class="emdp-subheader-calendar-icon"></material-icon>
                 <span flex>{{ day.fecha_completa }}</span>
             </material-subheader>
-           <material-list ng-class="{'emdp-cardlist':$last}">
+            <material-list ng-class="{'emdp-cardlist':$last}">
                 <emdp-event ng-repeat="event in day.eventos | filter:{ $: data.search.text }"></emdp-event>
+                <!--<emdp-event ng-repeat="event in day.eventos | onlySearch:data.search.text"></emdp-event>-->
             </material-list>
         </section>
     </material-content>

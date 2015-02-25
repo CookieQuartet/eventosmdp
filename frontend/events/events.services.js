@@ -10,6 +10,17 @@ angular.module('events', [])
         return _items;
       }
     })
+    .filter('onlySearch', function($rootScope, $filter) {
+      return function(items, search) {
+        var _items = [];
+        if(search.length) {
+          _items = $filter('filter')(items, { $: search });
+        } else {
+          _items = $rootScope.eventList;
+        }
+        return _items;
+      }
+    })
     .factory('eventHolder', function() {
       var holder = null;
       return {
