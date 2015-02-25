@@ -1,12 +1,4 @@
-//angular.module('users', ['facebook'])
 angular.module('users', [])
-    /*.config([ 'FacebookProvider', function(FacebookProvider) {
-        FacebookProvider.setLocale('es_AR');
-        FacebookProvider.setSdkVersion('v2.1');
-        FacebookProvider.setXfbml(true);
-        FacebookProvider.init('680325438729479');
-      }
-    ])*/
     .value('emptyUser', {
       id: 0,
       name: 'Usuario Anónimo',
@@ -35,17 +27,6 @@ angular.module('users', [])
       }
     })
     .service('checkLogged', function($rootScope, $state, userAPI) {
-      /*
-      return function(callback) {
-        if(!$rootScope.persona.logged) {
-          $state.go('home');
-        } else {
-          if(angular.isFunction(callback)) {
-            callback.call();
-          }
-        }
-      };
-      */
       return function(callback) {
         userAPI.checkServerLogged().then(function(response) {
           if(!(response.logged || $rootScope.persona.logged)) {
@@ -58,111 +39,6 @@ angular.module('users', [])
         });
       };
     })
-    /*.factory('fbUser', function($q, $rootScope, Facebook, $timeout, emptyUser) {
-      var logged = false,
-          fbLoginResponse = null,
-          fbData = null,
-          fbPicture = null,
-          fbPermissions = null,
-          _scope = null,
-          loadFBData = function(iface) {
-            $timeout(function() {
-              logged = true;
-              iface.getProfileData().then(function(data) {
-                _scope.$emit('user:fbData', data);
-                _scope.$emit('user:welcome', data);
-                _scope.$emit('user:login', {
-                  type: 3
-                });
-              });
-              iface.getProfilePicture().then(function(pic) {
-                _scope.$emit('user:fbPic', pic);
-              });
-              iface.getProfilePermissions().then(function(permissions) {
-                _scope.$emit('user:fbPermissions', permissions);
-              });
-              _scope.$emit('user:fbLogged', true);
-            });
-          },
-          f = {
-            init: function(scope) {
-              _scope = scope;
-              $rootScope.$on('Facebook:statusChange', function(ev, data) {
-                if (data.status == 'connected') {
-                  loadFBData(f);
-                } else {
-                  $timeout(function() {
-                    logged = false;
-                    _scope.$emit('user:fbData', emptyUser);
-                  });
-                }
-              });
-            },
-            login: function() {
-              var defer = $q.defer();
-              if(!logged) {
-                try {
-                  Facebook.login(function(response) {
-                    if (response.status == 'connected') {
-                      logged = true;
-                      loadFBData(f);
-                      fbLoginResponse = response;
-                      defer.resolve(fbLoginResponse);
-                    }
-                  });
-                } catch(e) {
-                  defer.reject(e);
-                }
-              } else {
-                defer.resolve(fbLoginResponse);
-              }
-              return defer.promise;
-            },
-            logout: function() {
-              if(logged) {
-                Facebook.logout(function() {
-                  $timeout(function() {
-                    logged = false;
-                    _scope.$emit('user:fbLogout', {
-                      fbData: null,
-                      pic: 'img/svg/account-circle_wht.svg',
-                      name: 'Usuario Anónimo',
-                      logged: false
-                    });
-                  });
-                });
-              }
-            },
-            getProfileData: function() {
-              var defer = $q.defer();
-              Facebook.api('/me', function(response) {
-                fbData = response;
-                defer.resolve(fbData);
-              });
-              return defer.promise;
-            },
-            getProfilePicture: function() {
-              var defer = $q.defer();
-              Facebook.api('/me/picture', function(response) {
-                fbPicture = response.data.url;
-                defer.resolve(fbPicture);
-              });
-              return defer.promise;
-            },
-            getProfilePermissions: function() {
-              var defer = $q.defer();
-              Facebook.api('/me/permissions', function(response) {
-                fbPermissions = response;
-                defer.resolve(fbPermissions);
-              });
-              return defer.promise;
-            },
-            logged: function() {
-              return logged;
-            }
-          };
-      return f;
-    })*/
     .factory('userAPI', function($q, $http) {
       var encryptPassword = function(password) {
             // codificacion previa del lado del cliente
@@ -238,7 +114,7 @@ angular.module('users', [])
           .success(function(response) {
             var data = _.map(response, function(item) {
               item.pic = 'img/svg/account-circle_wht.svg';
-              item.active = item.active == '1' ? true : false;
+              item.active = item.active == '1';
               return item;
             });
             defer.resolve(data);
@@ -356,12 +232,10 @@ angular.module('users', [])
         }
       }
     })
-    //.factory('user', function(emptyUser, fbUser, profiles, userAPI, checkLogged) {
     .factory('user', function(emptyUser, profiles, userAPI, checkLogged) {
       var _scope = null,
           _profile = {
             user: angular.extend({}, emptyUser),
-            //fbUser: fbUser,
             email: "",
             password: "",
             type: profiles.general.id
@@ -370,7 +244,6 @@ angular.module('users', [])
       return {
         init: function(scope) {
           _scope = scope;
-          //_profile.fbUser.init(_scope);
           userAPI.checkServerLogged().then(function(user) {
             if(user) {
               _profile.user = angular.extend(_profile.user, user);
@@ -389,52 +262,42 @@ angular.module('users', [])
           });
         },
         login: function(loginData) {
-          if(loginData.withFacebook){
-            /*_profile.fbUser.login().then(function(status) {
-
-            });*/
-          } else {
-            userAPI.login(loginData).then(function(user) {
-              if(typeof user.error !== 'undefined') {
-                _scope.$emit('user:loginError', user);
-              } else {
-                _profile.user = angular.extend(_profile.user, user, { id: parseInt(user.id) });
-                _scope.$emit('user:login', {
-                  fbData: null,
-                  pic: 'img/svg/account-circle_wht.svg',
-                  name: _profile.user.name,
-                  email: _profile.user.email,
-                  type: _profile.user.type,
-                  id: _profile.user.id,
-                  logged: true
-                });
-                _scope.$emit('user:logged', user.logged);
-                _scope.$emit('user:welcome', user);
-              }
-            }, function(error) {
-              _scope.$emit('user:loginError', error);
-            });
-          }
+          userAPI.login(loginData).then(function(user) {
+            if(typeof user.error !== 'undefined') {
+              _scope.$emit('user:loginError', user);
+            } else {
+              _profile.user = angular.extend(_profile.user, user, { id: parseInt(user.id) });
+              _scope.$emit('user:login', {
+                fbData: null,
+                pic: 'img/svg/account-circle_wht.svg',
+                name: _profile.user.name,
+                email: _profile.user.email,
+                type: _profile.user.type,
+                id: _profile.user.id,
+                logged: true
+              });
+              _scope.$emit('user:logged', user.logged);
+              _scope.$emit('user:welcome', user);
+            }
+          }, function(error) {
+            _scope.$emit('user:loginError', error);
+          });
         },
         logout: function() {
-          /*if(_profile.fbUser.logged()) {
-            _profile.fbUser.logout();
-          } else {*/
-            userAPI.logout().then(function(status) {
-              if(!status.logged) {
-                _logged = false;
-                _profile.user = angular.extend({}, emptyUser);
-                _scope.$emit('user:logout', {
-                  fbData: null,
-                  pic: 'img/svg/account-circle_wht.svg',
-                  name: 'Usuario Anónimo',
-                  email: '',
-                  password: '',
-                  logged: false
-                });
-              }
-            });
-          //}
+          userAPI.logout().then(function(status) {
+            if(!status.logged) {
+              _logged = false;
+              _profile.user = angular.extend({}, emptyUser);
+              _scope.$emit('user:logout', {
+                fbData: null,
+                pic: 'img/svg/account-circle_wht.svg',
+                name: 'Usuario Anónimo',
+                email: '',
+                password: '',
+                logged: false
+              });
+            }
+          });
         },
         register: function(registerData) {
           if(registerData.email.length > 0 && registerData.password.length > 0) {
@@ -460,15 +323,10 @@ angular.module('users', [])
             _scope.$emit('user:loginError', { error: "Ingresá un email y password!" });
           }
         },
-        getUser: function(id) {
-
-        },
         getProfileData: function() {
-          //return _profile.fbUser.logged() ? _profile.fbUser.getProfileData() : _profile.user;
           return _profile.user;
         },
         getProfilePicture: function() {
-          //return _profile.fbUser.logged() ? _profile.fbUser.getProfilePicture() : _profile.user.pic;
           return _profile.user.pic;
         },
         checkLogged: checkLogged

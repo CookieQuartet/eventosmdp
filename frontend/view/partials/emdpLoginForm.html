@@ -1,64 +1,37 @@
 <div class="tabsLogin" layout="vertical" layout-align="center center">
-    <material-tabs selected="data.selectedIndex" center>
-        <material-tab>
-            <material-icon icon="img/svg/login.svg" style="width: 24px; height: 24px;"></material-icon>
-        </material-tab>
-        <material-tab>
-            <material-icon icon="img/social/post-facebook_wht.svg" style="width: 24px; height: 24px;"></material-icon>
-        </material-tab>
-    </material-tabs>
-    <div class="animate-switch-container" data-ng-switch on="data.selectedIndex">
-        <div class="animate-switch tab1" data-ng-switch-when="0" layout="vertical" layout-align="center center">
-            <section class="eventosmdp-login-email"
-                     data-ng-show="!persona.logged">
-                <section class="eventosmdp-user-inputs">
-                    <emdp-material-input
-                        layout-align="center"
-                        fid="email"
-                        label="Email"
-                        type="email"
-                        value="persona.email"
-                        class="material-input-group-theme-light-blue material-input-group-inverted">
-                    </emdp-material-input>
-                    <emdp-material-input
-                        layout-align="center"
-                        fid="password"
-                        label="Contraseña"
-                        type="password"
-                        value="persona.password"
-                        class="material-input-group-theme-light-blue material-input-group-inverted">
-                    </emdp-material-input>
-                </section>
-                <section class="eventosmdp-login">
-                    <section
-                        class="eventosmdp-login-button"
-                        layout="vertical"
-                        layout-sm="horizontal"
-                        layout-align="center center">
-                        <material-button
-                            class="material-button-raised material-button-colored"
-                            data-ng-click="persona.user.login({ withFacebook: false, email: persona.email, password: persona.password })">Entrar</material-button>
-                        <material-button
-                            class="material-button-raised material-button-colored material-theme-green"
-                            data-ng-click="persona.user.register({ email: persona.email, password: persona.password })">Nuevo</material-button>
-                    </section>
-                </section>
+    <section class="eventosmdp-login-email"
+             data-ng-show="!persona.logged">
+        <section class="eventosmdp-user-inputs emdp-margin-left-10">
+            <emdp-material-input
+                layout-align="center"
+                fid="email"
+                label="Email"
+                type="email"
+                value="persona.email"
+                class="material-input-group-theme-light-blue material-input-group-inverted">
+            </emdp-material-input>
+            <emdp-material-input
+                layout-align="center"
+                fid="password"
+                label="Contraseña"
+                type="password"
+                value="persona.password"
+                class="material-input-group-theme-light-blue material-input-group-inverted">
+            </emdp-material-input>
+        </section>
+        <section class="eventosmdp-login">
+            <section
+                class="eventosmdp-login-button"
+                layout="vertical"
+                layout-sm="horizontal"
+                layout-align="center center">
+                <material-button
+                    class="material-button-raised material-button-colored"
+                    data-ng-click="persona.user.login({ withFacebook: false, email: persona.email, password: persona.password })">Entrá</material-button>
+                <material-button
+                    class="material-button-raised material-button-colored material-theme-green"
+                    data-ng-click="persona.user.register({ email: persona.email, password: persona.password })">Registrate</material-button>
             </section>
-        </div>
-        <div class="animate-switch tab2" data-ng-switch-when="1">
-            <section class="eventosmdp-login" data-ng-show="!persona.logged">
-                <section
-                    class="eventosmdp-login-button"
-                    layout="vertical"
-                    layout-sm="horizontal"
-                    layout-align="center center">
-                    <material-button
-                        class="material-button-raised material-button-colored"
-                        data-ng-click="persona.user.login({ withFacebook: true})">
-                        Entrá con Facebook
-                    </material-button>
-                </section>
-            </section>
-        </div>
-    </div>
+        </section>
+    </section>
 </div>

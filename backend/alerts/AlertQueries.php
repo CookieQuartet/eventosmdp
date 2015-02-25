@@ -96,7 +96,6 @@ class AlertQueries {
 
     public final function addAlert($userId, $alert)
     {
-       // var_dump($alert);
         $alertQuery = "insert into ALERT (id_user, keyword, active) values ($userId , '$alert->keyword', 1)";
         return $this->dataBase->query_with_last_id($alertQuery);
     }

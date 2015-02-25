@@ -169,7 +169,6 @@ class DataBase {
                 {
                     $arrayLimitValues = array_slice($arrayValues, 0, $limit);
                     $arrayValues =   array_slice($arrayValues, $limit);
-//                    echo(count($arrayLimitValues));
 
                     $lastValue = substr(end($arrayLimitValues), 0, -2); /*Elimino los ultimos dos digitos del ultimo registro*/
                     $arrayLimitValues[key($arrayLimitValues)]=$lastValue;
@@ -177,11 +176,6 @@ class DataBase {
                     $values=implode("",$arrayLimitValues); /* Lo convierto a un string*/
 
                     $sql = "INSERT INTO "."`".$table."` "."($columns) VALUES $values";
-//                    echo($sql);
-//                    echo("</br>");
-//                    echo("---------");
-
-                    //die;
                     $queryResult = $this->connection->query($sql);
                     if (!$queryResult) {
                         printf("Errormessage: %s\n", $this->connection->error);

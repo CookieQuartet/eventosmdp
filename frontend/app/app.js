@@ -1,5 +1,4 @@
 
-//angular.module('app', ['users', 'view', 'events', 'ui.router', 'angular.filter'])
 angular.module('app', ['users', 'view', 'events', 'comments', 'alerts', 'ui.router', 'ngSanitize'])
     .value('emdpActions', {
       list: [

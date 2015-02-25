@@ -1,9 +1,0 @@
-<div>
-    <material-subheader class="material-subheader-colored emdp-subheader-calendar">
-        <material-icon flex icon="img/svg/calendar.svg" class="emdp-subheader-calendar-icon"></material-icon>
-        <span flex>{{ day.fecha_completa }}</span>
-    </material-subheader>
-    <material-list ng-class="{'emdp-cardlist':$last}">
-        <emdp-event ng-repeat="event in day.eventos"></emdp-event>
-    </material-list>
-</div>

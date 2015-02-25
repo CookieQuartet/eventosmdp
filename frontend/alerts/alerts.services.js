@@ -1,5 +1,5 @@
 angular.module('alerts', [])
-    .factory('alertsAPI', function($q, $http, $filter) {
+    .factory('alertsAPI', function($q, $http) {
       return {
         addAlert: function(alert) {
           var defer = $q.defer();

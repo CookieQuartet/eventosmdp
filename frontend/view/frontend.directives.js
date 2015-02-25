@@ -61,6 +61,9 @@
             $scope.$eval($scope.action);
             if($scope.$parent.action.id === 'logout') {
               $rootScope.$broadcast('logout');
+              angular.forEach(emdpActions.list, function(action) {
+                action.selected = action.id === 'events';
+              });
             }
             $materialSidenav('left').toggle();
           };
@@ -101,8 +104,7 @@
                       $rootScope.$broadcast('login');
                     break;
                   case 'user:logout':
-                  case 'user:fbLogout':
-                    $scope.toastMessage("Hasta luego!");
+                      $scope.toastMessage("Hasta luego!");
                     break;
                   default:
                 }
@@ -110,13 +112,6 @@
               },
               onWelcome = function(event, data) {
                 $scope.toastMessage("Bienvenido, " + data.name);
-              },
-              onDataHandler = function(event, data) {
-                $rootScope.persona.fbData = data;
-                $rootScope.persona.name = data.name;
-              },
-              onPictureHandler = function(event, data) {
-                $rootScope.persona.pic = data;
               };
 
           /* definicion básica de una persona en el sistema */
@@ -144,17 +139,13 @@
             });
           };
 
-          $scope.$on('user:fbLogged', onLoggedHandler);
           $scope.$on('user:logged', onLoggedHandler);
-          $scope.$on('user:fbData', onDataHandler);
-          $scope.$on('user:fbPic', onPictureHandler);
           $scope.$on('user:login', onLoginLogoutHandler);
           $scope.$on('user:welcome', onWelcome);
           $scope.$on('user:loginError', onLoginError);
           $scope.$on('user:logout', onLoginLogoutHandler);
-          $scope.$on('user:fbLogout', onLoginLogoutHandler);
         },
-        templateUrl: 'frontend/view/partials/emdpLoginForm2.html'
+        templateUrl: 'frontend/view/partials/emdpLoginForm.html'
       };
     })
     .directive('emdpEvent', function($rootScope, $q, eventsAPI, commentsAPI, $timeout, updateRating) {
@@ -221,6 +212,7 @@
                     stars: comment.stars,
                     visible: true
                   });
+                  $rootScope.$broadcast('toastMessage', 'Gracias por tu comentario!');
                   var id = scope.event.IdEvento ? scope.event.IdEvento : scope.event.Id,
                       comment_area = document.getElementById('emdp-comment-area-' + id);
                   if(comment_area) {
@@ -253,16 +245,6 @@
           }
         },
         templateUrl: 'frontend/view/partials/emdpEvent.html'
-      };
-    })
-    .directive('emdpEventsDay', function() {
-      return {
-        restrict: 'E',
-        replace: true,
-        controller: function($scope) {
-
-        },
-        templateUrl: 'frontend/view/partials/emdpEventsInDay.html'
       };
     })
     .directive('emdpEvents', function() {
@@ -331,7 +313,6 @@
           });
 
           attrs.$observe('editable', function(value) {
-            //var editable = value === 'true';
             scope.config.editable = value === 'true';
           });
         },
