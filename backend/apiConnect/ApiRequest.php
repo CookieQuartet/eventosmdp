@@ -67,6 +67,8 @@ class ApiRequest {
         //$aresult = json_decode(iconv( "ISO-8859-1", "UTF-8", $result ));
 
 
+        var_dump($aresult);
+
         if ($aresult->Estado==warning)
         {
            // return $aresult->Eventos;
