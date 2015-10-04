@@ -9,7 +9,6 @@ include_once('ApiConnectConstants.php');
 include_once('../database/DataBase.php');
 
 include_once('ApiRequest.php');
-include_once('../subarea/SubareaQueries.php');
 include_once('../event/EventQueries.php');
 
 class UpdateModel {
