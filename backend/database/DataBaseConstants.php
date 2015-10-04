@@ -1,9 +1,9 @@
 <?php
 
     define("host","localhost");
-    define("database","u185673925_event");
-    define("user","u185673925_event");
-    define("password","123456");
+    define("database","u629008985_event");
+    define("user","u629008985_admin");
+    define("password","cookiequartet");
 //    define("user","root");
 //    define("password","");
 
