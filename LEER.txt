@@ -1,0 +1,3 @@
+- Tener en cuenta que los nombres de las tablas van en MAYUS.
+- La carga de EVENTOS DE LA API ES MANUAL. Ejecutar el archivo opendata.php para actualizarlos.
+
