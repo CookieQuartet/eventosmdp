@@ -10,7 +10,7 @@ class UserTypeEnum {
 
     // TODO: Poner los ID correspondientes de la base.
     const UserAdminType = 1;
-    const UserGeneralType = 2;
-    const UserPublisherType = 3;
+    const UserGeneralType = 3;
+    const UserPublisherType = 2;
 
 } 
